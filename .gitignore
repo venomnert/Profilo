@@ -1,0 +1,12 @@
+profilo/_build
+profilo/assets/node_modules
+profilo/deps
+profilo/doc
+profilo/installer/_build
+profilo/installer/tmp
+profilo/installer/doc
+profilo/installer/deps
+profilo/node_modules
+profilo/tmp
+
+erl_crash.dump
