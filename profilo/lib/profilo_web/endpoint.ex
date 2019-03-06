@@ -40,7 +40,7 @@ defmodule ProfiloWeb.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_profilo_key",
-    signing_salt: "g9Hur0wu"
+    signing_salt: "w8nb8m7D"
 
   plug ProfiloWeb.Router
 end
