@@ -13,6 +13,12 @@ defmodule ProfiloWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", ProfiloWeb do
+    pipe_through :api
+
+    resources "/users", UserController, except: [:new, :edit]
+  end
+
   scope "/", ProfiloWeb do
     pipe_through :browser
 
