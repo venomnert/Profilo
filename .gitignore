@@ -1,5 +1,5 @@
 profilo/_build
-profilo/assets/node_modules
+profilo/node_modules
 profilo/deps
 profilo/doc
 profilo/installer/_build
