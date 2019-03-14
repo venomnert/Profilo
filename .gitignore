@@ -1,12 +1,12 @@
-profilo/_build
-profilo/node_modules
-profilo/deps
-profilo/doc
-profilo/installer/_build
-profilo/installer/tmp
-profilo/installer/doc
-profilo/installer/deps
-profilo/node_modules
-profilo/tmp
+_build
+node_modules
+deps
+doc
+installer/_build
+installer/tmp
+installer/doc
+installer/deps
+node_modules
+tmp
 
 erl_crash.dump
