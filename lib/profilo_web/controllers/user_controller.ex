@@ -21,8 +21,34 @@ defmodule ProfiloWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
+    Neuron.Config.set(url: "https://api.github.com/graphql")
+    Neuron.Config.set(headers: ["Authorization": "Bearer ad33f7907bf3458213f9c2f3aebeb435ff016487"])
+    result = Neuron.query("""
+    {
+      viewer {
+        name
+        following(first: 50) {
+          nodes {
+            name
+            url
+            repositories(first: 5, orderBy: {field: UPDATED_AT, direction: DESC}) {
+              nodes {
+                name
+                primaryLanguage {
+                  name
+                }
+                description
+                url
+                updatedAt
+              }
+            }
+          }
+        }
+      }
+    }
+    """)
     user = Accounts.get_user!(id)
-    render(conn, "show.json", user: user)
+    render(conn, "show.json", user: user, result: result)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do

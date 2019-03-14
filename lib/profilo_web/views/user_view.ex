@@ -6,8 +6,11 @@ defmodule ProfiloWeb.UserView do
     %{data: render_many(users, UserView, "user.json")}
   end
 
-  def render("show.json", %{user: user}) do
-    %{data: render_one(user, UserView, "user.json")}
+  def render("show.json", %{user: user, result: result}) do
+    # %{data: render_one(user, UserView, "user.json")}
+    {:ok, first_body} = result
+    %Neuron.Response{body: second_body} = first_body
+    %{result: Jason.encode!(second_body)}
   end
 
   def render("user.json", %{user: user}) do
@@ -18,5 +21,9 @@ defmodule ProfiloWeb.UserView do
       website: user.website,
       company: user.company,
       address: user.address}
+  end
+
+  def render("follower.json", %{result: result}) do
+    %{result: result}
   end
 end
