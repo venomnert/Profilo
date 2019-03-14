@@ -22,8 +22,4 @@ defmodule ProfiloWeb.UserView do
       company: user.company,
       address: user.address}
   end
-
-  def render("follower.json", %{result: result}) do
-    %{result: result}
-  end
 end
