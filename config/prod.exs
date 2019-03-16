@@ -22,7 +22,7 @@ config :profilo, Profilo.Repo,
   url: "${DATABASE_URL}",
   database: "",
   ssl: true,
-  pool_size: 1
+  pool_size: 2
 
 # Do not print debug messages in production
 config :logger, level: :info
