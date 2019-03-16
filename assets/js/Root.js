@@ -2,7 +2,7 @@ import * as React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import Header from './components/Header'
-import TestHeader from './components/TestHeader'
+import Login from './components/Login'
 
 
 export default class Root extends React.Component {
@@ -10,7 +10,7 @@ export default class Root extends React.Component {
     return (
       <div>
         <Header />
-        <TestHeader />
+        <Login />
       </div>
     )        
   }

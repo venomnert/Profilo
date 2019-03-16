@@ -19,6 +19,12 @@ defmodule ProfiloWeb.Router do
     resources "/users", UserController, except: [:new, :edit]
   end
 
+  scope "/auth", ProfiloWeb do
+     pipe_through :browser
+     get "/:provider", AuthController, :request
+     get "/:provider/callback", AuthController, :callback
+ end
+
   scope "/", ProfiloWeb do
     pipe_through :browser
 
