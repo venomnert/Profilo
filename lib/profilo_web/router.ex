@@ -21,6 +21,7 @@ defmodule ProfiloWeb.Router do
 
   scope "/auth", ProfiloWeb do
      pipe_through :browser
+
      get "/:provider", AuthController, :request
      get "/:provider/callback", AuthController, :callback
  end
