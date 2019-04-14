@@ -25,15 +25,12 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-# Use Uberauth for OAuth
-config :ueberauth, Ueberauth,
-  providers: [
-    github: {Ueberauth.Strategy.Github, []}
-  ]
-
-config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-  client_id: "bc93ca24330b5030f388",
-  client_secret: "4f864e2ca3b20d81773c33786b16cd2f910af89c"
+# POW authenticaiton
+config :profilo, :pow,
+  user: Profilo.Accounts.Lib.User,
+  repo: Profilo.Repo,
+  web_module: ProfiloWeb,
+  web_module: MyAppWeb
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

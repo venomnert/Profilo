@@ -42,5 +42,7 @@ defmodule ProfiloWeb.Endpoint do
     key: "_profilo_key",
     signing_salt: "w8nb8m7D"
 
+  plug Pow.Plug.Session, otp_app: :profilo
+
   plug ProfiloWeb.Router
 end

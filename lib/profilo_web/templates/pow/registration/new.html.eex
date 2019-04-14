@@ -1,0 +1,52 @@
+<h1>Register</h1>
+
+<%= form_for @changeset, @action, [as: :user], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <label>First Name</label>
+  <%= text_input f, :first_name %> 
+  <%= error_tag f, :first_name %>
+
+  <label>Last Name</label>
+  <%= text_input f, :last_name %> 
+  <%= error_tag f, :last_name %>
+
+  <%= label f, @changeset.data.__struct__.pow_user_id_field() %>
+  <%= text_input f, @changeset.data.__struct__.pow_user_id_field() %>
+  <%= error_tag f, @changeset.data.__struct__.pow_user_id_field() %>
+
+  <%= label f, :password %>
+  <%= password_input f, :password %>
+  <%= error_tag f, :password %>
+
+  <%= label f, :confirm_password %>
+  <%= password_input f, :confirm_password %>
+  <%= error_tag f, :confirm_password %>
+
+  <label>Address</label>
+  <%= text_input f, :address %> 
+  <%= error_tag f, :address %>
+
+  <label>Company</label>
+  <%= text_input f, :company %> 
+  <%= error_tag f, :company %>
+
+  <label>Phone Number</label>
+  <%= number_input f, :phone_number %> 
+  <%= error_tag f, :phone_number %>
+
+  <label>Website</label>
+  <%= url_input f, :website %> 
+  <%= error_tag f, :website %>
+
+  <div>
+    <%= submit "Register" %>
+  </div>
+<% end %>
+
+
+<span><%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %></span>

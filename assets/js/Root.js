@@ -1,16 +1,16 @@
-import * as React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import React, { Component } from "react";
+import UserRegisterationContainer from "./containers/forms/UserRegisterationContainer"
+import UserLogin from "./containers/forms/UserLogin"
+import UserLogout from "./containers/forms/UserLogout"
 
-import Header from './components/Header'
-import Login from './components/Login'
-
-
-export default class Root extends React.Component {
+export default class Root extends Component {
   render() {
     return (
-      <div>
-        <Header />
-        <Login />
+      <div className="form-container">
+        <h2>Register for Profilo</h2>
+        <UserRegisterationContainer />
+        {/* <UserLogin /> */}
+        {/* <UserLogout /> */}
       </div>
     )        
   }

@@ -1,5 +1,6 @@
 defmodule ProfiloWeb.Router do
   use ProfiloWeb, :router
+  use Pow.Phoenix.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,27 +14,22 @@ defmodule ProfiloWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", ProfiloWeb do
-    pipe_through :api
-
-    resources "/users", UserController, except: [:new, :edit]
+  pipeline :protected do
+    plug Pow.Plug.RequireAuthenticated,
+      error_handler: Pow.Phoenix.PlugErrorHandler
   end
 
-  scope "/auth", ProfiloWeb do
-     pipe_through :browser
-
-     get "/:provider", AuthController, :request
-     get "/:provider/callback", AuthController, :callback
- end
-
-  scope "/", ProfiloWeb do
+  scope "/" do
     pipe_through :browser
 
-    get "/*path", PageController, :index
+    pow_routes()
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ProfiloWeb do
-  #   pipe_through :api
-  # end
+
+  scope "/", ProfiloWeb do
+    pipe_through [:browser, :protected]
+
+    get "/", PageController, :index
+  end
+
 end

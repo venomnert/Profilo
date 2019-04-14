@@ -21,9 +21,7 @@ defmodule Profilo.MixProject do
     [
       mod: {Profilo.Application, []},
       extra_applications: [ :logger,
-                            :runtime_tools,
-                            :ueberauth,
-                            :ueberauth_github]
+                            :runtime_tools]
     ]
   end
 
@@ -48,8 +46,11 @@ defmodule Profilo.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:distillery, "~> 2.0", runtime: false},
       {:neuron, "~> 1.1.0"},
-      {:ueberauth, "~> 0.6.1"},
-      {:ueberauth_github, "~> 0.7"}
+
+      # User authentication
+      {:comeonin, "~> 5.0"},
+      {:bcrypt_elixir, "~> 2.0"},
+      {:pow, "~> 1.0.5"},
     ]
   end
 
