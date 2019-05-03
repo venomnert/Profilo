@@ -50,7 +50,10 @@ defmodule Profilo.MixProject do
       # User authentication
       {:comeonin, "~> 5.0"},
       {:bcrypt_elixir, "~> 2.0"},
-      {:pow, "~> 1.0.5"},
+      {:pow, github: "danschultzer/pow", override: true},
+      {:pow_assent, "~> 0.2.4"},
+      {:certifi, "~> 2.4"},
+      {:ssl_verify_fun, "~> 1.1"},
     ]
   end
 

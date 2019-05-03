@@ -5,9 +5,14 @@ defmodule Profilo.Accounts do
   alias Profilo.Accounts.Lib.User
   alias Bcrypt
 
-  def list_users, do: Repo.all(User)
+  def list_users do
+    Repo.all(User)
+  end
 
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id) do
+    User
+    |> Repo.get!(id)
+  end
 
   def create_user(attrs \\ %{}) do
     %User{}
@@ -21,8 +26,13 @@ defmodule Profilo.Accounts do
     |> Repo.update()
   end
 
-  def change_user(%User{} = user), do: User.changeset(user, %{})
+  def change_user(%User{} = user) do
+    user
+    |> User.changeset(%{})
+  end
 
-  def delete_user(%User{} = user), do: Repo.delete(user)
-
+  def delete_user(%User{} = user) do
+    user
+    |> Repo.delete()
+  end
 end

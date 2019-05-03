@@ -1,6 +1,7 @@
 defmodule ProfiloWeb.Router do
   use ProfiloWeb, :router
   use Pow.Phoenix.Router
+  use PowAssent.Phoenix.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -23,6 +24,7 @@ defmodule ProfiloWeb.Router do
     pipe_through :browser
 
     pow_routes()
+    pow_assent_routes()
   end
 
 

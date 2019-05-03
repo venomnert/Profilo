@@ -1,11 +1,18 @@
 defmodule Profilo.Accounts.Lib.User do
   use Ecto.Schema
   use Pow.Ecto.Schema
+  use PowAssent.Ecto.Schema
+
   import Ecto.Changeset
 
   alias Bcrypt
 
   schema "users" do
+    has_many :user_identities,
+      Profilo.Accounts.Lib.UserIdentity,
+      on_delete: :delete_all,
+      foreign_key: :user_id
+
     field :first_name, :string
     field :last_name, :string
     field :address, :string

@@ -32,6 +32,16 @@ config :profilo, :pow,
   web_module: ProfiloWeb,
   web_module: MyAppWeb
 
+
+config :profilo, :pow_assent,
+  providers: [
+    github: [
+      client_id: "54fcf4d0d72ec4e8cf15",
+      client_secret: "ea2c8bb18819816c0dbf3b993eb5dfdb3e41a2fb",
+      strategy: PowAssent.Strategy.Github
+    ]
+  ]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
