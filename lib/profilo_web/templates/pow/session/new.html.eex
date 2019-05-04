@@ -22,3 +22,4 @@
 
 
 <span><%= link "Register", to: Routes.pow_registration_path(@conn, :new) %></span>
+<div><%= link "Sign with Github", to: Routes.pow_assent_authorization_path(@conn, :new, :github) %></div>
