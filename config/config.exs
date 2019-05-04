@@ -38,7 +38,7 @@ config :profilo, :pow_assent,
     github: [
       client_id: "54fcf4d0d72ec4e8cf15",
       client_secret: "ea2c8bb18819816c0dbf3b993eb5dfdb3e41a2fb",
-      strategy: PowAssent.Strategy.Github
+      strategy: Profilo.Github.Strategy
     ]
   ]
 

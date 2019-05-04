@@ -1,16 +1,12 @@
 import React, { Component } from "react";
-import UserRegisterationContainer from "./containers/forms/UserRegisterationContainer"
-import UserLogin from "./containers/forms/UserLogin"
-import UserLogout from "./containers/forms/UserLogout"
+import DashboardContainer from "./containers/dashboard/DashboardContainer"
 
 export default class Root extends Component {
   render() {
     return (
       <div className="form-container">
-        <h2>Register for Profilo</h2>
-        <UserRegisterationContainer />
-        {/* <UserLogin /> */}
-        {/* <UserLogout /> */}
+        <h2>Welcome</h2>
+        <DashboardContainer />
       </div>
     )        
   }
