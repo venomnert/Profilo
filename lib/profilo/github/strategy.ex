@@ -18,6 +18,7 @@ defmodule Profilo.Github.Strategy do
       authorization_params: [scope:
       "user,
       public_repo,
+      notifications,
       repo,
       repo_deployment,
       repo:status,

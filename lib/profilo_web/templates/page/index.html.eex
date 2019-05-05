@@ -2,5 +2,3 @@
 <div id="react-app"></div>
 
 <%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %>
-
-<div><%= PowAssent.Phoenix.ViewHelpers.provider_link(@conn, :github, [:github]) %></div>
