@@ -34,4 +34,10 @@ defmodule ProfiloWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/api", ProfiloWeb do
+    pipe_through [:api, :protected]
+
+    get "/twitter", PageController, :twitter
+  end
+
 end

@@ -21,7 +21,8 @@ defmodule Profilo.MixProject do
     [
       mod: {Profilo.Application, []},
       extra_applications: [ :logger,
-                            :runtime_tools]
+                            :runtime_tools,
+                            :extwitter]
     ]
   end
 
@@ -46,6 +47,7 @@ defmodule Profilo.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:distillery, "~> 2.0", runtime: false},
       {:neuron, "~> 1.1.0"},
+      {:httpoison, "~> 1.4"},
 
       # User authentication
       {:comeonin, "~> 5.0"},
@@ -54,6 +56,9 @@ defmodule Profilo.MixProject do
       {:pow_assent, "~> 0.2.4"},
       {:certifi, "~> 2.4"},
       {:ssl_verify_fun, "~> 1.1"},
+
+      {:oauth, github: "tim/erlang-oauth"},
+      {:extwitter, "~> 0.1"},
     ]
   end
 

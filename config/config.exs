@@ -39,8 +39,21 @@ config :profilo, :pow_assent,
       client_id: "54fcf4d0d72ec4e8cf15",
       client_secret: "ea2c8bb18819816c0dbf3b993eb5dfdb3e41a2fb",
       strategy: Profilo.Github.Strategy
+    ],
+    twitter: [
+      consumer_key: "LOzXHJZ0UTNQyX411jxklWPNd",
+      consumer_secret: "v1CuBQNh057lpfWCv04ns0LEx39ArjejFAAQxXZGGcaVDWZFMY",
+      strategy: PowAssent.Strategy.Twitter
     ]
   ]
+
+config :extwitter, :oauth, [
+    consumer_key: "LOzXHJZ0UTNQyX411jxklWPNd",
+    consumer_secret: "v1CuBQNh057lpfWCv04ns0LEx39ArjejFAAQxXZGGcaVDWZFMY",
+    access_token: "4215379283-D0Xr52IQjmOqELLY5BEx8R9Sjx5e6Kb3Xkznnsn",
+    access_token_secret: "DX0NPbVA9De8b8jieAE1M2DEwxMBCJzWyPnW37xuiVrAg"
+ ]
+
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
