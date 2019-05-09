@@ -8,8 +8,8 @@ class Twitter extends Component {
             result: null
         }
     }
-    render() {
-        var result = null;
+    componentDidMount() 
+    { 
         fetch('/api/twitter', {
             headers: { "Content-Type": "application/json; charset=utf-8" },
             method: 'GET'
@@ -17,20 +17,27 @@ class Twitter extends Component {
         .then(res => res.json())
         .then((data) => {
             if(data != null) {
+                console.log("Starting Twitter", this.state.result);
                 this.setState({result: data});
             }
         })
-        console.log("twitter", this.state.result);
+    }
+    componentDidUpdate() 
+    { 
+        console.log("Updated twitter", this.state.result);
+    }
+    render() {
         return (
             <li className="social-list__item">
                 Twitter is not setup{
                     this.state.result === null ?
                     " not":
-                    Object.keys(this.state.result)[0]
+                    JSON.stringify(this.state.result.data[0].created_at)
                 }
             </li>
         );
     }
+    
 }
 
 export default Twitter;
