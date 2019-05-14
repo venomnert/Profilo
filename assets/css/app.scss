@@ -1,6 +1,9 @@
 /* This file is for your main application css. */
 
-@import "./phoenix.css";
+/* @import"./phoenix.css";
 .form-input.invalid-input {
     border: 2px solid #e87e7e;
-}
+} */
+@import "~bootstrap/scss/bootstrap";
+@import "custom";
+@import "phoenix";

@@ -29,9 +29,9 @@ class Twitter extends Component {
     render() {
         return (
             <li className="social-list__item">
-                Twitter is not setup{
+                Twitter is {
                     this.state.result === null ?
-                    " not":
+                    " not setup":
                     JSON.stringify(this.state.result.data[0].created_at)
                 }
             </li>

@@ -1,10 +1,17 @@
-import '../css/app.css'
+import '../css/app.scss'
 
 import 'phoenix_html'
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import Root from './Root'
+
+import {$,jQuery} from 'jquery';
+// export for others scripts to use
+window.$ = $;
+window.jQuery = jQuery;
+
+import 'bootstrap';
 
 import ApolloClient from "apollo-boost";
 import {ApolloProvider} from 'react-apollo';
