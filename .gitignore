@@ -8,5 +8,5 @@ installer/doc
 installer/deps
 node_modules
 tmp
-
+.elixir_ls/
 erl_crash.dump
