@@ -17,14 +17,14 @@ class Twitter extends Component {
         .then(res => res.json())
         .then((data) => {
             if(data != null) {
-                console.log("Starting Twitter", this.state.result);
+                console.log("Starting SocialLink Twitter", this.state.result);
                 this.setState({result: data});
             }
         })
     }
     componentDidUpdate() 
     { 
-        console.log("Updated twitter", this.state.result);
+        console.log("Updated SocialLink twitter", this.state.result);
     }
     render() {
         return (

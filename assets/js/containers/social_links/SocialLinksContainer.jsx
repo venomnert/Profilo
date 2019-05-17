@@ -4,7 +4,6 @@ import React, { Component } from "react";
 import Github from "./Github"
 import Twitter from "./Twitter"
 
-
 class SocialLinksContainer extends Component {
     constructor(props) {
         super(props);
