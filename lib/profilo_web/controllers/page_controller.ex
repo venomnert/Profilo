@@ -22,8 +22,21 @@ defmodule ProfiloWeb.PageController do
   end
 
   def github(conn, _params) do
+    # Need a better way to capture all providers and no providers
     user = Accounts.get_user_identity!(conn.assigns.current_user, "github")
-            |> Map.drop([:__meta__, :inserted_at, :user])
+            |> case do
+              nil -> %{
+                        access_token: "",
+                        id: "",
+                        oauth_token: "",
+                        oauth_token_secret: "",
+                        provider: "",
+                        uid: "",
+                        user_id: ""
+                      }
+              value ->
+                value |> Map.drop([:__meta__, :inserted_at, :user])
+            end
     IO.inspect(user, label: "GITHUB USER")
     render(conn, "user.json", data: user)
   end

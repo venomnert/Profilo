@@ -16,29 +16,39 @@ import 'bootstrap';
 import ApolloClient from "apollo-boost";
 import {ApolloProvider} from 'react-apollo';
 
-var token = null;
-fetch('/api/github', {
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-    method: 'GET'
-  })        
-  .then(res => res.json())
-  .then((data) => {
-    console.log("GITHUB FRONT VALUE", data);
-  })
+// fetch('/api/github', {
+//     headers: { "Content-Type": "application/json; charset=utf-8" },
+//     method: 'GET'
+// })        
+// .then(res => res.json())
+// .then((data) => {
+//     console.log("GITHUB FRONT VALUE", data);
+//     token = data.access_token
+// })
 
-const api_client = new ApolloClient({
-    uri: "https://api.github.com/graphql",
-    request: async operation => {
-        operation.setContext({
-            headers: {
-               authorization: `token 34d89621e103c910ec51468e3dece808e1820384`
-            }
-        });
-    }
-})
+async function get_token() {
+    const response = await fetch('/api/github') ;
+    const json = await response.json();
+    return json;
+}
+get_token().then((data) => {
+    console.log("INSIDE", data);
+    const api_client = new ApolloClient({
+        uri: "https://api.github.com/graphql",
+        request: async operation => {
+            operation.setContext({
+                headers: {
+                //    authorization: `token 850ea2229e4bbbb7997ddd12c9f318103d28a173`
+                   authorization: `token ${data.access_token}`
+                }
+            });
+        }
+    })
+    
+    ReactDOM.render(
+    <ApolloProvider client={api_client}>
+        <Root />
+    </ApolloProvider>, 
+    document.getElementById('react-app'))
+});
 
-ReactDOM.render(
-<ApolloProvider client={api_client}>
-    <Root />
-</ApolloProvider>, 
-document.getElementById('react-app'))
