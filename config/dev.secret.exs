@@ -10,6 +10,6 @@ config :profilo, :pow_assent,
     twitter: [
       consumer_key: "LOzXHJZ0UTNQyX411jxklWPNd",
       consumer_secret: "v1CuBQNh057lpfWCv04ns0LEx39ArjejFAAQxXZGGcaVDWZFMY",
-      strategy: PowAssent.Strategy.Twitter
+      strategy: Profilo.Twitter.Strategy
     ]
   ]

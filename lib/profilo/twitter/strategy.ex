@@ -1,4 +1,4 @@
-defmodule Profilo.Twitter.Strategy do
+defmodule Profilo.Twitter.Strategy  do
   @moduledoc """
   Twitter OAuth 1.0 strategy.
 
@@ -6,7 +6,7 @@ defmodule Profilo.Twitter.Strategy do
 
       config :my_app, :pow_assent,
         providers: [
-          vk: [
+          twitter: [
             consumer_key: "REPLACE_WITH_CONSUMER_KEY",
             consumer_secret: "REPLACE_WITH_CONSUMER_SECRET",
             strategy: PowAssent.Strategy.Twitter
