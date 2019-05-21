@@ -52,11 +52,9 @@ defmodule Profilo.MixProject do
       # User authentication
       {:comeonin, "~> 5.0"},
       {:bcrypt_elixir, "~> 2.0"},
-      {:pow, github: "danschultzer/pow", override: true},
-      {:pow_assent, "~> 0.2.4"},
+      {:pow_assent, "~> 0.3.0"},
       {:certifi, "~> 2.4"},
       {:ssl_verify_fun, "~> 1.1"},
-
       {:oauth, github: "tim/erlang-oauth"},
       {:extwitter, "~> 0.1"},
     ]

@@ -38,6 +38,7 @@ defmodule ProfiloWeb.Router do
     pipe_through [:api, :protected]
 
     get "/twitter", PageController, :twitter
+    get "/github", PageController, :github
   end
 
 end

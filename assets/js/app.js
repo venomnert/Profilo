@@ -16,13 +16,22 @@ import 'bootstrap';
 import ApolloClient from "apollo-boost";
 import {ApolloProvider} from 'react-apollo';
 
+var token = null;
+fetch('/api/github', {
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+    method: 'GET'
+  })        
+  .then(res => res.json())
+  .then((data) => {
+    console.log("GITHUB FRONT VALUE", data);
+  })
+
 const api_client = new ApolloClient({
     uri: "https://api.github.com/graphql",
     request: async operation => {
         operation.setContext({
             headers: {
-                // authorization: `token ${process.env.REACT_APP_GITHUB_TOKEN}`
-                authorization: `token 142993ee80d11d6bec8b4089d8cc3b1b28cc0df0`
+               authorization: `token 34d89621e103c910ec51468e3dece808e1820384`
             }
         });
     }
