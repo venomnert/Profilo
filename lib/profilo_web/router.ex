@@ -37,6 +37,8 @@ defmodule ProfiloWeb.Router do
   scope "/api", ProfiloWeb do
     pipe_through [:api, :protected]
 
+    get "/:provider", PageController, :get_user
+    get "/auth/:provider", PageController, :is_auth
     get "/twitter", PageController, :twitter
     get "/github", PageController, :github
   end

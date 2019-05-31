@@ -2,21 +2,34 @@ defmodule ProfiloWeb.PageView do
   use ProfiloWeb, :view
   alias Jason
 
-
-  def render("data.json", %{twitter: data}) do
+  def render("data.json", %{data: data}) do
+    {:ok, new_data} = data
+                      |> convert_list_to_map_of_id()
+                      |> Jason.encode()
     %{
-      data: data
+      data: new_data
     }
   end
-  def render("user.json", %{data: user}) do
+  def render("error.json", %{data: message}) do
     %{
-      access_token: user.access_token,
-      id: user.id,
-      oauth_token: user.oauth_token,
-      oauth_token_secret: user.oauth_token_secret,
-      provider: user.provider,
-      uid: user.uid,
-      user_id: user.user_id
+      status: "error",
+      title: message
     }
+  end
+  def render("data.json", %{user: data}) do
+    %{
+      access_token: data.access_token,
+      id: data.id,
+      oauth_token: data.oauth_token,
+      oauth_token_secret: data.oauth_token_secret,
+      provider: data.provider,
+      uid: data.uid,
+      user_id: data.user_id
+    }
+  end
+
+  defp convert_list_to_map_of_id(data) do
+    data
+    |> Enum.reduce(%{}, fn x, acc -> Map.put_new(acc, x.id, x) end)
   end
 end

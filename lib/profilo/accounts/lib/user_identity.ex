@@ -12,7 +12,6 @@ defmodule Profilo.Accounts.Lib.UserIdentity do
   end
 
   def changeset(user_identity_or_changeset, %{"token" => token_map} = attrs) do
-    IO.inspect(attrs, label: "Attrs for user_idenities")
     user_identity_or_changeset
     |> Ecto.Changeset.cast(token_map, [:access_token, :oauth_token, :oauth_token_secret])
     |> pow_assent_changeset(attrs)

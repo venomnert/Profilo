@@ -23,6 +23,10 @@ defmodule Profilo.Accounts do
       select: u
 
     Repo.one(query)
+    |> case do
+      nil -> empty_user_identity()
+      value -> value
+    end
   end
 
   @spec create_user(%{
@@ -55,5 +59,10 @@ defmodule Profilo.Accounts do
   def delete_user(%User{} = user) do
     user
     |> Repo.delete()
+  end
+
+  defp empty_user_identity() do
+    %UserIdentity{}
+    |> Map.drop([:__meta__, :inserted_at, :user])
   end
 end
