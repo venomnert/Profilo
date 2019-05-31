@@ -52,7 +52,6 @@ defmodule ProfiloWeb.Github do
     Map.put(conn, :assigns, %{current_user: user})
   end
 
-  @tag failed: true
   test "user is not signed into github" do
     conn =
       build_conn()
@@ -85,7 +84,6 @@ defmodule ProfiloWeb.Github do
     refute json_response(conn, 200)["user_id"] == nil
   end
 
-  @tag failed: true
   test "github failed request" do
     conn =
       build_conn()

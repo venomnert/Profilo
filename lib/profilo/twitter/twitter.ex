@@ -4,7 +4,7 @@ defmodule Profilo.Twitter do
   # Profilo/config/dev.secret.exs
 
 
-  def get_timeline(%{oauth_token: nil, oauth_token_secret: nil} = nil_user), do: nil_user
+  def get_timeline(%{oauth_token: nil, oauth_token_secret: nil}), do: {:error, "Not logged into Twitter"}
 
   def get_timeline(curr_user) do
     set_config(curr_user)

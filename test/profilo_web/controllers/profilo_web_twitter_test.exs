@@ -85,6 +85,15 @@ defmodule ProfiloWeb.Twitter do
     refute json_response(conn, 200)["user_id"] == nil
   end
 
+  test "twitter failed request with empty user" do
+    conn =
+      build_conn()
+      |> setup_provider(@empty_user_identity)
+
+    conn = get(conn, Helpers.page_path(conn, :get_user, "twitter"))
+    assert json_response(conn, 404)["status"] == "error"
+  end
+
   @tag failed: true
   test "twitter failed request" do
     conn =
