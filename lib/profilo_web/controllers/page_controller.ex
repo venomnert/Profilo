@@ -43,7 +43,7 @@ defmodule ProfiloWeb.PageController do
 
   def is_auth(conn, %{"provider" => provider}) do
     data = Accounts.get_user_identity!(conn.assigns.current_user, provider)
-    render(conn, "data.json", user: data)
+    render(conn, "user.json", user: data)
   end
 
   defp get_user_from_provider(:twitter, %User{} = curr_user) do

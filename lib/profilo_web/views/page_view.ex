@@ -16,7 +16,7 @@ defmodule ProfiloWeb.PageView do
       title: message
     }
   end
-  def render("data.json", %{user: data}) do
+  def render("user.json", %{user: data}) do
     %{
       access_token: data.access_token,
       id: data.id,
