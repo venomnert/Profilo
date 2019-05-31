@@ -10,7 +10,7 @@ class Twitter extends Component {
     }
     componentDidMount() 
     { 
-        fetch('/api/twitter', {
+        fetch('/api/auth/twitter', {
             headers: { "Content-Type": "application/json; charset=utf-8" },
             method: 'GET'
         })        
