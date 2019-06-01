@@ -13,20 +13,17 @@ class TwitterStream extends Component {
     }
     render() {
         let item = <li>nothing</li>
-        if (this.props.data !== null) {
-            console.log("Data", this.props.data.data);
-            item = this.props.data.data.map(obj => {
-                let name = obj.user.name;
-                let tweet = obj.text
-                let url = obj.user.url+""
-                return (
-                    <li>
-                        <p><a href={url}>{name}</a></p>
-                        <p>{tweet}</p>
-                    </li>
-                );
-            });
-        }
+        item = this.props.data.data.map(obj => {
+            let name = obj.user.name;
+            let tweet = obj.text
+            let url = obj.user.url+""
+            return (
+                <li>
+                    <p><a href={url}>{name}</a></p>
+                    <p>{tweet}</p>
+                </li>
+            );
+        });
         return (
             <div>
                 <ul>

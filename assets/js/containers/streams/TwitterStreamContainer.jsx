@@ -7,7 +7,7 @@ class TwitterStreamContainer extends Component {
     super(props);
 
     this.state = {
-      result: null
+      result: []
     }
   }
   componentDidMount() 
@@ -16,7 +16,13 @@ class TwitterStreamContainer extends Component {
       headers: { "Content-Type": "application/json; charset=utf-8" },
       method: 'GET'
     })        
-    .then(res => res.json())
+    .then(res => {
+      if (res.status === 404) {
+        this.setState({result: []});
+        return;
+      }
+      return res.json()
+    })
     .then((data) => {
       if(data != null) {
         console.log("Starting Twitter", this.state.result);
@@ -29,13 +35,25 @@ class TwitterStreamContainer extends Component {
     console.log("Updated twitter", this.state.result);
   }
   render() {
-    return (
-      <div>
-        <div class="twitter-data">
-          <TwitterStream data={this.state.result}/>
+    if (this.state.result.length <= 0) {
+      return (
+        <div>
+          <div class="twitter-data">
+            Login into twitter
+          </div>
         </div>
-      </div>
-    );
+      ); 
+    }
+    else {
+      return (
+        <div>
+          <div class="twitter-data">
+            
+            <TwitterStream data={this.state.result}/>
+          </div>
+        </div>
+      );
+    }
   }
 }
 

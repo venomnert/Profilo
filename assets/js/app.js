@@ -27,12 +27,12 @@ import {ApolloProvider} from 'react-apollo';
 // })
 
 async function get_token() {
-    const response = await fetch('/api/github') ;
+    const response = await fetch('/api/auth/github') ;
     const json = await response.json();
     return json;
 }
 get_token().then((data) => {
-    console.log("INSIDE", data);
+    console.log("github auth", data);
     const api_client = new ApolloClient({
         uri: "https://api.github.com/graphql",
         request: async operation => {
