@@ -25,17 +25,17 @@ class Twitter extends Component {
         console.log("Updated SocialLink twitter", this.state.id);
     }
     render() {
-        return (
-            <li className="social-list__item">
-                Twitter is {
-                    this.state.id === null ?
-                    " not setup":
-                    JSON.stringify(this.state.id.data[0].created_at)
-                }
-            </li>
-        );
+        if (this.state.id === null) {
+            return (
+                <li className="social-list__item">
+                    <a href="/auth/twitter/new">Twitter needs to be setup</a>
+                </li>
+            )
+        }
+        else {
+            return (<li className="social-list__item">Twitter is setup</li>);
+        }
     }
-    
 }
 
 export default Twitter;

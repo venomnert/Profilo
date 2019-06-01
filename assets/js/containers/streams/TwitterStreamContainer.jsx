@@ -23,10 +23,9 @@ class TwitterStreamContainer extends Component {
       }
       return res.json()
     })
-    .then((data) => {
-      if(data != null) {
-        console.log("Starting Twitter", this.state.result);
-        this.setState({result: data});
+    .then((res_data) => {
+      if(res_data != null) {
+        this.setState({result: JSON.parse(res_data.data)});
       }
     })
   }
@@ -37,20 +36,15 @@ class TwitterStreamContainer extends Component {
   render() {
     if (this.state.result.length <= 0) {
       return (
-        <div>
-          <div class="twitter-data">
-            Login into twitter
-          </div>
+        <div class="twitter-data">
+          Twitter needs to be setup, see social-links
         </div>
       ); 
     }
     else {
       return (
-        <div>
-          <div class="twitter-data">
-            
-            <TwitterStream data={this.state.result}/>
-          </div>
+        <div class="twitter-data">
+          <TwitterStream data={this.state.result}/>
         </div>
       );
     }

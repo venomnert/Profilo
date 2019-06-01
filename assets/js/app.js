@@ -16,16 +16,6 @@ import 'bootstrap';
 import ApolloClient from "apollo-boost";
 import {ApolloProvider} from 'react-apollo';
 
-// fetch('/api/github', {
-//     headers: { "Content-Type": "application/json; charset=utf-8" },
-//     method: 'GET'
-// })        
-// .then(res => res.json())
-// .then((data) => {
-//     console.log("GITHUB FRONT VALUE", data);
-//     token = data.access_token
-// })
-
 async function get_token() {
     const response = await fetch('/api/auth/github') ;
     const json = await response.json();
