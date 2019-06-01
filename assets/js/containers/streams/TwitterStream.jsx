@@ -22,9 +22,7 @@ class TwitterStream extends Component {
         });
         return (
             <div>
-                <ul>
-                    {item}
-                </ul>
+                <ul>{item}</ul>
             </div>
         );
     }
