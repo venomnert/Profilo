@@ -12,7 +12,6 @@ class GithubStream extends Component {
     render() {
         // console.log("THIS IS THE ERROR" , this.props.data);
         let item = this.props.data.following.edges.map(obj => {
-            console.log("oject structure" , obj);
             let name = obj.node.name;
             let url = obj.node.url+"";
             let repo = obj.node.repositories.edges[0].node.name;
@@ -28,7 +27,6 @@ class GithubStream extends Component {
                 </div>
             </li>);
         });
-        console.log("This is the item list " , item);
         return (
             <div>
                 <ul>
