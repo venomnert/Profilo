@@ -43,7 +43,6 @@ defmodule Profilo.Github.Strategy do
 
   @spec get_user(Keyword.t(), map()) :: {:ok, map()} | {:error, term()}
   def get_user(config, access_token) do
-    IO.inspect(access_token, label: "User Access Token")
     config
     |> OAuth2.get_user(access_token)
     |> get_email(access_token, config)
