@@ -1,4 +1,4 @@
-# Installation Guide:
+## Installation Guide:
 1. Install Elixir:
   a. Mac use homebrew: https://elixir-lang.org/install.html
   b. Windows use installer: https://elixir-lang.org/install.html
@@ -10,7 +10,7 @@
 3. Install PosgreSQL client for mac:
   a. https://eggerapps.at/postico/
 
-# Setup Guide
+## Setup Guide
 1. `git clone https://github.com/venomnert/Profilo.git`
 2. `cd Profilo`
 3. `mix deps.get`
