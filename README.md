@@ -18,7 +18,6 @@
 5. `mix ecto.create`
 6. `yarn install`
 
-
 ## Startup Guide
 After you have completed the above steps without any error, you can now run phoenix server:
 `mix phx.server`
