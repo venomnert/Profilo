@@ -14,8 +14,8 @@
 1. `git clone https://github.com/venomnert/Profilo.git`
 2. `cd Profilo`
 3. `mix deps.get`
-4. `mix ecto.migrate`
-5. `mix ecto.create`
+4. `mix ecto.create`
+5. `mix ecto.migrate`
 6. `yarn install`
 
 ## Startup Guide
