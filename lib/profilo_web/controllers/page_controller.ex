@@ -10,6 +10,10 @@ defmodule ProfiloWeb.PageController do
     render(conn, "index.html")
   end
 
+  def uikit(conn, _params) do
+    render(conn, "uikit.html")
+  end
+
   def get_user(conn, %{"provider" => provider}) do
     data = get_user_from_provider(String.to_atom(provider), conn.assigns.current_user)
     case data do

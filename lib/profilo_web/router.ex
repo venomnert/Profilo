@@ -25,6 +25,8 @@ defmodule ProfiloWeb.Router do
 
     pow_routes()
     pow_assent_routes()
+
+    get "/uikit", ProfiloWeb.PageController, :uikit
   end
 
 

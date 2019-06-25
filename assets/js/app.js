@@ -5,6 +5,7 @@ import 'phoenix_html'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import Root from './Root'
+import RootUI from './RootUI'
 
 import {$,jQuery} from 'jquery';
 // export for others scripts to use
@@ -42,3 +43,4 @@ get_token().then((data) => {
     document.getElementById('react-app'))
 });
 
+ReactDOM.render(<RootUI />, document.getElementById('react-app-uikit'))
