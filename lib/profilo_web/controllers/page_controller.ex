@@ -30,6 +30,17 @@ defmodule ProfiloWeb.PageController do
     render(conn, "user.json", user: data)
   end
 
+  def followers(conn, %{"provider" => provider}) do
+    data = get_followers_from_provider(String.to_atom(provider), conn.assigns.current_user)
+    case data do
+      {:error, message} ->
+        conn
+        |> put_status(404)
+        |> render( "error.json", data: message)
+      {:ok, data} -> render(conn, "followers.json", followers: data)
+    end
+  end
+
   defp get_user_from_provider(:twitter, %User{} = curr_user) do
     Accounts.get_user_identity!(curr_user, "twitter")
     |> Twitter.get_timeline()
@@ -37,5 +48,10 @@ defmodule ProfiloWeb.PageController do
 
   defp get_user_from_provider(_, %User{} = _curr_user) do
     {:error, "no provider"}
+  end
+
+  defp get_followers_from_provider(:twitter, %User{} = curr_user) do
+    Accounts.get_user_identity!(curr_user, "twitter")
+    |> Twitter.get_followers()
   end
 end

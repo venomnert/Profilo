@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Profiles from "./ui_elements/profiles";
 import Social_Links from "./ui_elements/social_links";
+import FollowerItem from "./ui_elements/followers/FollowerItem";
 
 export default class Root extends Component {
   render() {
@@ -9,6 +10,12 @@ export default class Root extends Component {
         <div className="row">
           <h2>Profiles</h2>
           <Profiles />
+        </div>
+
+        <div className="row">
+          <h2>Followers</h2>
+          {/* <FollowersList /> */}
+          <FollowerItem />
         </div>
         
         <div className="row">

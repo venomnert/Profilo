@@ -41,8 +41,8 @@ defmodule ProfiloWeb.Router do
 
     get "/:provider", PageController, :get_user
     get "/auth/:provider", PageController, :is_auth
-    get "/twitter", PageController, :twitter
-    get "/github", PageController, :github
+    get "/followers/:provider", PageController, :followers
+
   end
 
 end

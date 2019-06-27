@@ -27,9 +27,23 @@ defmodule ProfiloWeb.PageView do
       user_id: data.user_id
     }
   end
+  def render("followers.json", %{followers: data}) do
+    # IO.inspect(data, label: "follower data")
+    data = data |> convert_list_to_extwitter_users_struct_to_maps()
+    {:ok, new_data} = data
+                      |> Jason.encode()
+
+    %{
+      data: new_data
+    }
+  end
 
   defp convert_list_to_map_of_id(data) do
     data
     |> Enum.reduce(%{}, fn x, acc -> Map.put_new(acc, x.id, x) end)
+  end
+  defp convert_list_to_extwitter_users_struct_to_maps(data) do
+    json_users = for user_struct <- data.users, into: [], do: Map.from_struct(user_struct)
+    %{data | users: json_users}
   end
 end
