@@ -23,7 +23,7 @@ async function get_token() {
     return json;
 }
 get_token().then((data) => {
-    console.log("github auth", data);
+    // console.log("github auth", data);
     const api_client = new ApolloClient({
         uri: "https://api.github.com/graphql",
         request: async operation => {

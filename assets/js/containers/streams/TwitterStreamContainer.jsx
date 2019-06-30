@@ -31,7 +31,7 @@ class TwitterStreamContainer extends Component {
   }
   componentDidUpdate() 
   { 
-    console.log("Updated twitter", this.state.result);
+    // console.log("Updated twitter", this.state.result);
   }
   render() {
     if (this.state.result.length <= 0) {

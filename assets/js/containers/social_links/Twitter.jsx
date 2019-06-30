@@ -16,13 +16,13 @@ class Twitter extends Component {
         })
         .then(res => res.json())
         .then((data) => {
-            console.log("Starting SocialLink Twitter", this.state.result);
+            // console.log("Starting SocialLink Twitter", this.state.result);
             this.setState({id: data.id});
         })
     }
     componentDidUpdate() 
     { 
-        console.log("Updated SocialLink twitter", this.state.id);
+        // console.log("Updated SocialLink twitter", this.state.id);
     }
     render() {
         if (this.state.id === null) {

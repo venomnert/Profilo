@@ -26,13 +26,13 @@ class Github extends Component {
         })
         .then(res => res.json())
         .then((data) => {
-            console.log("Starting SocialLink Github", this.state.result);
+            // console.log("Starting SocialLink Github", this.state.result);
             this.setState({id: data.id});
         })
     }
     componentDidUpdate() 
     { 
-        console.log("Updated SocialLink Github", this.state.id);
+        // console.log("Updated SocialLink Github", this.state.id);
     }
     render() {
         let error_item = <li className="social-list__item"><a href="/auth/github/new">Github needs to be setup</a></li>
