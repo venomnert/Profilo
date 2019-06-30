@@ -6,6 +6,7 @@ defmodule Profilo.Accounts.Lib.UserIdentity do
     field :access_token, :string
     field :oauth_token, :string
     field :oauth_token_secret, :string
+    field :screen_name, :string
     pow_assent_user_identity_fields()
 
     timestamps(updated_at: false)
@@ -13,7 +14,7 @@ defmodule Profilo.Accounts.Lib.UserIdentity do
 
   def changeset(user_identity_or_changeset, %{"token" => token_map} = attrs) do
     user_identity_or_changeset
-    |> Ecto.Changeset.cast(token_map, [:access_token, :oauth_token, :oauth_token_secret])
+    |> Ecto.Changeset.cast(token_map, [:access_token, :oauth_token, :oauth_token_secret, :screen_name])
     |> pow_assent_changeset(attrs)
   end
 end

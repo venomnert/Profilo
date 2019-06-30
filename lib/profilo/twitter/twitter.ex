@@ -20,9 +20,10 @@ defmodule Profilo.Twitter do
   def get_followers(%{oauth_token: nil, oauth_token_secret: nil}), do: {:error, "Not logged into Twitter"}
 
   def get_followers(curr_user) do
+    IO.inspect(curr_user, label: "CURRENT USER")
     set_config(curr_user)
     try do
-      data = ExTwitter.followers("twitter", count: 200)
+      data = ExTwitter.friends(curr_user.screen_name, count: 200)
       {:ok, %{
         users: data.items,
         next_cursor: data.next_cursor,

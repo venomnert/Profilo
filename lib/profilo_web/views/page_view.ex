@@ -24,7 +24,8 @@ defmodule ProfiloWeb.PageView do
       oauth_token_secret: data.oauth_token_secret,
       provider: data.provider,
       uid: data.uid,
-      user_id: data.user_id
+      user_id: data.user_id,
+      screen_name: data.screen_name
     }
   end
   def render("followers.json", %{followers: data}) do
