@@ -10,19 +10,29 @@ const FollowerItem = ({social_link, user, draggable}) => {
     if (user == null) {
         return <div>no followers</div>;
     }
-    let social_icon;
+    let social_icon, avatar_url, screen_name, avatar_style;
+    avatar_style = {
+        width: "75px",
+        height: "75px", 
+        border: "1px solid",
+        borderRadius: "50%"
+    }
     if(social_link === "github") {
         social_icon = <GithubIcon width="40px" height="40px" />;
+        avatar_url = user.node.avatarUrl;
+        screen_name = user.node.name;
     }
     else {
         social_icon = <TwitterIcon width="40px" height="40px" />;
+        avatar_url = user.profile_image_url_https;
+        screen_name = user.screen_name;
     }
     if(draggable) {
        return(
             <Draggable >
                 <div className="followerItem">
-                    <img className="followerItem__avatar" src={user.profile_image_url_https} alt="User Avatar"/>
-                    <p className="followerItem__name">{user.screen_name}</p>
+                    <img className="followerItem__avatar p-2" src={avatar_url} alt="User Avatar" style={avatar_style}/>
+                    <p className="followerItem__name">{screen_name}</p>
                     {social_icon}
                     <a href="#"><CloseIcon width="40px" height="40px"/></a>
                 </div>
@@ -31,8 +41,8 @@ const FollowerItem = ({social_link, user, draggable}) => {
     }
     return (
         <div className="followerItem">
-            <img className="followerItem__avatar" src={user.profile_image_url_https} alt="User Avatar"/>
-            <p className="followerItem__name">{user.screen_name}</p>
+            <img className="followerItem__avatar p-2" src={avatar_url} alt="User Avatar" style={avatar_style}/>
+            <p className="followerItem__name">{screen_name}</p>
             {social_icon}
             <a href="#"><CloseIcon width="40px" height="40px"/></a>
         </div>

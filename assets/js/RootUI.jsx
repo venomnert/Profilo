@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import twitter_follower_data from "./mock_data/twitter_followers";
+import github_follower_data from "./mock_data/github_followers";
+import profiles_data from "./mock_data/profiles_data";
 
-import Profiles from "./ui_elements/profiles";
+import ProfilesList from "./ui_elements/profiles/ProfilesList";
 import Social_Links from "./ui_elements/social_links";
 import FollowersList from "./ui_elements/followers/FollowersList";
-import FollowerItem from "./ui_elements/followers/FollowerItem";
 
 export default class Root extends Component {
   constructor(props) {
@@ -18,23 +19,38 @@ export default class Root extends Component {
         twitter: {
           followers: []
         }
-      }
+      },
+      profiles: {}
     }
   }
   componentDidMount() {
     const twitter_data = twitter_follower_data.data.users;
+    const github_data = github_follower_data.data.viewer.following.edges;
     const social_links = Object.assign(
                     {...this.state.social_links},
-                    {twitter: {followers: twitter_data}})
-    
-    this.setState({social_links});
+                    {
+                      github: {followers: github_data},
+                      twitter: {followers: twitter_data}
+                    })
+
+    const profiles = Object.assign(
+                      {...this.state.profiles},
+                      profiles_data);
+
+    const new_state = Object.assign(
+                      {...this.state},
+                      {
+                        profiles,
+                        social_links
+                      })
+    this.setState({...new_state});
   }
   render() {
     return (
       <div className="container">
         <div className="row">
           <h2>Profiles</h2>
-          <Profiles />
+          <ProfilesList profiles={this.state.profiles}/>
         </div>
 
         <div className="row">
