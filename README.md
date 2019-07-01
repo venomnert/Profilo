@@ -32,11 +32,11 @@ After you have completed the above steps without any error, you can now run phoe
 [See kevinwo comment](https://www.digitalocean.com/community/tutorials/how-to-automate-elixir-phoenix-deployment-with-distillery-and-edeliver-on-ubuntu-16-04)
 
 3. Posgres Debugging
-### Error: (DBConnection.ConnectionError) tcp connect (localhost:5432): mac os
-#### Detail: 
-This error happens usually if you restarted your Mac OS and the Posgres server hasn’t started up.
+> ### Error: (DBConnection.ConnectionError) tcp connect (localhost:5432): mac os
+> #### Detail: 
+> This error happens usually if you restarted your Mac OS and the Posgres server hasn’t started up.
 
-#### Solution:
-You must make sure that the postgresql server is running. The easiest way to this on Mac OS X is through brew.
-Run the command `brew services start postgresql` 
-[elixir - mix ecto.create connection refused - Stack Overflow](https://stackoverflow.com/questions/44358515/mix-ecto-create-connection-refused#44358542)
+> #### Solution:
+> You must make sure that the postgresql server is running. The easiest way to this on Mac OS X is through brew.
+> Run the command `brew services start postgresql` 
+> [elixir - mix ecto.create connection refused - Stack Overflow](https://stackoverflow.com/questions/44358515/mix-ecto-create-connection-refused#44358542)
