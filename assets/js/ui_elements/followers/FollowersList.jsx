@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 
-import FollowerItem from "./FollowerItem";
+import FollowerListItem from "./FollowerListItem";
 
 class FollowersList extends Component {
     render() {
         let social_links = this.props.social_links;
         return (
             <div className="followersList">
+                <h2>Follower Entity / Follower List Item</h2>
                 <ul>
                     {
                         Object.keys(social_links).map(social_link => {
@@ -14,7 +15,7 @@ class FollowersList extends Component {
                                 return social_links[social_link].followers.map(user => {
                                     return (
                                         <li key={user.id}>
-                                            <FollowerItem 
+                                            <FollowerListItem 
                                                 draggable={false}
                                                 social_link={social_link}
                                                 id={user.id} 

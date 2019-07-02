@@ -6,12 +6,12 @@ import TwitterIcon from "../../icons/Twitter.svg";
 import GithubIcon from "../../icons/Github.svg";
 import CloseIcon from "../../icons/Close.svg";
 
-class FollowerItem extends Component {
-    renderFollowerItem = (social_icon, avatar_url, screen_name, avatar_style) => {
+class FollowerListItem extends Component {
+    renderFollowerListItem = (social_icon, avatar_url, screen_name, avatar_style) => {
         return (
-            <div className="followerItem">
-                <img className="followerItem__avatar p-2" src={avatar_url} alt="User Avatar" style={avatar_style}/>
-                <p className="followerItem__name">{screen_name}</p>
+            <div className="followerListItem">
+                <img className="followerListItem__avatar p-2" src={avatar_url} alt="User Avatar" style={avatar_style}/>
+                <p className="followerListItem__name">{screen_name}</p>
                 {social_icon}
                 <a href="#"><CloseIcon width="40px" height="40px"/></a>
             </div>
@@ -41,16 +41,16 @@ class FollowerItem extends Component {
         if(draggable) {
            return(
                 <Draggable >
-                    {this.renderFollowerItem(social_icon, avatar_url, screen_name, avatar_style)}
+                    {this.renderFollowerListItem(social_icon, avatar_url, screen_name, avatar_style)}
                 </Draggable>
            )
         }
-        else { return this.renderFollowerItem(social_icon, avatar_url, screen_name, avatar_style); }   
+        else { return this.renderFollowerListItem(social_icon, avatar_url, screen_name, avatar_style); }   
     }
 }
 
-FollowerItem.propTypes = {
+FollowerListItem.propTypes = {
     social_link: PropTypes.string,
     user: PropTypes.object
 };
-export default FollowerItem;
+export default FollowerListItem;

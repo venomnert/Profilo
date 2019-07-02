@@ -3,7 +3,7 @@ import TwitterIcon from "../../icons/Twitter.svg";
 import GithubIcon from "../../icons/Github.svg";
 import CloseIcon from "../../icons/Close.svg";
 
-const ProfileItem = ({id, profile}) => {
+const Profile = ({id, profile}) => {
     let avatar_url = profile.avatar_url;
     let screen_name = profile.name;
     let connected_social_links = profile.connected_social_links;
@@ -15,16 +15,16 @@ const ProfileItem = ({id, profile}) => {
         borderRadius: "50%"
     };
     return (
-        <div className="profileItem">
-            <img className="profileItem__avatar p-2" src={avatar_url} alt="User Avatar" style={avatar_style}/>
-            <p className="profileItem__name">{screen_name}</p>
+        <div className="Profile">
+            <img className="Profile__avatar p-2" src={avatar_url} alt="User Avatar" style={avatar_style}/>
+            <p className="Profile__name">{screen_name}</p>
             {Object.keys(connected_social_links).map(social_link => {
-                return social_link === "github" ? <GithubIcon /> : <TwitterIcon />
+                return social_link === "github" ? <GithubIcon height="40px" width="40px" /> : <TwitterIcon height="40px" width="40px"/>
             })}
-            <ul className="profileItem__groups-list">
+            <ul className="Profile__groups-list">
                 {Object.keys(groups).map(group => {
                     return (
-                        <li key={group} className="profileItem__group-item">
+                        <li key={group} className="Profile__group-item">
                             {groups[group]}
                         </li>
                     )
@@ -34,4 +34,4 @@ const ProfileItem = ({id, profile}) => {
         </div>
     );
 }
-export default ProfileItem;
+export default Profile;
