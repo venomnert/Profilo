@@ -80,6 +80,14 @@ defmodule Profilo.Entity do
     |> Repo.insert()
   end
 
+  def list_user_profiles(%User{} = user) do
+    query = from p in Profile,
+            where: p.user_id == ^user.id,
+            select: p
+
+    Repo.all(query)
+  end
+
   @spec create_profile(
           Profilo.Accounts.Lib.User.t(),
           :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}

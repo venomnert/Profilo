@@ -1,5 +1,4 @@
 defmodule Profilo.Test.UserTestHelper do
-  alias Profilo.Accounts.Lib.User
   alias Profilo.Accounts
 
   def user_fixture(valid_attr, attrs \\ %{}) do

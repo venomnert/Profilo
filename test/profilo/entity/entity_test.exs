@@ -101,6 +101,15 @@ defmodule Profilo.EntityTest do
 
   describe "profile" do
 
+    test "list_user_profiles/1 returns all profiles by user" do
+      user = UserTestHelper.user_fixture(@valid__user_attrs)
+      Entity.create_profile(user, @valid_profile_attrs)
+
+      [first | _ ] = Entity.list_user_profiles(user)
+      assert first.name == @valid_profile_attrs.name
+      assert first.avatar_url == @valid_profile_attrs.avatar_url
+    end
+
     test "create_profile/2 with valid data" do
       user = UserTestHelper.user_fixture(@valid__user_attrs)
       assert {:ok, %Profile{} = profile} = Entity.create_profile(user, @valid_profile_attrs)
