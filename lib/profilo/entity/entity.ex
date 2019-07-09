@@ -1,11 +1,13 @@
 defmodule Profilo.Entity do
   alias Profilo.Entity.Lib.Following
   alias Profilo.Entity.Lib.Profile
+  alias Profilo.Entity.Lib.SocialLink
   alias Profilo.Accounts.Lib.User
   alias Profilo.Repo
 
   import Ecto.Query, warn: false
 
+  # --------------- Following API ---------------
   def list_user_followings(%User{} = user) do
     query = from f in Following,
             where: f.user_id == ^user.id,
@@ -25,17 +27,17 @@ defmodule Profilo.Entity do
     Repo.all(query)
   end
 
-  def get_following(%User{} = user, %Following{} = following) do
+  def get_following(%User{} = user, id) do
     query = from f in Following,
       where: f.user_id == ^user.id,
-      where: f.id == ^following.id,
+      where: f.id == ^id,
       select: f
 
     Repo.one!(query)
   end
 
   def add_following_to_profile(%User{} = user, %Profile{} = profile, %Following{} = following) do
-    loaded_profile = get_profile(user, profile)
+    loaded_profile = get_profile(user, profile.id)
     |> Repo.preload(:following)
 
     loaded_profile
@@ -51,7 +53,7 @@ defmodule Profilo.Entity do
   end
 
   def removing_following_from_profile(%User{} = user, %Profile{} = profile, %Following{} = following) do
-    loaded_profile = get_profile(user, profile)
+    loaded_profile = get_profile(user, profile.id)
     |> Repo.preload(:following)
 
     loaded_profile
@@ -67,19 +69,16 @@ defmodule Profilo.Entity do
   end
 
   def delete_following(%User{} = user, %Following{} = following) do
-    get_following(user, following)
+    get_following(user, following.id)
     |> Repo.delete!()
   end
 
-  @spec create_following(
-          Profilo.Accounts.Lib.User.t(),
-          :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}
-        ) :: any
-  def create_following(%User{} = user, attrs \\ %{}) do
-    Following.new_following_changeset(user, attrs)
+  def create_following(%User{} = user, %SocialLink{} = social_link, attrs \\ %{}) do
+    Following.new_following_changeset(user, social_link, attrs)
     |> Repo.insert()
   end
 
+  # --------------- Profile API ---------------
   def list_user_profiles(%User{} = user) do
     query = from p in Profile,
             where: p.user_id == ^user.id,
@@ -97,24 +96,58 @@ defmodule Profilo.Entity do
     |> Repo.insert()
   end
 
-  def get_profile(%User{} = user, %Profile{} = profile) do
+  def get_profile(%User{} = user, id) do
     query = from p in Profile,
       where: p.user_id == ^user.id,
-      where: p.id == ^profile.id,
+      where: p.id == ^id,
       select: p
 
     Repo.one!(query)
   end
 
   def update_profile(%User{} = user, %Profile{} = profile, attrs) do
-    get_profile(user, profile)
+    get_profile(user, profile.id)
     |> Profile.changeset(attrs)
     |> Repo.update!()
   end
 
   @spec delete_profile(Profilo.Accounts.Lib.User.t(), Profilo.Entity.Lib.Profile.t()) :: any
   def delete_profile(%User{} = user, %Profile{} = profile) do
-    get_profile(user, profile)
+    get_profile(user, profile.id)
     |> Repo.delete!()
   end
+
+  # --------------- SocialLink API ---------------
+  def list_social_links() do
+    query = from s in SocialLink,
+            select: s
+
+    Repo.all(query)
+  end
+
+  def create_social_link(attrs \\ %{}) do
+    %SocialLink{}
+    |> SocialLink.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def get_social_link(id) do
+    query = from s in SocialLink,
+      where: s.id == ^id,
+      select: s
+
+    Repo.one!(query)
+  end
+
+  def update_social_link(%SocialLink{} = social_link, attrs) do
+    get_social_link(social_link.id)
+    |> SocialLink.changeset(attrs)
+    |> Repo.update!()
+  end
+
+  def delete_social_link(%SocialLink{} = social_link) do
+    get_social_link(social_link.id)
+    |> Repo.delete!()
+  end
+
 end
