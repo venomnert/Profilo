@@ -3,8 +3,7 @@ defmodule Profilo.Entity.Lib.Following do
   import Ecto.Changeset
 
   alias Profilo.Accounts.Lib.User
-  alias Profilo.Entity.Lib.Profile
-  alias Profilo.Entity.Lib.SocialLink
+  alias Profilo.Entity.Lib.{Profile, SocialLink}
 
   schema "following" do
     field :name, :string

@@ -1,8 +1,7 @@
 defmodule Profilo.Entity.Lib.Profile do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Profilo.Entity.Lib.Following
-  alias Profilo.Entity.Lib.Profile
+  alias Profilo.Entity.Lib.{Following, Profile}
   alias Profilo.Accounts.Lib.User
 
   schema "profile" do

@@ -2,8 +2,7 @@ defmodule Profilo.Entity.Lib.SocialLink do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Profilo.Entity.Lib.Following
-  alias Profilo.Entity.Lib.SocialLink
+  alias Profilo.Entity.Lib.{Following, SocialLink}
 
   schema "social_link" do
     field :name, :string

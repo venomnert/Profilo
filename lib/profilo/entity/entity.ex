@@ -1,7 +1,5 @@
 defmodule Profilo.Entity do
-  alias Profilo.Entity.Lib.Following
-  alias Profilo.Entity.Lib.Profile
-  alias Profilo.Entity.Lib.SocialLink
+  alias Profilo.Entity.Lib.{Following, Profile, SocialLink}
   alias Profilo.Accounts.Lib.User
   alias Profilo.Repo
 
