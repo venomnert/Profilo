@@ -48,7 +48,7 @@ defmodule Profilo.MixProject do
       {:distillery, "~> 2.0", runtime: false},
       {:neuron, "~> 1.1.0"},
       {:httpoison, "~> 1.4"},
-      {:absinthe, "~> 1.4.2"},
+      {:absinthe, "~> 1.4.13"},
       {:absinthe_plug, "~> 1.4.0"},
       {:absinthe_phoenix, "~> 1.4.0"},
       {:absinthe_relay, "~> 1.4.0"},
