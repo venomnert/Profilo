@@ -18,5 +18,6 @@ defmodule Profilo.Entity.Lib.SocialLink do
     social_link
     |> cast(attrs, [:name])
     |> validate_required([:name], message: "Name is required.", trim: true)
+    |> unique_constraint(:name)
   end
 end
