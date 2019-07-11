@@ -65,6 +65,19 @@ defmodule Profilo.EntityTest do
       assert following.avatar_url == @valid_following_attrs.avatar_url
     end
 
+    test "test duplicate following creation" do
+      user = UserTestHelper.user_fixture(@valid__user_attrs)
+      {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+      {:ok, %Profile{} = profile} = Entity.create_profile(user, @valid_profile_attrs)
+      {:ok, %Following{} = following} = Entity.create_following(user, social_link, @valid_following_attrs)
+
+      Entity.add_following_to_profile(user, profile, following)
+
+      {:error, %Ecto.Changeset{}} = Entity.create_following(user, social_link, @valid_following_attrs)
+
+      assert length(Entity.list_user_followings(user)) == 1
+    end
+
     test "create_following/3 with invalid data returns error changeset" do
       user = UserTestHelper.user_fixture(@valid__user_attrs)
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)

@@ -20,6 +20,7 @@ defmodule Profilo.Entity.Lib.Following do
     |> cast(attrs, [:name, :avatar_url])
     |> validate_required([:name], message: "Name is required.", trim: true)
     |> validate_required([:avatar_url], message: "Avatar image url is required", trim: true)
+    |> unique_constraint(:name, name: :following_user_id_name)
   end
 
   def new_following_changeset(%User{} = curr_user, %SocialLink{} = social_link, attrs) do
