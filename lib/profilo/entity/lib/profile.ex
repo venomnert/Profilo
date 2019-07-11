@@ -29,5 +29,6 @@ defmodule Profilo.Entity.Lib.Profile do
     |> cast(attrs, [:name, :avatar_url])
     |> validate_required([:name], message: "Name is required.", trim: true)
     |> validate_required([:avatar_url], message: "Avatar image url is required", trim: true)
+    |> unique_constraint(:name, name: :profile_user_id_name)
   end
 end

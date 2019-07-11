@@ -265,6 +265,13 @@ defmodule Profilo.EntityTest do
       assert new_social_link.name == @valid_social_link_attrs.name
     end
 
+    test "get_social_link/1 returns the social_link with given name" do
+      {:ok, %SocialLink{} = new_social_link} = Entity.create_social_link(@valid_social_link_attrs)
+
+      assert new_social_link = Entity.get_social_link("github")
+      assert new_social_link.name == @valid_social_link_attrs.name
+    end
+
     test "update_social_link/2 with valid data updates the social_link" do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
 
