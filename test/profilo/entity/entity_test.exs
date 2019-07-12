@@ -54,142 +54,133 @@ defmodule Profilo.EntityTest do
     name: nil
   }
 
+  setup do
+    user = UserTestHelper.user_fixture(@valid__user_attrs)
+    {:ok, user: user}
+  end
+
   describe "following" do
 
-    test "create_following/3 with valid data creates a following with nil profile" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
+    test "create_following/3 with valid data creates a following with nil profile", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
 
-      assert {:ok, %Following{} = following} = Entity.create_following(user, social_link, @valid_following_attrs)
+      assert {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
       assert following.name == @valid_following_attrs.name
       assert following.avatar_url == @valid_following_attrs.avatar_url
     end
 
-    test "test duplicate following creation" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
+    test "test duplicate following creation", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
-      {:ok, %Profile{} = profile} = Entity.create_profile(user, @valid_profile_attrs)
-      {:ok, %Following{} = following} = Entity.create_following(user, social_link, @valid_following_attrs)
+      {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
+      {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
 
-      Entity.add_following_to_profile(user, profile, following)
+      Entity.add_following_to_profile(state[:user], profile, following)
 
-      {:error, %Ecto.Changeset{}} = Entity.create_following(user, social_link, @valid_following_attrs)
+      {:error, %Ecto.Changeset{}} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
 
-      assert length(Entity.list_user_followings(user)) == 1
+      assert length(Entity.list_user_followings(state[:user])) == 1
     end
 
-    test "create_following/3 with invalid data returns error changeset" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
+    test "create_following/3 with invalid data returns error changeset", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
 
-      assert {:error, %Ecto.Changeset{}} = Entity.create_following(user, social_link, @invalid_following_attrs)
+      assert {:error, %Ecto.Changeset{}} = Entity.create_following(state[:user], social_link, @invalid_following_attrs)
     end
 
-    test "list_user_followings/1 returns all followings by user" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
+    test "list_user_followings/1 returns all followings by user", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
-      Entity.create_following(user, social_link, @valid_following_attrs)
+      Entity.create_following(state[:user], social_link, @valid_following_attrs)
 
-      [first | _ ] = Entity.list_user_followings(user)
+      [first | _ ] = Entity.list_user_followings(state[:user])
       assert first.name == @valid_following_attrs.name
       assert first.avatar_url == @valid_following_attrs.avatar_url
     end
 
-    test "list_profile_followings/2 returns all followings by profile" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
+    test "list_profile_followings/2 returns all followings by profile", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
 
-      {:ok, %Following{} = following} = Entity.create_following(user, social_link, @valid_following_attrs)
-      {:ok, %Profile{} = profile} = Entity.create_profile(user, @valid_profile_attrs)
+      {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+      {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
-      profile = Entity.add_following_to_profile(user, profile, following)
+      profile = Entity.add_following_to_profile(state[:user], profile, following)
 
-      [first | _ ] = Entity.list_profile_followings(user, profile)
+      [first | _ ] = Entity.list_profile_followings(state[:user], profile)
       assert first.name == @valid_following_attrs.name
       assert first.avatar_url == @valid_following_attrs.avatar_url
     end
 
-    test "get_following!/2 returns the following with given id" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
+    test "get_following!/2 returns the following with given id", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
 
-      {:ok, %Following{} = following} = Entity.create_following(user, social_link, @valid_following_attrs)
+      {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
 
-      added_following = Entity.get_following(user, following.id)
+      added_following = Entity.get_following(state[:user], following.id)
 
       assert added_following.name == @valid_following_attrs.name
       assert added_following.avatar_url == @valid_following_attrs.avatar_url
     end
 
-    test "delete_following/1 deletes the following" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
+    test "delete_following/1 deletes the following", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
 
-      {:ok, %Following{} = following} = Entity.create_following(user, social_link, @valid_following_attrs)
+      {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
 
-      assert following = Entity.delete_following(user, following)
+      assert following = Entity.delete_following(state[:user], following)
     end
   end
 
   describe "profile" do
 
-    test "list_user_profiles/1 returns all profiles by user" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
-      Entity.create_profile(user, @valid_profile_attrs)
+    test "list_user_profiles/1 returns all profiles by user", state do
+      Entity.create_profile(state[:user], @valid_profile_attrs)
 
-      [first | _ ] = Entity.list_user_profiles(user)
+      [first | _ ] = Entity.list_user_profiles(state[:user])
       assert first.name == @valid_profile_attrs.name
       assert first.avatar_url == @valid_profile_attrs.avatar_url
     end
 
-    test "create_profile/2 with valid data" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
-      assert {:ok, %Profile{} = profile} = Entity.create_profile(user, @valid_profile_attrs)
+    test "create_profile/2 with valid data", state do
+      assert {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
       assert profile.name == @valid_profile_attrs.name
       assert profile.avatar_url == @valid_profile_attrs.avatar_url
     end
 
-    test "create_profile/2 with invalid data" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
-      assert {:error, %Ecto.Changeset{}} = Entity.create_profile(user, @invalid_profile_attrs)
+    test "create_profile/2 with invalid data", state do
+      assert {:error, %Ecto.Changeset{}} = Entity.create_profile(state[:user], @invalid_profile_attrs)
     end
 
-    test "get_profile/2 returns the profile with given id" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
-      {:ok, %Profile{} = new_profile} = Entity.create_profile(user, @valid_profile_attrs)
+    test "get_profile/2 returns the profile with given id", state do
+      {:ok, %Profile{} = new_profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
-      assert new_profile = Entity.get_profile(user, new_profile.id)
+      assert new_profile = Entity.get_profile(state[:user], new_profile.id)
       assert new_profile.name == @valid_profile_attrs.name
       assert new_profile.avatar_url == @valid_profile_attrs.avatar_url
     end
 
-    test "update_profile/3 with valid data updates the profile" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
-      {:ok, %Profile{} = profile} = Entity.create_profile(user, @valid_profile_attrs)
+    test "update_profile/3 with valid data updates the profile", state do
+      {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
-      update_profile = Entity.update_profile(user, profile, @update_profile_attrs)
+      update_profile = Entity.update_profile(state[:user], profile, @update_profile_attrs)
       assert update_profile.name == @update_profile_attrs.name
       assert update_profile.avatar_url == @update_profile_attrs.avatar_url
     end
 
-    test "update_profile/3 with invalid data returns error changeset" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
-      {:ok, %Profile{} = profile} = Entity.create_profile(user, @valid_profile_attrs)
+    test "update_profile/3 with invalid data returns error changeset", state do
+      {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
       assert_raise Ecto.InvalidChangesetError, fn ->
-        Entity.update_profile(user, profile, @invalid_profile_attrs)
+        Entity.update_profile(state[:user], profile, @invalid_profile_attrs)
       end
     end
 
-    test "add_following_to_profile/3 with a new following" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
+    test "add_following_to_profile/3 with a new following", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
 
-      {:ok, %Following{} = following} = Entity.create_following(user, social_link, @valid_following_attrs)
-      {:ok, %Profile{} = profile} = Entity.create_profile(user, @valid_profile_attrs)
+      {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+      {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
-      first_following = Entity.add_following_to_profile(user, profile, following)
+      first_following = Entity.add_following_to_profile(state[:user], profile, following)
                         |> Repo.preload(:following)
                         |> Map.get(:following)
                         |> List.first()
@@ -198,33 +189,31 @@ defmodule Profilo.EntityTest do
       assert first_following.avatar_url == @valid_following_attrs.avatar_url
     end
 
-    test "add_following_to_profile/3 with a duplicate following" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
+    test "add_following_to_profile/3 with a duplicate following", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
 
-      {:ok, %Following{} = following} = Entity.create_following(user, social_link, @valid_following_attrs)
-      {:ok, %Profile{} = profile} = Entity.create_profile(user, @valid_profile_attrs)
+      {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+      {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
-      new_profile = Entity.add_following_to_profile(user, profile, following)
-      second_profile = Entity.add_following_to_profile(user, new_profile, following)
+      new_profile = Entity.add_following_to_profile(state[:user], profile, following)
+      second_profile = Entity.add_following_to_profile(state[:user], new_profile, following)
       assert new_profile = second_profile
     end
 
-    test "removing_following_from_profile/3" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
+    test "removing_following_from_profile/3", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
 
-      {:ok, %Following{} = following} = Entity.create_following(user, social_link, @valid_following_attrs)
-      {:ok, %Profile{} = profile} = Entity.create_profile(user, @valid_profile_attrs)
+      {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+      {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
-      new_profile = Entity.add_following_to_profile(user, profile, following)
+      new_profile = Entity.add_following_to_profile(state[:user], profile, following)
 
       following_list = new_profile
                       |> Repo.preload(:following)
                       |> Map.get(:following)
                       |> MapSet.new()
 
-      updated_following_list = Entity.removing_following_from_profile(user, new_profile, following)
+      updated_following_list = Entity.removing_following_from_profile(state[:user], new_profile, following)
                                 |> Repo.preload(:following)
                                 |> Map.get(:following)
                                 |> MapSet.new()
@@ -232,11 +221,10 @@ defmodule Profilo.EntityTest do
       refute MapSet.equal?(following_list, updated_following_list)
     end
 
-    test "delete_profile/1 deletes the profile" do
-      user = UserTestHelper.user_fixture(@valid__user_attrs)
-      {:ok, %Profile{} = profile} = Entity.create_profile(user, @valid_profile_attrs)
+    test "delete_profile/1 deletes the profile", state do
+      {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
-      assert profile = Entity.delete_profile(user, profile)
+      assert profile = Entity.delete_profile(state[:user], profile)
     end
   end
 
@@ -266,7 +254,7 @@ defmodule Profilo.EntityTest do
     end
 
     test "get_social_link/1 returns the social_link with given name" do
-      {:ok, %SocialLink{} = new_social_link} = Entity.create_social_link(@valid_social_link_attrs)
+      Entity.create_social_link(@valid_social_link_attrs)
 
       assert new_social_link = Entity.get_social_link("github")
       assert new_social_link.name == @valid_social_link_attrs.name
