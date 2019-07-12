@@ -73,6 +73,7 @@ defmodule Profilo.Entity do
 
   def create_following(%User{} = user, %SocialLink{} = social_link, attrs \\ %{}) do
     Following.new_following_changeset(user, social_link, attrs)
+    # |> IO.inspect(label: "NEW FOLLOWING")
     |> Repo.insert()
   end
 
@@ -129,9 +130,17 @@ defmodule Profilo.Entity do
     |> Repo.insert()
   end
 
-  def get_social_link(id) do
+  def get_social_link(id) when is_integer(id) do
     query = from s in SocialLink,
       where: s.id == ^id,
+      select: s
+
+    Repo.one!(query)
+  end
+
+  def get_social_link(name) when is_binary(name) do
+    query = from s in SocialLink,
+      where: s.name == ^name,
       select: s
 
     Repo.one!(query)

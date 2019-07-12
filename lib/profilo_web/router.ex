@@ -36,6 +36,14 @@ defmodule ProfiloWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/" do
+    pipe_through :api
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: ProfiloWeb.Schema,
+      interface: :simple
+  end
+
   scope "/api", ProfiloWeb do
     pipe_through [:api, :protected]
 
