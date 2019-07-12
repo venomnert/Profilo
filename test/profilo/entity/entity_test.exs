@@ -120,6 +120,16 @@ defmodule Profilo.EntityTest do
       assert added_following.avatar_url == @valid_following_attrs.avatar_url
     end
 
+    test "get_following!/2 returns the following with given name", state do
+      {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+      {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+
+      added_following = Entity.get_following(state[:user], following.name)
+
+      assert added_following.name == @valid_following_attrs.name
+      assert added_following.avatar_url == @valid_following_attrs.avatar_url
+    end
+
     test "delete_following/1 deletes the following", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
 
