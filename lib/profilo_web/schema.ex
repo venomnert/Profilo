@@ -1,48 +1,41 @@
 defmodule ProfiloWeb.Schema do
   use Absinthe.Schema
 
-  alias Profilo.Entity
-  alias Profilo.Entity.Lib.{Following, Profile}
-  alias Profilo.Repo
-  alias ProfiloWeb.Resolvers
+  alias ProfiloWeb.{ResolverFollowing, ResolverProfile, ResolverSocialLink}
 
   query do
 
+    @desc "Following item retrieved based id or name"
     field(:following, non_null(:following)) do
       arg :id, :id
       arg :name, :string
-      resolve &Resolvers.get_following/3
+      resolve &ResolverFollowing.get_following/3
     end
 
+    @desc "List of following items by profile id"
     field :followings, list_of(:following) do
-      resolve fn(_, _, _) ->
-        {:ok, Repo.all(Following)}
-      end
+      arg :profile_id, :integer
+      arg :profile_name, :string
+      resolve &ResolverFollowing.get_following/3
     end
 
     field(:profile, non_null(:profile)) do
       arg :id, :id
       arg :name, :string
-      resolve &Resolvers.get_profile/3
+      resolve &ResolverProfile.get_profile/3
     end
 
     field :profiles, list_of(:profile) do
-      resolve fn(_, _, _) ->
-        {:ok, Repo.all(Profile)}
-      end
+      resolve &ResolverProfile.get_profile/3
     end
 
     field :social_link, non_null(:social_link) do
       arg(:name, non_null(:string))
-      resolve fn(_, %{name: name}, _) ->
-        {:ok, Entity.get_social_link(name)}
-      end
+      resolve &ResolverSocialLink.get_social_link/3
     end
 
     field :social_links, list_of(:social_link) do
-      resolve fn(_, _, _) ->
-        {:ok, Entity.list_social_links()}
-      end
+      resolve &ResolverSocialLink.get_social_link/3
     end
   end
 
@@ -65,9 +58,7 @@ defmodule ProfiloWeb.Schema do
     field :name, :string
 
     field :followings, list_of(:following) do
-      resolve fn(%Profile{} = profile, _, %{context: %{current_user: current_user}}) ->
-        {:ok, Entity.list_profile_followings(current_user, profile)}
-      end
+      resolve &ResolverProfile.list_profile_followings/3
     end
 
   end

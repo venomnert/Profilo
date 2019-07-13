@@ -44,7 +44,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
     name: "github",
   }
 
-  @followings_query """
+  @followings_by_user_query """
   {
     followings {
       name
@@ -53,6 +53,14 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
     }
   }
   """
+  @followings_by_profile_query"""
+  {
+    followings(profileName: "Kyle Simpson") {
+      name
+    }
+  }
+  """
+
   @following_query """
   {
     following(name: "Kyle Simpson") {
@@ -125,13 +133,23 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
   end
 
   test "followings field returns following items", state do
-    {:ok, %{data: %{"followings" => returned_followings}}} = Absinthe.run(@followings_query, Schema, context: state[:context])
+    {:ok, %{data: %{"followings" => returned_followings}}} = Absinthe.run(@followings_by_user_query, Schema, context: state[:context])
 
     assert returned_followings == [
                                     %{
                                       "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
                                       "name" => "Kyle Simpson",
                                       "socialLinkId" => "#{state[:social_link].id}"
+                                    }
+                                  ]
+  end
+
+  test "followings field returns following items by profile", state do
+    {:ok, %{data: %{"followings" => returned_followings}}} = Absinthe.run(@followings_by_profile_query, Schema, context: state[:context])
+
+    assert returned_followings == [
+                                    %{
+                                      "name" => "Kyle Simpson",
                                     }
                                   ]
   end
