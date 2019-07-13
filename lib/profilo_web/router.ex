@@ -59,6 +59,7 @@ defmodule ProfiloWeb.Router do
 
   scope "/graphql" do
     pipe_through [:api, :protected]
+
     forward "/v1", Absinthe.Plug,
     schema: ProfiloWeb.Schema
   end
