@@ -7,7 +7,7 @@ defmodule ProfiloWeb.Schema do
 
     @desc "Following item retrieved based id or name"
     field(:following, non_null(:following)) do
-      arg :id, :id
+      arg :id, :integer
       arg :name, :string
       resolve &ResolverFollowing.get_following/3
     end
@@ -20,7 +20,7 @@ defmodule ProfiloWeb.Schema do
     end
 
     field(:profile, non_null(:profile)) do
-      arg :id, :id
+      arg :id, :integer
       arg :name, :string
       resolve &ResolverProfile.get_profile/3
     end
