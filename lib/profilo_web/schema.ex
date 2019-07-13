@@ -4,8 +4,16 @@ defmodule ProfiloWeb.Schema do
   alias Profilo.Entity
   alias Profilo.Entity.Lib.{Following, Profile}
   alias Profilo.Repo
+  alias ProfiloWeb.Resolvers
 
   query do
+
+    field(:following, non_null(:following)) do
+      arg :id, :id
+      arg :name, :string
+      resolve &Resolvers.get_following/3
+    end
+
     field :followings, list_of(:following) do
       resolve fn(_, _, _) ->
         {:ok, Repo.all(Following)}
@@ -13,15 +21,27 @@ defmodule ProfiloWeb.Schema do
     end
 
     field(:profile, non_null(:profile)) do
-      arg(:id, non_null(:id))
-      resolve fn(_, %{id: id}, %{context: %{current_user: current_user}}) ->
-        {:ok, Entity.get_profile(current_user, id)}
-      end
+      arg :id, :id
+      arg :name, :string
+      resolve &Resolvers.get_profile/3
     end
 
     field :profiles, list_of(:profile) do
       resolve fn(_, _, _) ->
         {:ok, Repo.all(Profile)}
+      end
+    end
+
+    field :social_link, non_null(:social_link) do
+      arg(:name, non_null(:string))
+      resolve fn(_, %{name: name}, _) ->
+        {:ok, Entity.get_social_link(name)}
+      end
+    end
+
+    field :social_links, list_of(:social_link) do
+      resolve fn(_, _, _) ->
+        {:ok, Entity.list_social_links()}
       end
     end
   end

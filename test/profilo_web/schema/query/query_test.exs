@@ -53,6 +53,15 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
     }
   }
   """
+  @following_query """
+  {
+    following(name: "Kyle Simpson") {
+      name
+      avatarUrl
+      socialLinkId
+    }
+  }
+  """
 
   @profiles_query """
   {
@@ -61,6 +70,24 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
       followings {
         name
       }
+    }
+  }
+  """
+  @profile_query """
+  {
+    profile(name: "Kyle Simpson") {
+      name
+      followings {
+        name
+      }
+    }
+  }
+  """
+
+  @social_links_query """
+  {
+    socialLinks {
+      name
     }
   }
   """
@@ -109,7 +136,18 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
                                   ]
   end
 
-  test "profiles field returns profile items and associated following items", state do
+  test "following field returns specific following items", state do
+
+    {:ok, %{data: %{"following" => returned_following}}} = Absinthe.run(@following_query, Schema, context: state[:context])
+
+    assert returned_following == %{
+                                  "name" => "Kyle Simpson",
+                                  "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
+                                  "socialLinkId" => "#{state[:social_link].id}"
+                                }
+  end
+
+  test "profiles field returns profile items and associated following item", state do
 
     {:ok, %{data: %{"profiles" => returned_profiles}}} = Absinthe.run(@profiles_query, Schema, context: state[:context])
 
@@ -123,6 +161,28 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
                                     ],
                                   }
                                 ]
+  end
+
+  test "profile field returns specific profile items and associated following items", state do
+
+    {:ok, %{data: %{"profile" => returned_profile}}} = Absinthe.run(@profile_query, Schema, context: state[:context])
+
+    assert returned_profile == %{
+                                  "name" => "Kyle Simpson",
+                                  "followings" => [
+                                    %{
+                                      "name" => "Kyle Simpson"
+                                    }
+                                  ],
+                                }
+  end
+
+  test "social_links field returns social_link items", state do
+    {:ok, %{data: %{"socialLinks" => returned_social_links}}} = Absinthe.run(@social_links_query, Schema, context: state[:context])
+
+    assert returned_social_links == [
+                                      %{ "name" => "github" }
+                                    ]
   end
 
 end
