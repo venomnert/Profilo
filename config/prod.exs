@@ -16,9 +16,9 @@ config :profilo, ProfiloWeb.Endpoint,
   load_from_system_env: true,
   http: [:inet6, port: System.get_env("PORT") || 4000],
   server: true,
-  secret_key_base: "${SECRET_KEY_BASE}"
+  secret_key_base: "${SECRET_KEY_BASE}",
   url: [host: "${APP_NAME}.gigalixirapp.com", port: 443],
-  cache_static_manifest: "priv/static/cache_manifest.json",
+  cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Configure your database
 config :profilo, Profilo.Repo,
