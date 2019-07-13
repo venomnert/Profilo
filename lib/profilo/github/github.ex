@@ -2,11 +2,11 @@ defmodule Profilo.Github do
   @moduledoc """
   The Github context.
   """
-  alias Profilo.Entity
+  alias Profilo.{Entity, Accounts}
   alias Profilo.Accounts.Lib.User
 
   def get_followers(%User{} = user) do
-    init_github()
+    init_github(user)
     {:ok, %Neuron.Response{} = result} = Neuron.query("""
     {
       viewer {
@@ -63,9 +63,10 @@ defmodule Profilo.Github do
     |> get_next_followers(user, result.body["data"]["viewer"]["following"]["pageInfo"]["endCursor"])
   end
 
-  defp init_github() do
+  defp init_github(%User{} = user) do
+    user_identity = Accounts.get_user_identity!(user, "github")
     Neuron.Config.set(url: "https://api.github.com/graphql")
-    Neuron.Config.set(headers: ["Authorization": "Bearer 7b06bd9125cdace640267a059391a83baff1f4dc"])
+    Neuron.Config.set(headers: ["Authorization": "Bearer #{user_identity.access_token}"])
   end
 
   defp add_followings_to_profilo(data, %User{} = user) do
