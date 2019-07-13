@@ -103,10 +103,19 @@ defmodule Profilo.Entity do
     |> Repo.insert()
   end
 
-  def get_profile(%User{} = user, id) do
+  def get_profile(%User{} = user, id) when is_integer(id) do
     query = from p in Profile,
       where: p.user_id == ^user.id,
       where: p.id == ^id,
+      select: p
+
+    Repo.one!(query)
+  end
+
+  def get_profile(%User{} = user, name) when is_binary(name) do
+    query = from p in Profile,
+      where: p.user_id == ^user.id,
+      where: p.name == ^name,
       select: p
 
     Repo.one!(query)

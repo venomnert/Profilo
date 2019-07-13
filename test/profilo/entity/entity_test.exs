@@ -168,6 +168,14 @@ defmodule Profilo.EntityTest do
       assert new_profile.avatar_url == @valid_profile_attrs.avatar_url
     end
 
+    test "get_profile/2 returns the profile with given name", state do
+      {:ok, %Profile{} = new_profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
+
+      assert new_profile = Entity.get_profile(state[:user], new_profile.name)
+      assert new_profile.name == @valid_profile_attrs.name
+      assert new_profile.avatar_url == @valid_profile_attrs.avatar_url
+    end
+
     test "update_profile/3 with valid data updates the profile", state do
       {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
