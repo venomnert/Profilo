@@ -1,12 +1,6 @@
 defmodule ProfiloWeb.Plug.AbsintheContext do
   @behaviour Plug
 
-  import Plug.Conn
-  import Ecto.Query, only: [where: 2]
-
-  alias Profilo.Repo
-  alias Profilo.Accounts.Lib.User
-
   def init(opts), do: opts
 
   def call(conn, _) do
