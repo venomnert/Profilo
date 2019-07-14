@@ -82,8 +82,8 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
   }
   """
   @profile_query """
-  {
-    profile(name: "Kyle Simpson") {
+  query($name: String) {
+    profile(name: $name) {
       name
       followings {
         name
@@ -183,7 +183,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
 
   test "profile field returns specific profile items and associated following items", state do
 
-    {:ok, %{data: %{"profile" => returned_profile}}} = Absinthe.run(@profile_query, Schema, context: state[:context])
+    {:ok, %{data: %{"profile" => returned_profile}}} = Absinthe.run(@profile_query, Schema, variables: %{"name" => "Kyle Simpson"}, context: state[:context])
 
     assert returned_profile == %{
                                   "name" => "Kyle Simpson",

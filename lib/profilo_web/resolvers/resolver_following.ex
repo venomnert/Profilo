@@ -1,5 +1,6 @@
 defmodule ProfiloWeb.ResolverFollowing do
   alias Profilo.Entity
+
   def get_following(_, %{id: id}, %{context: %{current_user: current_user}}) do
     {:ok, Entity.get_following(current_user, id)}
   end
