@@ -42,5 +42,6 @@ defmodule Profilo.Accounts.Lib.User do
     |> pow_changeset(attrs)
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> unique_constraint(:email)
   end
 end
