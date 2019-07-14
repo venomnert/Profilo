@@ -3,8 +3,8 @@ use Mix.Config
 config :profilo, :pow_assent,
   providers: [
     github: [
-      client_id: "54fcf4d0d72ec4e8cf15",
-      client_secret: "ea2c8bb18819816c0dbf3b993eb5dfdb3e41a2fb",
+      client_id: "bc93ca24330b5030f388",
+      client_secret: "4f864e2ca3b20d81773c33786b16cd2f910af89c",
       strategy: Profilo.Github.Strategy
     ],
     twitter: [
