@@ -1,7 +1,7 @@
 defmodule Profilo.Repo.Migrations.UpdateUserIdentityTable do
   use Ecto.Migration
 
-  def change do
+  def up do
     alter table(:user_identities) do
       add :name, :string
     end
