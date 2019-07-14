@@ -14,4 +14,14 @@ defmodule ProfiloWeb.ResolverProfile do
   def list_profile_followings(%Profile{} = profile, _, %{context: %{current_user: current_user}}) do
     {:ok, Entity.list_profile_followings(current_user, profile)}
   end
+  def create_profile(_, %{input: attrs}, %{context: %{current_user: current_user}}) do
+    case Entity.create_profile(current_user, attrs) do
+      {:ok, %Profile{} = profile} -> {:ok, profile}
+      {:error, %Ecto.Changeset{} = error} ->
+        error_message = error.errors
+                        |> Keyword.get(:name)
+                        |> elem(0)
+        {:error, error_message}
+    end
+  end
 end

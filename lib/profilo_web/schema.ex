@@ -6,7 +6,7 @@ defmodule ProfiloWeb.Schema do
   query do
 
     @desc "Following item retrieved based id or name"
-    field(:following, non_null(:following)) do
+    field :following, non_null(:following) do
       arg :id, :integer
       arg :name, :string
       resolve &ResolverFollowing.get_following/3
@@ -19,7 +19,7 @@ defmodule ProfiloWeb.Schema do
       resolve &ResolverFollowing.get_following/3
     end
 
-    field(:profile, non_null(:profile)) do
+    field :profile, non_null(:profile) do
       arg :id, :integer
       arg :name, :string
       resolve &ResolverProfile.get_profile/3
@@ -36,6 +36,13 @@ defmodule ProfiloWeb.Schema do
 
     field :social_links, list_of(:social_link) do
       resolve &ResolverSocialLink.get_social_link/3
+    end
+  end
+
+  mutation do
+    field :create_profile, :profile do
+      arg :input, non_null(:profile_input)
+      resolve &ResolverProfile.create_profile/3
     end
   end
 
@@ -61,5 +68,10 @@ defmodule ProfiloWeb.Schema do
       resolve &ResolverProfile.list_profile_followings/3
     end
 
+  end
+
+  input_object :profile_input do
+    field :name, non_null(:string)
+    field :avatar_url, non_null(:string)
   end
 end
