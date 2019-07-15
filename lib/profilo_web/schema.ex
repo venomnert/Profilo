@@ -44,6 +44,24 @@ defmodule ProfiloWeb.Schema do
       arg :input, non_null(:profile_input)
       resolve &ResolverProfile.create_profile/3
     end
+
+    field :update_profile, :profile do
+      arg :id, non_null(:integer)
+      arg :input, non_null(:profile_input)
+      resolve &ResolverProfile.update_profile/3
+    end
+
+    field :link_following_to_profile, :profile do
+      arg :id, non_null(:integer)
+      arg :followings, non_null(list_of(:integer))
+      resolve &ResolverProfile.link_following_to_profile/3
+    end
+
+    field :unlink_following_to_profile, :profile do
+      arg :id, non_null(:integer)
+      arg :followings, non_null(list_of(:integer))
+      resolve &ResolverProfile.unlink_following_to_profile/3
+    end
   end
 
   object :following do
@@ -67,11 +85,12 @@ defmodule ProfiloWeb.Schema do
     field :followings, list_of(:following) do
       resolve &ResolverProfile.list_profile_followings/3
     end
-
   end
 
   input_object :profile_input do
     field :name, non_null(:string)
     field :avatar_url, non_null(:string)
+    field :followings, list_of(:integer)
   end
+
 end

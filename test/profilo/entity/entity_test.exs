@@ -179,7 +179,7 @@ defmodule Profilo.EntityTest do
     test "update_profile/3 with valid data updates the profile", state do
       {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
-      update_profile = Entity.update_profile(state[:user], profile, @update_profile_attrs)
+      {:ok, update_profile} = Entity.update_profile(state[:user], profile, @update_profile_attrs)
       assert update_profile.name == @update_profile_attrs.name
       assert update_profile.avatar_url == @update_profile_attrs.avatar_url
     end
@@ -187,9 +187,7 @@ defmodule Profilo.EntityTest do
     test "update_profile/3 with invalid data returns error changeset", state do
       {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
-      assert_raise Ecto.InvalidChangesetError, fn ->
-        Entity.update_profile(state[:user], profile, @invalid_profile_attrs)
-      end
+      assert {:error, %Ecto.Changeset{} = error} = Entity.update_profile(state[:user], profile, @invalid_profile_attrs)
     end
 
     test "add_following_to_profile/3 with a new following", state do

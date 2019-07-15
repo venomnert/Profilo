@@ -31,7 +31,7 @@ defmodule Profilo.Entity do
       where: f.id == ^id,
       select: f
 
-    Repo.one!(query)
+    Repo.one(query)
   end
 
   def get_following(%User{} = user, name) when is_binary(name) do
@@ -40,7 +40,7 @@ defmodule Profilo.Entity do
       where: f.name == ^name,
       select: f
 
-    Repo.one!(query)
+    Repo.one(query)
   end
 
   def add_following_to_profile(%User{} = user, %Profile{} = profile, %Following{} = following) do
@@ -109,7 +109,7 @@ defmodule Profilo.Entity do
       where: p.id == ^id,
       select: p
 
-    Repo.one!(query)
+    Repo.one(query)
   end
 
   def get_profile(%User{} = user, name) when is_binary(name) do
@@ -118,13 +118,13 @@ defmodule Profilo.Entity do
       where: p.name == ^name,
       select: p
 
-    Repo.one!(query)
+    Repo.one(query)
   end
 
   def update_profile(%User{} = user, %Profile{} = profile, attrs) do
     get_profile(user, profile.id)
     |> Profile.changeset(attrs)
-    |> Repo.update!()
+    |> Repo.update()
   end
 
   @spec delete_profile(Profilo.Accounts.Lib.User.t(), Profilo.Entity.Lib.Profile.t()) :: any
@@ -152,7 +152,7 @@ defmodule Profilo.Entity do
       where: s.id == ^id,
       select: s
 
-    Repo.one!(query)
+    Repo.one(query)
   end
 
   def get_social_link(name) when is_binary(name) do
@@ -160,7 +160,7 @@ defmodule Profilo.Entity do
       where: s.name == ^name,
       select: s
 
-    Repo.one!(query)
+    Repo.one(query)
   end
 
   def update_social_link(%SocialLink{} = social_link, attrs) do
