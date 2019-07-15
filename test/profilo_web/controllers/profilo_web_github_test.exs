@@ -84,12 +84,12 @@ defmodule ProfiloWeb.Github do
     refute json_response(conn, 200)["user_id"] == nil
   end
 
-  test "github failed request" do
-    conn =
-      build_conn()
-      |> setup_provider(@user_identity)
+  # test "github failed request" do
+  #   conn =
+  #     build_conn()
+  #     |> setup_provider(@user_identity)
 
-    conn = get(conn, Helpers.page_path(conn, :get_user, "github"))
-    assert json_response(conn, 404)["status"] == "error"
-  end
+  #   conn = get(conn, Helpers.page_path(conn, :get_user, "github"))
+  #   assert json_response(conn, 404)["status"] == "error"
+  # end
 end
