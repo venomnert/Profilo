@@ -45,7 +45,9 @@ defmodule ProfiloWeb.Router do
 
     forward "/graphiql", Absinthe.Plug.GraphiQL,
       schema: ProfiloWeb.Schema,
-      interface: :simple
+      interface: :simple,
+      socket: ProfiloWeb.UserSocket
+
   end
 
   scope "/api", ProfiloWeb do
