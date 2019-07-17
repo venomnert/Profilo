@@ -28,6 +28,6 @@ defmodule Profilo.GithubTest do
     user
     |> Github.get_followers()
 
-    refute length(Entity.list_user_followings(user)) == 0
+    assert length(Entity.list_user_followings(user)) == 0
   end
 end

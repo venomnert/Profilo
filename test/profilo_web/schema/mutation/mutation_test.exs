@@ -10,7 +10,7 @@ defmodule ProfiloWeb.Schema.Mutation.MutationTest do
     %{
       "node" => %{
         "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
-        "isHireable" => true,
+        "login" => "getify",
         "name" => "Kyle Simpson"
       }
     }
@@ -72,6 +72,7 @@ defmodule ProfiloWeb.Schema.Mutation.MutationTest do
       avatarUrl
       followings {
         name
+        screenName
       }
     }
   }
@@ -93,9 +94,8 @@ defmodule ProfiloWeb.Schema.Mutation.MutationTest do
     {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
 
     @github_following
-    |> Enum.each(fn %{"node" => %{"name" => name, "avatarUrl" => avatarUrl}} ->
-      attrs = %{name: name, avatar_url: avatarUrl}
-      case Entity.create_following(user, social_link, attrs) do
+    |> Enum.each(fn single_following ->
+      case Entity.create_github_following(user, single_following) do
         {:ok, _} -> "Following created"
         {:error, %Ecto.Changeset{}} -> "Following already exisits"
       end
@@ -144,7 +144,10 @@ defmodule ProfiloWeb.Schema.Mutation.MutationTest do
                                 "name" => "Kyle Simpson",
                                 "avatarUrl" => "https://profilo.app",
                                 "followings" => [
-                                  %{ "name" => "Kyle Simpson" }
+                                  %{
+                                    "name" => "Kyle Simpson",
+                                    "screenName" => "getify"
+                                  }
                                 ]
                               }
 
