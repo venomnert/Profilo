@@ -25,6 +25,26 @@ defmodule Profilo.Github do
     }
   }
   """
+  @following_next_query """
+  query($cursor: String){
+    viewer {
+        following(first: 20, after: $cursor) {
+        totalCount
+          edges {
+            node {
+              avatarUrl
+              name
+              login
+            }
+          }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+  """
 
   def get_followers(%User{} = user) do
     init_github(user)
@@ -37,7 +57,7 @@ defmodule Profilo.Github do
 
   def get_next_followers(false, %User{} = _user, _cursor), do: false
   def get_next_followers(true, %User{} = user, cursor) do
-    {:ok, %Neuron.Response{} = result} = Neuron.query(@following_query)
+    {:ok, %Neuron.Response{} = result} = Neuron.query(@following_next_query, %{cursor: cursor})
     result.body["data"]["viewer"]["following"]["edges"]
     |> add_followings_to_profilo(user)
 
