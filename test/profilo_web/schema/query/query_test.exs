@@ -10,8 +10,8 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
     %{
       "node" => %{
         "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
-        "isHireable" => true,
-        "name" => "Kyle Simpson"
+        "name" => "Kyle Simpson",
+        "login" => "getify"
       }
     }
   ]
@@ -49,6 +49,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
     followings {
       name
       avatarUrl
+      screenName
       socialLinkId
     }
   }
@@ -57,6 +58,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
   {
     followings(profileName: "Kyle Simpson") {
       name
+      screenName
     }
   }
   """
@@ -66,6 +68,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
     following(name: "Kyle Simpson") {
       name
       avatarUrl
+      screenName
       socialLinkId
     }
   }
@@ -77,6 +80,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
       name
       followings {
         name
+        screenName
       }
     }
   }
@@ -87,6 +91,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
       name
       followings {
         name
+        screenName
       }
     }
   }
@@ -105,9 +110,8 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
     {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
 
     @github_following
-    |> Enum.each(fn %{"node" => %{"name" => name, "avatarUrl" => avatarUrl}} ->
-      attrs = %{name: name, avatar_url: avatarUrl}
-      case Entity.create_following(user, social_link, attrs) do
+    |> Enum.each(fn single_following ->
+      case Entity.create_github_following(user, single_following) do
         {:ok, _} -> "Following created"
         {:error, %Ecto.Changeset{}} -> "Following already exisits"
       end
@@ -139,6 +143,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
                                     %{
                                       "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
                                       "name" => "Kyle Simpson",
+                                      "screenName" => "getify",
                                       "socialLinkId" => "#{state[:social_link].id}"
                                     }
                                   ]
@@ -150,6 +155,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
     assert returned_followings == [
                                     %{
                                       "name" => "Kyle Simpson",
+                                      "screenName" => "getify"
                                     }
                                   ]
   end
@@ -160,6 +166,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
 
     assert returned_following == %{
                                   "name" => "Kyle Simpson",
+                                  "screenName" => "getify",
                                   "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
                                   "socialLinkId" => "#{state[:social_link].id}"
                                 }
@@ -174,7 +181,8 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
                                     "name" => "Kyle Simpson",
                                     "followings" => [
                                       %{
-                                        "name" => "Kyle Simpson"
+                                        "name" => "Kyle Simpson",
+                                        "screenName" => "getify"
                                       }
                                     ],
                                   }
@@ -189,7 +197,8 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
                                   "name" => "Kyle Simpson",
                                   "followings" => [
                                     %{
-                                      "name" => "Kyle Simpson"
+                                      "name" => "Kyle Simpson",
+                                      "screenName" => "getify"
                                     }
                                   ],
                                 }

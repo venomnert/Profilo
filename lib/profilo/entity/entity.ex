@@ -80,6 +80,12 @@ defmodule Profilo.Entity do
     |> Repo.delete!()
   end
 
+  def create_github_following(%User{} = user, %{"node" => %{"name" => name, "avatarUrl" => avatarUrl, "login" => screen_name}}) do
+    social_link = get_social_link("github")
+    attrs = %{name: name, avatar_url: avatarUrl, screen_name: screen_name}
+    create_following(user, social_link, attrs)
+  end
+
   def create_following(%User{} = user, %SocialLink{} = social_link, attrs \\ %{}) do
     Following.new_following_changeset(user, social_link, attrs)
     |> Repo.insert()

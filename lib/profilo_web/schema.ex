@@ -76,6 +76,7 @@ defmodule ProfiloWeb.Schema do
     field :id, :id
     field :name, :string
     field :avatar_url, :string
+    field :screen_name, :string
     field :social_link_id, :id
     field :profile_id, :id
   end

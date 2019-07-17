@@ -6,6 +6,14 @@ defmodule Profilo.EntityTest do
 
   alias Profilo.Test.UserTestHelper
 
+  @valid_github_following %{
+    "node" => %{
+      "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
+      "name" => "Kyle Simpson",
+      "login" => "getify"
+    }
+  }
+
   @valid__user_attrs %{
     email: "test@gmail.com",
     password: "1234567890",
@@ -35,10 +43,12 @@ defmodule Profilo.EntityTest do
   @valid_following_attrs %{
     name: "Wes Bos",
     avatar_url: "https://avatars2.githubusercontent.com/u/577441?v=4",
+    screen_name: "wesbos"
   }
   @invalid_following_attrs %{
     id: 1,
     name: nil,
+    screen_name: nil,
     avatar_url: nil,
     profile_id: nil,
     user_id: nil
@@ -67,6 +77,16 @@ defmodule Profilo.EntityTest do
       assert {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
       assert following.name == @valid_following_attrs.name
       assert following.avatar_url == @valid_following_attrs.avatar_url
+      assert following.screen_name == @valid_following_attrs.screen_name
+    end
+
+    test "create_github_following/2 with valid data creates a github following with nil profile", state do
+      Entity.create_social_link(@valid_social_link_attrs)
+
+      assert {:ok, %Following{} = following} = Entity.create_github_following(state[:user], @valid_github_following)
+      assert following.name == @valid_github_following["node"]["name"]
+      assert following.avatar_url == @valid_github_following["node"]["avatarUrl"]
+      assert following.screen_name == @valid_github_following["node"]["login"]
     end
 
     test "test duplicate following creation", state do

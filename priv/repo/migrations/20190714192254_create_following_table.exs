@@ -5,6 +5,7 @@ defmodule Profilo.Repo.Migrations.CreateFollowingTable do
     create table(:following) do
       add :name, :string
       add :avatar_url, :string
+      add :screen_name, :string
       add :user_id, references("users")
       add :profile_id, references("profile")
       add :social_link_id, references("social_link")

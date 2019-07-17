@@ -14,7 +14,7 @@ defmodule Profilo.Github do
             node {
               avatarUrl
               name
-              isHireable
+              login
             }
           }
         pageInfo {
@@ -37,26 +37,7 @@ defmodule Profilo.Github do
 
   def get_next_followers(false, %User{} = _user, _cursor), do: false
   def get_next_followers(true, %User{} = user, cursor) do
-    {:ok, %Neuron.Response{} = result} = Neuron.query("""
-    {
-      viewer {
-          following(first: 20, after: "#{cursor}") {
-          totalCount
-            edges {
-              node {
-                avatarUrl
-                name
-                isHireable
-              }
-            }
-          pageInfo {
-            hasNextPage
-            endCursor
-          }
-        }
-      }
-    }
-    """)
+    {:ok, %Neuron.Response{} = result} = Neuron.query(@following_query)
     result.body["data"]["viewer"]["following"]["edges"]
     |> add_followings_to_profilo(user)
 
@@ -72,10 +53,8 @@ defmodule Profilo.Github do
 
   defp add_followings_to_profilo(data, %User{} = user) do
     data
-    |> Enum.each(fn %{"node" => %{"name" => name, "avatarUrl" => avatarUrl}} ->
-      social_link = Entity.get_social_link("github")
-      attrs = %{name: name, avatar_url: avatarUrl}
-      case Entity.create_following(user, social_link, attrs) do
+    |> Enum.each(fn single_following ->
+      case Entity.create_github_following(user, single_following) do
         {:ok, _} -> "Following created"
         {:error, %Ecto.Changeset{}} -> "Following already exisits"
       end
