@@ -21,6 +21,10 @@ defmodule Profilo.Accounts.Lib.User do
       on_delete: :delete_all,
       foreign_key: :user_id
 
+    has_many :feed_node, Profilo.Entity.Lib.FeedNode,
+      on_delete: :delete_all,
+      foreign_key: :user_id
+
     field :first_name, :string
     field :last_name, :string
     field :address, :string

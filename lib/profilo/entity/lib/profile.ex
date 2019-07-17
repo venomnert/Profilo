@@ -1,7 +1,7 @@
 defmodule Profilo.Entity.Lib.Profile do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Profilo.Entity.Lib.{Following, Profile}
+  alias Profilo.Entity.Lib.{Following, Profile, FeedNode}
   alias Profilo.Accounts.Lib.User
 
   schema "profile" do
@@ -9,6 +9,11 @@ defmodule Profilo.Entity.Lib.Profile do
     field :avatar_url, :string
 
     has_many :following, Following,
+      on_delete: :delete_all,
+      foreign_key: :profile_id,
+      on_replace: :nilify
+
+    has_many :feed_node, FeedNode,
       on_delete: :delete_all,
       foreign_key: :profile_id,
       on_replace: :nilify

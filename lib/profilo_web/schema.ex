@@ -64,6 +64,14 @@ defmodule ProfiloWeb.Schema do
     end
   end
 
+  subscription do
+    field :new_profile, :profile do
+      config fn _args, _info ->
+        {:ok, topic: "*"}
+      end
+    end
+  end
+
   object :following do
     field :id, :id
     field :name, :string
