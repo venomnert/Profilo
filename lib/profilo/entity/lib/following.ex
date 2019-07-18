@@ -3,7 +3,7 @@ defmodule Profilo.Entity.Lib.Following do
   import Ecto.Changeset
 
   alias Profilo.Accounts.Lib.User
-  alias Profilo.Entity.Lib.{Profile, SocialLink}
+  alias Profilo.Entity.Lib.{Profile, SocialLink, Following}
 
   schema "following" do
     field :name, :string
@@ -26,15 +26,12 @@ defmodule Profilo.Entity.Lib.Following do
   end
 
   def new_following_changeset(%User{} = curr_user, %SocialLink{} = social_link, attrs) do
-    following_with_user = curr_user
-                          |> Ecto.build_assoc(:following)
-
-    following_with_social_link = social_link
-                                  |> Ecto.build_assoc(:following)
-
-    %{ following_with_user | social_link_id: following_with_social_link.social_link_id}
+    [curr_user, social_link]
+    |> Enum.reduce(%Following{}, fn (has_many, following) ->
+        has_many
+        |> Ecto.build_assoc(:following, following)
+      end)
     |> changeset(attrs)
-
   end
 end
 

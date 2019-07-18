@@ -212,7 +212,6 @@ defmodule Profilo.EntityTest do
 
     test "add_following_to_profile/3 with a new following", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
-
       {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
       {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
@@ -317,4 +316,94 @@ defmodule Profilo.EntityTest do
       assert social_link = Entity.delete_social_link(social_link)
     end
   end
+
+  # describe "feed_node" do
+
+  #   test "create_feed_node/3 with valid data creates a following with nil profile", state do
+  #     {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+
+  #     assert {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+  #     assert following.name == @valid_following_attrs.name
+  #     assert following.avatar_url == @valid_following_attrs.avatar_url
+  #     assert following.screen_name == @valid_following_attrs.screen_name
+  #   end
+
+  #   test "create_github_following/2 with valid data creates a github following with nil profile", state do
+  #     Entity.create_social_link(@valid_social_link_attrs)
+
+  #     assert {:ok, %Following{} = following} = Entity.create_github_following(state[:user], @valid_github_following)
+  #     assert following.name == @valid_github_following["node"]["name"]
+  #     assert following.avatar_url == @valid_github_following["node"]["avatarUrl"]
+  #     assert following.screen_name == @valid_github_following["node"]["login"]
+  #   end
+
+  #   test "test duplicate following creation", state do
+  #     {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+  #     {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
+  #     {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+
+  #     Entity.add_following_to_profile(state[:user], profile, following)
+
+  #     {:error, %Ecto.Changeset{}} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+
+  #     assert length(Entity.list_user_followings(state[:user])) == 1
+  #   end
+
+  #   test "create_following/3 with invalid data returns error changeset", state do
+  #     {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+
+  #     assert {:error, %Ecto.Changeset{}} = Entity.create_following(state[:user], social_link, @invalid_following_attrs)
+  #   end
+
+  #   test "list_user_followings/1 returns all followings by user", state do
+  #     {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+  #     Entity.create_following(state[:user], social_link, @valid_following_attrs)
+
+  #     [first | _ ] = Entity.list_user_followings(state[:user])
+  #     assert first.name == @valid_following_attrs.name
+  #     assert first.avatar_url == @valid_following_attrs.avatar_url
+  #   end
+
+  #   test "list_profile_followings/2 returns all followings by profile", state do
+  #     {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+
+  #     {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+  #     {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
+
+  #     profile = Entity.add_following_to_profile(state[:user], profile, following)
+
+  #     [first | _ ] = Entity.list_profile_followings(state[:user], profile)
+  #     assert first.name == @valid_following_attrs.name
+  #     assert first.avatar_url == @valid_following_attrs.avatar_url
+  #   end
+
+  #   test "get_following!/2 returns the following with given id", state do
+  #     {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+
+  #     {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+
+  #     added_following = Entity.get_following(state[:user], following.id)
+
+  #     assert added_following.name == @valid_following_attrs.name
+  #     assert added_following.avatar_url == @valid_following_attrs.avatar_url
+  #   end
+
+  #   test "get_following!/2 returns the following with given name", state do
+  #     {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+  #     {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+
+  #     added_following = Entity.get_following(state[:user], following.name)
+
+  #     assert added_following.name == @valid_following_attrs.name
+  #     assert added_following.avatar_url == @valid_following_attrs.avatar_url
+  #   end
+
+  #   test "delete_following/1 deletes the following", state do
+  #     {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+
+  #     {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+
+  #     assert following = Entity.delete_following(state[:user], following)
+  #   end
+  # end
 end

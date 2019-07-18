@@ -1,7 +1,11 @@
 defmodule ProfiloWeb.Schema do
   use Absinthe.Schema
 
-  alias ProfiloWeb.{ResolverFollowing, ResolverProfile, ResolverSocialLink}
+  alias ProfiloWeb.{
+            ResolverFollowing,
+            ResolverFeedNode,
+            ResolverProfile,
+            ResolverSocialLink}
 
   query do
 
@@ -18,6 +22,13 @@ defmodule ProfiloWeb.Schema do
       arg :profile_name, :string
       resolve &ResolverFollowing.get_following/3
     end
+
+    @desc "Get all the feed node by profile id"
+    # field :feed_nodes, list_of(:feed_node) do
+    #   arg :profile_id, :integer
+    #   arg :profile_name, :string
+    #   resolve &ResolverFeedNode.get_feed_node/3
+    # end
 
     field :profile, non_null(:profile) do
       arg :id, :integer
@@ -94,6 +105,10 @@ defmodule ProfiloWeb.Schema do
     field :followings, list_of(:following) do
       resolve &ResolverProfile.list_profile_followings/3
     end
+  end
+
+  object :feed_node do
+    field :description, :string
   end
 
   input_object :profile_input do
