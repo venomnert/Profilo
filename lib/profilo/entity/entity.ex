@@ -176,78 +176,46 @@ defmodule Profilo.Entity do
   end
 
   # --------------- FeedNode API ---------------
-  # def list_profile_feed_node(%User{} = user, %Profile{} = profile) do
-  #   query = from f in Following,
-  #           where: f.user_id == ^user.id,
-  #           where: f.profile_id == ^profile.id,
-  #           select: f
+  def list_social_link_feed_node(%User{} = user, %SocialLink{} = social_link) do
+    query = from f in FeedNode,
+            where: f.user_id == ^user.id,
+            where: f.social_link_id == ^social_link.id,
+            select: f
 
-  #   Repo.all(query)
-  # end
+    Repo.all(query)
+  end
 
-  # def get_feed_node(%User{} = user, id) when is_integer(id) do
-  #   query = from f in Following,
-  #     where: f.user_id == ^user.id,
-  #     where: f.id == ^id,
-  #     select: f
+  def list_profile_feed_node(%User{} = user, %Profile{} = profile) do
+    query = from f in FeedNode,
+            where: f.user_id == ^user.id,
+            where: f.profile_id == ^profile.id,
+            select: f
 
-  #   Repo.one(query)
-  # end
+    Repo.all(query)
+  end
 
-  # def get_feed_node(%User{} = user, name) when is_binary(name) do
-  #   query = from f in Following,
-  #     where: f.user_id == ^user.id,
-  #     where: f.name == ^name,
-  #     select: f
+  def get_feed_node(%User{} = user, id) when is_integer(id) do
+    query = from f in FeedNode,
+      where: f.user_id == ^user.id,
+      where: f.id == ^id,
+      select: f
 
-  #   Repo.one(query)
-  # end
+    Repo.one(query)
+  end
 
-  # def add_feed_node_to_profile(%User{} = user, %Profile{} = profile, %FeedNode{} = feed_node) do
-  #   loaded_profile = get_profile(user, profile.id)
-  #   |> Repo.preload(:following)
+  def delete_feed_node(%User{} = user, id) when is_integer(id) do
+    get_feed_node(user, id)
+    |> Repo.delete!()
+  end
 
-  #   loaded_profile
-  #   |> Profile.changeset(%{})
-  #   |> Ecto.Changeset.put_assoc(:following, append_following(following, loaded_profile.following))
-  #   |> Repo.update!()
-  # end
+  def create_github_feed_node(%User{} = user, %Profile{} = profile, attrs \\ %{}) do
+    social_link = get_social_link("github")
+    create_feed_node(user, profile, social_link, attrs)
+  end
 
-  # defp append_following(following, []), do: [following]
-  # defp append_following(following, following_list) do
-  #   [following | following_list]
-  #   |> Enum.uniq_by(fn(%Following{} = following) -> following.id end)
-  # end
-
-  # def removing_feed_node_from_profile(%User{} = user, %Profile{} = profile, %FeedNode{} = feed_node) do
-  #   loaded_profile = get_profile(user, profile.id)
-  #   |> Repo.preload(:following)
-
-  #   loaded_profile
-  #   |> Profile.changeset(%{})
-  #   |> Ecto.Changeset.put_assoc(:following, remove_following(following, loaded_profile.following))
-  #   |> Repo.update!()
-  # end
-
-  # defp remove_feed_node(following, []), do: [following]
-  # defp remove_feed_node(following, following_list) do
-  #   following_list
-  #   |> Enum.filter(fn curr_following -> curr_following.id != following.id end)
-  # end
-
-  # def delete_feed_node(%User{} = user, %FeedNode{} = feed_node) do
-  #   get_following(user, following.id)
-  #   |> Repo.delete!()
-  # end
-
-  # def create_github_feed_node(%User{} = user, %Profile{} = profile, attrs \\ %{}) do
-  #   FeedNode.new_following_changeset(user, social_link, attrs)
-  #   |> Repo.insert()
-  # end
-
-  # def create_feed_node(%User{} = user, %Profile{} = profile, %SocialLink{} = social_link, attrs \\ %{}) do
-  #   FeedNode.create_new_feed_changeset(user, social_link, attrs)
-  #   |> Repo.insert()
-  # end
+  def create_feed_node(%User{} = user, %Profile{} = profile, %SocialLink{} = social_link, attrs \\ %{}) do
+    FeedNode.create_new_feed_changeset(user, profile, social_link, attrs)
+    |> Repo.insert()
+  end
 
 end

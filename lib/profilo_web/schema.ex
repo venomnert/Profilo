@@ -16,19 +16,27 @@ defmodule ProfiloWeb.Schema do
       resolve &ResolverFollowing.get_following/3
     end
 
-    @desc "List of following items by profile id"
+    @desc "List of following items by profile id/name"
     field :followings, list_of(:following) do
       arg :profile_id, :integer
       arg :profile_name, :string
       resolve &ResolverFollowing.get_following/3
     end
 
-    @desc "Get all the feed node by profile id"
-    # field :feed_nodes, list_of(:feed_node) do
-    #   arg :profile_id, :integer
-    #   arg :profile_name, :string
-    #   resolve &ResolverFeedNode.get_feed_node/3
-    # end
+    @desc "Get all the feed node by profile or social_links id/name"
+    field :feed_nodes, list_of(:feed_node) do
+      arg :profile_id, :integer
+      arg :profile_name, :string
+      arg :social_link_id, :integer
+      arg :social_link_name, :string
+      resolve &ResolverFeedNode.list_feed_node/3
+    end
+
+    @desc "Get a feed node by its id"
+    field :feed_node, non_null(:feed_node) do
+      arg :id, :integer
+      resolve &ResolverFeedNode.get_feed_node/3
+    end
 
     field :profile, non_null(:profile) do
       arg :id, :integer
@@ -109,6 +117,15 @@ defmodule ProfiloWeb.Schema do
 
   object :feed_node do
     field :description, :string
+
+    field :profile, non_null(:profile) do
+      resolve &ResolverFeedNode.get_profile/3
+    end
+
+    field :social_link, non_null(:social_link) do
+      resolve &ResolverFeedNode.get_social_link/3
+    end
+
   end
 
   input_object :profile_input do

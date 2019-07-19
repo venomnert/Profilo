@@ -6,25 +6,33 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
   alias Profilo.Test.UserTestHelper
   alias ProfiloWeb.Schema
 
+  @name "Kyle Simpson"
+  @screen_name "getify"
+  @social_link "github"
+
   @github_following [
     %{
       "node" => %{
         "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
-        "name" => "Kyle Simpson",
-        "login" => "getify"
+        "name" => "#{@name}",
+        "login" => "#{@screen_name}"
       }
     }
   ]
-
+  @github_feed_node [
+    %{"description" => "this is a test"}
+  ]
   @profiles [
     %{
-      "name" => "Kyle Simpson",
+      "name" => "#{@name}",
       "avatar_url" => "https://profilo.app"
     }
   ]
+
+
   @update_profiles %{
     "Kyle Simpson" => %{
-      "following" => "Kyle Simpson"
+      "following" => "#{@name}"
     }
   }
 
@@ -41,7 +49,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
     website: "some website"
   }
   @valid_social_link_attrs %{
-    name: "github",
+    name: "#{@social_link}",
   }
 
   @followings_by_user_query """
@@ -56,7 +64,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
   """
   @followings_by_profile_query"""
   {
-    followings(profileName: "Kyle Simpson") {
+    followings(profileName: "#{@name}") {
       name
       screenName
     }
@@ -65,7 +73,7 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
 
   @following_query """
   {
-    following(name: "Kyle Simpson") {
+    following(name: "#{@name}") {
       name
       avatarUrl
       screenName
@@ -105,6 +113,30 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
   }
   """
 
+  @feed_nodes_by_profile_query """
+  query($id: Int){
+    feedNodes(profileId: $id){
+       description
+   }
+  }
+  """
+  @feed_nodes_by_social_link_query """
+  query($name: String){
+    feedNodes(socialLinkName: $name){
+       description
+   }
+  }
+  """
+  @feed_node_query """
+  query($id: Int) {
+    feedNode(id: $id) {
+      description
+      profile { name }
+      socialLink { name }
+    }
+  }
+  """
+
   setup do
     user = UserTestHelper.user_fixture(@valid_user_attrs)
     {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
@@ -122,6 +154,15 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
       {:ok, profile } = Entity.create_profile(user, attr)
       following = Entity.get_following(user, @update_profiles[attr["name"]]["following"])
       Entity.add_following_to_profile(user, profile, following)
+    end)
+
+    @github_feed_node
+    |> Enum.each(fn single_feed_node ->
+      profile = Entity.get_profile(user, "#{@name}")
+      case Entity.create_github_feed_node(user, profile, single_feed_node) do
+        {:ok, _} -> "Feed_node created"
+        {:error, %Ecto.Changeset{}} -> "Feed_node already exisits"
+      end
     end)
 
     conn = build_conn()
@@ -142,8 +183,8 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
     assert returned_followings == [
                                     %{
                                       "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
-                                      "name" => "Kyle Simpson",
-                                      "screenName" => "getify",
+                                      "name" => "#{@name}",
+                                      "screenName" => "#{@screen_name}",
                                       "socialLinkId" => "#{state[:social_link].id}"
                                     }
                                   ]
@@ -154,19 +195,19 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
 
     assert returned_followings == [
                                     %{
-                                      "name" => "Kyle Simpson",
-                                      "screenName" => "getify"
+                                      "name" => "#{@name}",
+                                      "screenName" => "#{@screen_name}"
                                     }
                                   ]
   end
 
-  test "following field returns specific following items", state do
+  test "following field returns specific following item", state do
 
     {:ok, %{data: %{"following" => returned_following}}} = Absinthe.run(@following_query, Schema, context: state[:context])
 
     assert returned_following == %{
-                                  "name" => "Kyle Simpson",
-                                  "screenName" => "getify",
+                                  "name" => "#{@name}",
+                                  "screenName" => "#{@screen_name}",
                                   "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
                                   "socialLinkId" => "#{state[:social_link].id}"
                                 }
@@ -178,11 +219,11 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
 
     assert returned_profiles == [
                                   %{
-                                    "name" => "Kyle Simpson",
+                                    "name" => "#{@name}",
                                     "followings" => [
                                       %{
-                                        "name" => "Kyle Simpson",
-                                        "screenName" => "getify"
+                                        "name" => "#{@name}",
+                                        "screenName" => "#{@screen_name}"
                                       }
                                     ],
                                   }
@@ -191,14 +232,14 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
 
   test "profile field returns specific profile items and associated following items", state do
 
-    {:ok, %{data: %{"profile" => returned_profile}}} = Absinthe.run(@profile_query, Schema, variables: %{"name" => "Kyle Simpson"}, context: state[:context])
+    {:ok, %{data: %{"profile" => returned_profile}}} = Absinthe.run(@profile_query, Schema, variables: %{"name" => "#{@name}"}, context: state[:context])
 
     assert returned_profile == %{
-                                  "name" => "Kyle Simpson",
+                                  "name" => "#{@name}",
                                   "followings" => [
                                     %{
-                                      "name" => "Kyle Simpson",
-                                      "screenName" => "getify"
+                                      "name" => "#{@name}",
+                                      "screenName" => "#{@screen_name}"
                                     }
                                   ],
                                 }
@@ -208,8 +249,40 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
     {:ok, %{data: %{"socialLinks" => returned_social_links}}} = Absinthe.run(@social_links_query, Schema, context: state[:context])
 
     assert returned_social_links == [
-                                      %{ "name" => "github" }
+                                      %{ "name" => "#{@social_link}" }
                                     ]
+  end
+
+  test "feed_node field returns specific feed_node item", state do
+    [first_feed_node | _ ]= state[:context].current_user
+    |> Entity.list_social_link_feed_node(Entity.get_social_link("#{@social_link}"))
+
+    {:ok, %{data: %{"feedNode" => returned_feed_node}}} = Absinthe.run(@feed_node_query, Schema, variables: %{"id" => first_feed_node.id}, context: state[:context])
+
+    assert returned_feed_node == %{
+                                    "description" => "this is a test",
+                                    "profile" => %{ "name" => "#{@name}" },
+                                    "socialLink" => %{ "name" => "#{@social_link}" }
+                                  }
+  end
+
+  test "feed_nodes field returns feed_node items by profile", state do
+    profile= state[:context].current_user
+              |> Entity.get_profile("#{@name}")
+
+    {:ok, %{data: %{"feedNodes" => returned_feed_node}}} = Absinthe.run(@feed_nodes_by_profile_query, Schema, variables: %{"id" => profile.id}, context: state[:context])
+
+    assert returned_feed_node == [%{
+                                    "description" => "this is a test"
+                                  }]
+  end
+
+  test "feed_nodes field returns feed_node items by social_link", state do
+    {:ok, %{data: %{"feedNodes" => returned_feed_node}}} = Absinthe.run(@feed_nodes_by_social_link_query, Schema, variables: %{"name" => "#{@social_link}"}, context: state[:context])
+
+    assert returned_feed_node == [%{
+                                    "description" => "this is a test"
+                                  }]
   end
 
 end
