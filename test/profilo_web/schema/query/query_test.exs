@@ -78,6 +78,8 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
       avatarUrl
       screenName
       socialLinkId
+      profile { name }
+      socialLink { name }
     }
   }
   """
@@ -209,7 +211,9 @@ defmodule ProfiloWeb.Schema.Query.QueryTest do
                                   "name" => "#{@name}",
                                   "screenName" => "#{@screen_name}",
                                   "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
-                                  "socialLinkId" => "#{state[:social_link].id}"
+                                  "socialLinkId" => "#{state[:social_link].id}",
+                                  "profile" => %{  "name" => "#{@name}" },
+                                  "socialLink" => %{ "name" => "#{@social_link}" }
                                 }
   end
 

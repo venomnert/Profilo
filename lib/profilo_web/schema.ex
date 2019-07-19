@@ -20,7 +20,7 @@ defmodule ProfiloWeb.Schema do
     field :followings, list_of(:following) do
       arg :profile_id, :integer
       arg :profile_name, :string
-      resolve &ResolverFollowing.get_following/3
+      resolve &ResolverFollowing.list_followings/3
     end
 
     @desc "Get all the feed node by profile or social_links id/name"
@@ -98,6 +98,14 @@ defmodule ProfiloWeb.Schema do
     field :screen_name, :string
     field :social_link_id, :id
     field :profile_id, :id
+
+    field :profile, non_null(:profile) do
+      resolve &ResolverFollowing.get_profile/3
+    end
+
+    field :social_link, non_null(:social_link) do
+      resolve &ResolverFollowing.get_social_link/3
+    end
   end
 
   object :social_link do
