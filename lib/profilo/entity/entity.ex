@@ -75,8 +75,13 @@ defmodule Profilo.Entity do
     |> Enum.filter(fn curr_following -> curr_following.id != following.id end)
   end
 
-  def delete_following(%User{} = user, %Following{} = following) do
-    get_following(user, following.id)
+  def delete_following(%User{} = user, id) when is_integer(id) do
+    get_following(user, id)
+    |> Repo.delete!()
+  end
+
+  def delete_following(%User{} = user, name) when is_binary(name) do
+    get_following(user, name)
     |> Repo.delete!()
   end
 
@@ -129,8 +134,12 @@ defmodule Profilo.Entity do
     |> Repo.update()
   end
 
-  def delete_profile(%User{} = user, %Profile{} = profile) do
-    get_profile(user, profile.id)
+  def delete_profile(%User{} = user, id) when is_integer(id) do
+    get_profile(user, id)
+    |> Repo.delete!()
+  end
+  def delete_profile(%User{} = user, name) when is_binary(name) do
+    get_profile(user, name)
     |> Repo.delete!()
   end
 

@@ -157,13 +157,20 @@ defmodule Profilo.EntityTest do
       assert added_following.avatar_url == @valid_following_attrs.avatar_url
     end
 
-    test "delete_following/1 deletes the following", state do
+    test "delete_following/1 deletes the following by id", state do
       {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
-
       {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
 
-      assert following = Entity.delete_following(state[:user], following)
+      assert following = Entity.delete_following(state[:user], following.id)
     end
+
+    test "delete_following/1 deletes the following by name", state do
+      {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+      {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+
+      assert following = Entity.delete_following(state[:user], following.name)
+    end
+
   end
 
   describe "profile" do
@@ -263,10 +270,16 @@ defmodule Profilo.EntityTest do
       refute MapSet.equal?(following_list, updated_following_list)
     end
 
-    test "delete_profile/1 deletes the profile", state do
+    test "delete_profile/1 deletes the profile by id", state do
       {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
-      assert profile = Entity.delete_profile(state[:user], profile)
+      assert profile = Entity.delete_profile(state[:user], profile.id)
+    end
+
+    test "delete_profile/1 deletes the profile by name", state do
+      {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
+
+      assert profile = Entity.delete_profile(state[:user], profile.name)
     end
   end
 
