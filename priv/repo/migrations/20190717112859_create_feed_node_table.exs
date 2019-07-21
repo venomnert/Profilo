@@ -10,6 +10,8 @@ defmodule Profilo.Repo.Migrations.CreateFeedNodeTable do
 
       timestamps()
     end
+
+    create unique_index(:feed_node, [:description])
   end
 
   def down do

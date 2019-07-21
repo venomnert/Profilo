@@ -7,11 +7,9 @@ defmodule Profilo.EntityTest do
   alias Profilo.Test.UserTestHelper
 
   @valid_github_following %{
-    "node" => %{
-      "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
-      "name" => "Kyle Simpson",
-      "login" => "getify"
-    }
+    "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
+    "name" => "Kyle Simpson",
+    "login" => "getify"
   }
 
   @valid__user_attrs %{
@@ -91,9 +89,9 @@ defmodule Profilo.EntityTest do
       Entity.create_social_link(@valid_social_link_attrs)
 
       assert {:ok, %Following{} = following} = Entity.create_github_following(state[:user], @valid_github_following)
-      assert following.name == @valid_github_following["node"]["name"]
-      assert following.avatar_url == @valid_github_following["node"]["avatarUrl"]
-      assert following.screen_name == @valid_github_following["node"]["login"]
+      assert following.name == @valid_github_following["name"]
+      assert following.avatar_url == @valid_github_following["avatarUrl"]
+      assert following.screen_name == @valid_github_following["login"]
     end
 
     test "test duplicate following creation", state do
@@ -134,6 +132,18 @@ defmodule Profilo.EntityTest do
       [first | _ ] = Entity.list_profile_followings(state[:user], profile)
       assert first.name == @valid_following_attrs.name
       assert first.avatar_url == @valid_following_attrs.avatar_url
+    end
+
+    test "get_following_by_social_link/2 returns all followings associated to a profile by specified social link", state do
+      {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+      {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+      {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
+      Entity.add_following_to_profile(state[:user], profile, following)
+
+      github_following = Entity.get_following_by_social_link(state[:user], profile, "github")
+      assert github_following.name == @valid_following_attrs.name
+      assert github_following.avatar_url == @valid_following_attrs.avatar_url
+      assert github_following.social_link_id == social_link.id
     end
 
     test "get_following!/2 returns the following with given id", state do
@@ -181,6 +191,25 @@ defmodule Profilo.EntityTest do
       [first | _ ] = Entity.list_user_profiles(state[:user])
       assert first.name == @valid_profile_attrs.name
       assert first.avatar_url == @valid_profile_attrs.avatar_url
+    end
+
+    test "get_profiles_by_social_link/2 returns all profiles by specified social link", state do
+      {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_social_link_attrs)
+      {:ok, %Following{} = following} = Entity.create_following(state[:user], social_link, @valid_following_attrs)
+      {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
+
+      Entity.add_following_to_profile(state[:user], profile, following)
+
+      github_profile = Entity.get_profiles_by_social_link(state[:user], "github") |> List.first() |> Repo.preload(:following)
+      github_following = github_profile.following |> List.first()
+
+      assert github_profile.name == @valid_profile_attrs.name
+      assert github_profile.avatar_url == @valid_profile_attrs.avatar_url
+
+      assert github_following.name == @valid_following_attrs.name
+      assert github_following.avatar_url == @valid_following_attrs.avatar_url
+      assert github_following.screen_name == @valid_following_attrs.screen_name
+      assert github_following.social_link_id == social_link.id
     end
 
     test "create_profile/2 with valid data", state do

@@ -17,6 +17,7 @@ defmodule Profilo.Entity.Lib.FeedNode do
     feed_node
     |> cast(attrs, [:description])
     |> validate_required([:description], message: "Description is required.", trim: true)
+    |> unique_constraint(:description)
   end
 
   def create_new_feed_changeset(%User{} = curr_user, %Profile{} = profile, %SocialLink{} = social_link, attrs \\ %{}) do

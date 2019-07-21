@@ -25,6 +25,14 @@ defmodule Profilo.Entity do
     Repo.all(query)
   end
 
+  def get_following_by_social_link(%User{} = user, %Profile{} = profile, name) when is_binary(name) do
+    profile = profile |> Repo.preload(:following)
+    social_link = get_social_link(name)
+
+    profile.following
+    |> Enum.find(fn following -> following.social_link_id == social_link.id end)
+  end
+
   def get_following(%User{} = user, id) when is_integer(id) do
     query = from f in Following,
       where: f.user_id == ^user.id,
@@ -85,8 +93,13 @@ defmodule Profilo.Entity do
     |> Repo.delete!()
   end
 
-  def create_github_following(%User{} = user, %{"node" => %{"name" => name, "avatarUrl" => avatarUrl, "login" => screen_name}}) do
+  def create_github_following(%User{} = user, %{"name" => name, "avatarUrl" => avatarUrl, "login" => screen_name}) do
     social_link = get_social_link("github")
+    name = name
+            |> case  do
+              nil -> screen_name
+              value -> value
+            end
     attrs = %{name: name, avatar_url: avatarUrl, screen_name: screen_name}
     create_following(user, social_link, attrs)
   end
@@ -100,6 +113,17 @@ defmodule Profilo.Entity do
   def list_user_profiles(%User{} = user) do
     query = from p in Profile,
             where: p.user_id == ^user.id,
+            select: p
+
+    Repo.all(query)
+  end
+
+  def get_profiles_by_social_link(%User{} = user, name) when is_binary(name) do
+    social_link = get_social_link(name)
+    query = from p in Profile,
+            join: f in assoc(p, :following),
+            where: p.user_id == ^user.id,
+            where: f.social_link_id == ^social_link.id,
             select: p
 
     Repo.all(query)
@@ -138,6 +162,7 @@ defmodule Profilo.Entity do
     get_profile(user, id)
     |> Repo.delete!()
   end
+
   def delete_profile(%User{} = user, name) when is_binary(name) do
     get_profile(user, name)
     |> Repo.delete!()
