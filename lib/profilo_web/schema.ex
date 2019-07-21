@@ -83,8 +83,9 @@ defmodule ProfiloWeb.Schema do
     end
   end
 
+  # Return the first feed node that was created
   subscription do
-    field :new_profile, :profile do
+    field :new_feed_node, :feed_node do
       config fn _args, _info ->
         {:ok, topic: "*"}
       end
@@ -125,15 +126,12 @@ defmodule ProfiloWeb.Schema do
 
   object :feed_node do
     field :description, :string
-
     field :profile, non_null(:profile) do
       resolve &ResolverFeedNode.get_profile/3
     end
-
     field :social_link, non_null(:social_link) do
       resolve &ResolverFeedNode.get_social_link/3
     end
-
   end
 
   input_object :profile_input do

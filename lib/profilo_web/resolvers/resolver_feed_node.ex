@@ -1,5 +1,5 @@
 defmodule ProfiloWeb.ResolverFeedNode do
-  alias Profilo.Entity
+  alias Profilo.{Entity, Accounts}
   alias Profilo.Entity.Lib.FeedNode
 
   def list_feed_node(_, %{profile_id: id}, %{context: %{current_user: current_user}}) do
@@ -28,6 +28,13 @@ defmodule ProfiloWeb.ResolverFeedNode do
   def get_profile(%FeedNode{} = feed_node, _, %{context: %{current_user: current_user}}) do
     case Entity.get_profile(current_user, feed_node.profile_id) do
       nil     -> {:error, Entity.create_profile(current_user, %{})}
+      result  -> {:ok, result}
+    end
+  end
+  def get_profile(%FeedNode{} = feed_node, _, %Absinthe.Resolution{} = _resolution) do
+    user = Accounts.get_user!(feed_node.user_id)
+    case Entity.get_profile(user, feed_node.profile_id) do
+      nil     -> {:error, Entity.create_profile(user, %{})}
       result  -> {:ok, result}
     end
   end

@@ -25,7 +25,7 @@ defmodule Profilo.Entity do
     Repo.all(query)
   end
 
-  def get_following_by_social_link(%User{} = user, %Profile{} = profile, name) when is_binary(name) do
+  def get_following_by_social_link(%User{} = _user, %Profile{} = profile, name) when is_binary(name) do
     profile = profile |> Repo.preload(:following)
     social_link = get_social_link(name)
 
@@ -250,6 +250,9 @@ defmodule Profilo.Entity do
   def create_feed_node(%User{} = user, %Profile{} = profile, %SocialLink{} = social_link, attrs \\ %{}) do
     FeedNode.create_new_feed_changeset(user, profile, social_link, attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, %FeedNode{} = feed_node} -> Absinthe.Subscription.publish(ProfiloWeb.Endpoint, feed_node, new_feed_node: "*")
+      {:error, _} -> {:error, "error creating feed_node"}
+    end
   end
-
 end
