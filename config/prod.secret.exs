@@ -8,8 +8,8 @@ config :profilo, :pow_assent,
       strategy: Profilo.Github.Strategy
     ],
     twitter: [
-      consumer_key: "LOzXHJZ0UTNQyX411jxklWPNd",
-      consumer_secret: "v1CuBQNh057lpfWCv04ns0LEx39ArjejFAAQxXZGGcaVDWZFMY",
+      consumer_key: "LuDdIMjCBsG6TlVbHzkZFgqLz",
+      consumer_secret: "f3RINSVOcz7djIOPIJNQG6VD8Egy4OdrLRtbwndWrUSbUucYOR",
       strategy: Profilo.Twitter.Strategy
     ]
   ]
