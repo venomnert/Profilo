@@ -15,7 +15,7 @@ config :profilo,
 
 # Configures the endpoint
 config :profilo, ProfiloWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [scheme: "https", host: "localhost"],
   secret_key_base: "UrVi7s/9fPCQg4v0fbx3lhgAAQeRg7ddbAC8JU4/Wu/p197JRt+eISurz/y4mqP2",
   render_errors: [view: ProfiloWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Profilo.PubSub, adapter: Phoenix.PubSub.PG2]
