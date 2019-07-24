@@ -11,6 +11,11 @@ defmodule Profilo.EntityTest do
     "name" => "Kyle Simpson",
     "login" => "getify"
   }
+  @valid_twitter_following %{
+    name: "Wes Bos",
+    profile_image_url_https:  "https://avatars1.githubusercontent.com/u/150330?v=4",
+    screen_name: "wesbos"
+  }
 
   @valid__user_attrs %{
     email: "test@gmail.com",
@@ -55,6 +60,9 @@ defmodule Profilo.EntityTest do
   @valid_social_link_attrs %{
     name: "github",
   }
+  @valid_twitter_social_link_attrs %{
+    name: "twitter",
+  }
   @update_social_link_attrs %{
     name: "twitter",
   }
@@ -92,6 +100,15 @@ defmodule Profilo.EntityTest do
       assert following.name == @valid_github_following["name"]
       assert following.avatar_url == @valid_github_following["avatarUrl"]
       assert following.screen_name == @valid_github_following["login"]
+    end
+
+    test "create_twitter_following/2 with valid data creates a twitter following with nil profile", state do
+      Entity.create_social_link(@valid_twitter_social_link_attrs)
+      assert {:ok, %Following{} = following} = Entity.create_twitter_following(state[:user], @valid_twitter_following)
+
+      assert following.name == @valid_twitter_following.name
+      assert following.avatar_url == @valid_twitter_following.profile_image_url_https
+      assert following.screen_name == @valid_twitter_following.screen_name
     end
 
     test "test duplicate following creation", state do
@@ -140,7 +157,7 @@ defmodule Profilo.EntityTest do
       {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
       Entity.add_following_to_profile(state[:user], profile, following)
 
-      github_following = Entity.get_following_by_social_link(state[:user], profile, "github")
+      github_following = Entity.get_following_by_social_link(state[:user], profile, "github") |> List.first()
       assert github_following.name == @valid_following_attrs.name
       assert github_following.avatar_url == @valid_following_attrs.avatar_url
       assert github_following.social_link_id == social_link.id
@@ -384,6 +401,21 @@ defmodule Profilo.EntityTest do
       {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
 
       assert {:ok, %FeedNode{} = feed_node} = Entity.create_github_feed_node(state[:user], profile, @valid_feed_node_attrs)
+
+      assert feed_node.description == @valid_feed_node_attrs.description
+      assert feed_node.user_id == state[:user].id
+      assert feed_node.profile_id == profile.id
+
+      feed_node_social_link = feed_node |> Repo.preload(:social_link) |> get_in([Access.key(:social_link), Access.key(:name)])
+      assert feed_node_social_link == social_link.name
+
+    end
+
+    test "create_twitter_feed_node/3 with valid data creates a feed_node with twitter", state do
+      {:ok, %SocialLink{} = social_link} = Entity.create_social_link(@valid_twitter_social_link_attrs)
+      {:ok, %Profile{} = profile} = Entity.create_profile(state[:user], @valid_profile_attrs)
+
+      assert {:ok, %FeedNode{} = feed_node} = Entity.create_twitter_feed_node(state[:user], profile, @valid_feed_node_attrs)
 
       assert feed_node.description == @valid_feed_node_attrs.description
       assert feed_node.user_id == state[:user].id

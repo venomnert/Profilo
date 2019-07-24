@@ -3,8 +3,8 @@ defmodule ProfiloWeb.ResolverSocialLink do
 
   def get_social_link(_, %{name: name}, _) do
     case Entity.get_social_link(name) do
-      result  -> {:ok, result}
       nil     -> {:error, %{}}
+      result  -> {:ok, result}
     end
   end
   def get_social_link(_, _, _) do

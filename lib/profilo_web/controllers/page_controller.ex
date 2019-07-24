@@ -4,8 +4,7 @@ defmodule ProfiloWeb.PageController do
   alias Profilo.Accounts
   alias Profilo.Accounts.Lib.User
 
-  alias Profilo.Twitter
-  alias Profilo.Github
+  alias Profilo.{Twitter, Github}
 
   def index(conn, _params) do
     render(conn, "index.html")
@@ -17,7 +16,10 @@ defmodule ProfiloWeb.PageController do
 
   def get_user(conn, %{"provider" => provider}) do
     data = get_user_from_provider(String.to_atom(provider), conn.assigns.current_user)
-    Github.get_update(conn.assigns.current_user)
+
+    conn.assigns.current_user |> Github.get_update()
+    conn.assigns.current_user |> Twitter.get_update()
+
     case data do
       {:error, message} ->
         conn

@@ -7,39 +7,39 @@ defmodule Profilo.Github do
   alias Profilo.Entity.Lib.{Profile}
 
   @update_query """
-  {
-    viewer{
-      following(first: 20) {
-        totalCount
-        nodes {
-          login
-          avatarUrl
-          name
-          starredRepositories(first: 5, orderBy:{field:STARRED_AT, direction: DESC}) {
-            edges {
-              starredAt
-              node {
-                name
-                url
+    {
+      viewer{
+        following(first: 20) {
+          totalCount
+          nodes {
+            login
+            avatarUrl
+            name
+            starredRepositories(first: 5, orderBy:{field:STARRED_AT, direction: DESC}) {
+              edges {
+                starredAt
+                node {
+                  name
+                  url
+                }
+              }
+            }
+            watching(first: 5, orderBy:{field:UPDATED_AT, direction: DESC}) {
+              edges {
+                node {
+                  name
+                  url
+                }
               }
             }
           }
-          watching(first: 5, orderBy:{field:UPDATED_AT, direction: DESC}) {
-            edges {
-              node {
-                name
-                url
-              }
-            }
+          pageInfo {
+            hasNextPage
+            endCursor
           }
-        }
-        pageInfo {
-          hasNextPage
-          endCursor
         }
       }
     }
-  }
   """
   @update_next_query """
     query($cursor: String){
@@ -91,13 +91,7 @@ defmodule Profilo.Github do
     end
   end
 
-  defp init_github(%User{} = user) do
-    user_identity = Accounts.get_user_identity!(user, "github")
-    Neuron.Config.set(url: "https://api.github.com/graphql")
-    Neuron.Config.set(headers: ["Authorization": "Bearer #{user_identity.access_token}"])
-  end
-
-  def handle_success_result(false, _user, _data), do: %{}
+  def handle_success_result(false, user, _data), do: user
 
   def handle_success_result(true, user, result) do
     get_in(result.body, @retrieve_followings)
@@ -107,6 +101,7 @@ defmodule Profilo.Github do
     get_next_data(user, get_in(result.body, @retreive_end_cursor))
   end
 
+  ########### Create following ###########
   def add_followings_to_profilo(data, %User{} = user) do
     data
     |> Enum.each(fn single_following ->
@@ -119,6 +114,7 @@ defmodule Profilo.Github do
     data
   end
 
+  ########### Create feed node ###########
   def add_feed_node_to_profilo(data, %User{} = user) do
     Entity.get_profiles_by_social_link(user, "github")
     |> Enum.each(fn profile ->
@@ -132,36 +128,58 @@ defmodule Profilo.Github do
     data
   end
 
-  defp get_node_by_following(github_following, data) do
-    data
-    |> Enum.filter(fn following -> following["login"] == github_following.screen_name end)
-    |> List.first()
-  end
   defp get_following_by_social_link(profile, user, social_link) do
     Entity.get_following_by_social_link(user, profile, social_link)
   end
 
+  defp get_node_by_following(github_followings, data) do
+    github_followings
+    |> Enum.map(fn following ->
+        data
+        |> Enum.filter(fn following_node ->
+          following_node["login"] == following.screen_name
+        end)
+      end)
+    |> List.flatten()
+  end
+
   defp add_starred_repos(nil, %Profile{} = _profile, %User{} = _user), do: %{}
-  defp add_starred_repos(node, %Profile{} = profile, %User{} = user) do
-    data = node["starredRepositories"]["edges"] |> List.first()
-    attr = %{description: "starred #{data["node"]["url"]} at #{data["starredAt"]}"}
-    Entity.create_github_feed_node(user, profile, attr)
-    node
+  defp add_starred_repos(nodes, %Profile{} = profile, %User{} = user) do
+    nodes
+    |> Enum.each(fn node ->
+      data = node["starredRepositories"]["edges"] |> List.first()
+      attr = %{description: "starred #{data["node"]["url"]} at #{data["starredAt"]}"}
+      Entity.create_github_feed_node(user, profile, attr)
+    end)
+
+    nodes
   end
 
   defp add_watched_repo(nil, %Profile{} = _profile, %User{} = _user), do: %{}
-  defp add_watched_repo(node, %Profile{} = profile, %User{} = user) do
-    data = node["watching"]["edges"] |> List.first()
-    attr = %{description: "watching #{data["node"]["url"]}"}
-    Entity.create_github_feed_node(user, profile, attr)
-    node
+  defp add_watched_repo(nodes, %Profile{} = profile, %User{} = user) do
+    nodes
+    |> Enum.each(fn node ->
+      data = node["watching"]["edges"] |> List.first()
+      attr = %{description: "watching #{data["node"]["url"]}"}
+      Entity.create_github_feed_node(user, profile, attr)
+    end)
+    nodes
   end
 
+
+  ########### Retrieve next set of data from Github ###########
   def get_next_data(%User{} = user, cursor) do
     Neuron.query(@update_next_query, %{cursor: cursor})
     |> case do
       {:ok, %Neuron.Response{} = result}    -> get_in(result.body, @retreive_next_page) |> handle_success_result(user, result)
       {:error, %HTTPoison.Error{} = error}  -> {:error, %{message: error.reason}}
     end
+  end
+
+  ########### Github Config ###########
+  defp init_github(%User{} = user) do
+    user_identity = Accounts.get_user_identity!(user, "github")
+    Neuron.Config.set(url: "https://api.github.com/graphql")
+    Neuron.Config.set(headers: ["Authorization": "Bearer #{user_identity.access_token}"])
   end
 end

@@ -4,14 +4,14 @@ defmodule ProfiloWeb.ResolverProfile do
 
   def get_profile(_, %{id: id}, %{context: %{current_user: current_user}}) do
     case Entity.get_profile(current_user, id) do
-      result  -> {:ok, result}
       nil     -> {:error, Entity.create_profile(current_user, %{})}
+      result  -> {:ok, result}
     end
   end
   def get_profile(_, %{name: name}, %{context: %{current_user: current_user}}) do
     case Entity.get_profile(current_user, name) do
-      result  -> {:ok, result}
       nil     -> {:error, Entity.create_profile(current_user, %{})}
+      result  -> {:ok, result}
     end
   end
   def get_profile(_, _, %{context: %{current_user: current_user}}) do

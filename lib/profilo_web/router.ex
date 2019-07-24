@@ -40,6 +40,15 @@ defmodule ProfiloWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/api", ProfiloWeb do
+    pipe_through [:api, :protected]
+
+    get "/:provider", PageController, :get_user
+    get "/auth/:provider", PageController, :is_auth
+    get "/followers/:provider", PageController, :followers
+  end
+
+
   scope "/" do
     pipe_through [:api, :protected, :graphql]
 
@@ -49,15 +58,6 @@ defmodule ProfiloWeb.Router do
       socket: ProfiloWeb.UserSocket
 
   end
-
-  scope "/api", ProfiloWeb do
-    pipe_through [:api, :protected]
-
-    get "/:provider", PageController, :get_user
-    get "/auth/:provider", PageController, :is_auth
-    get "/followers/:provider", PageController, :followers
-  end
-
 
   scope "/graphql" do
     pipe_through [:api, :protected]

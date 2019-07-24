@@ -30,7 +30,7 @@ defmodule Profilo.Entity do
     social_link = get_social_link(name)
 
     profile.following
-    |> Enum.find(fn following -> following.social_link_id == social_link.id end)
+    |> Enum.filter(fn following -> following.social_link_id == social_link.id end)
   end
 
   def get_following(%User{} = user, id) when is_integer(id) do
@@ -91,6 +91,17 @@ defmodule Profilo.Entity do
   def delete_following(%User{} = user, name) when is_binary(name) do
     get_following(user, name)
     |> Repo.delete!()
+  end
+
+  def create_twitter_following(%User{} = user, %{name: name, profile_image_url_https:  avatarUrl, screen_name: screen_name}) do
+    social_link = get_social_link("twitter")
+    name = name
+            |> case do
+              nil -> screen_name
+              value -> value
+            end
+    attrs = %{name: name, avatar_url: avatarUrl, screen_name: screen_name}
+    create_following(user, social_link, attrs)
   end
 
   def create_github_following(%User{} = user, %{"name" => name, "avatarUrl" => avatarUrl, "login" => screen_name}) do
@@ -247,12 +258,20 @@ defmodule Profilo.Entity do
     create_feed_node(user, profile, social_link, attrs)
   end
 
+  def create_twitter_feed_node(%User{} = user, %Profile{} = profile, attrs \\ %{}) do
+    social_link = get_social_link("twitter")
+    create_feed_node(user, profile, social_link, attrs)
+  end
+
   def create_feed_node(%User{} = user, %Profile{} = profile, %SocialLink{} = social_link, attrs \\ %{}) do
     FeedNode.create_new_feed_changeset(user, profile, social_link, attrs)
     |> Repo.insert()
     |> case do
-      {:ok, %FeedNode{} = feed_node} -> Absinthe.Subscription.publish(ProfiloWeb.Endpoint, feed_node, new_feed_node: "*")
-      {:error, _} -> {:error, "error creating feed_node"}
+      {:ok, %FeedNode{} = feed_node} ->
+        Absinthe.Subscription.publish(ProfiloWeb.Endpoint, feed_node, new_feed_node: "*")
+        {:ok, feed_node}
+
+      {:error, _} -> {:error, %Ecto.Changeset{}}
     end
   end
 end
