@@ -69,9 +69,6 @@ class GithubStreamContainer extends Component {
             <div>
                 <Query query={REPOSITORIES}>
                     {({loading, error, data}) => {
-                        console.log("loading", loading)
-                        console.log("error", error)
-                        console.log("data", data)
                         if(loading) return(<span>Loading...</span>);
                         if(error) return(<span>Error</span>);
                         return(

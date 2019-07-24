@@ -13,6 +13,18 @@ defmodule Profilo.Accounts.Lib.User do
       on_delete: :delete_all,
       foreign_key: :user_id
 
+    has_many :following, Profilo.Entity.Lib.Following,
+      on_delete: :delete_all,
+      foreign_key: :user_id
+
+    has_many :profile, Profilo.Entity.Lib.Profile,
+      on_delete: :delete_all,
+      foreign_key: :user_id
+
+    has_many :feed_node, Profilo.Entity.Lib.FeedNode,
+      on_delete: :delete_all,
+      foreign_key: :user_id
+
     field :first_name, :string
     field :last_name, :string
     field :address, :string
@@ -34,5 +46,6 @@ defmodule Profilo.Accounts.Lib.User do
     |> pow_changeset(attrs)
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> unique_constraint(:email)
   end
 end

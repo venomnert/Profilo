@@ -5,39 +5,37 @@ class Twitter extends Component {
         super(props);
 
         this.state = {
-            result: null
+            id: null
         }
     }
     componentDidMount() 
     { 
-        fetch('/api/twitter', {
+        fetch('/api/auth/twitter', {
             headers: { "Content-Type": "application/json; charset=utf-8" },
             method: 'GET'
-        })        
+        })
         .then(res => res.json())
         .then((data) => {
-            if(data != null) {
-                console.log("Starting SocialLink Twitter", this.state.result);
-                this.setState({result: data});
-            }
+            // console.log("Starting SocialLink Twitter", this.state.result);
+            this.setState({id: data.id});
         })
     }
     componentDidUpdate() 
     { 
-        console.log("Updated SocialLink twitter", this.state.result);
+        // console.log("Updated SocialLink twitter", this.state.id);
     }
     render() {
-        return (
-            <li className="social-list__item">
-                Twitter is {
-                    this.state.result === null ?
-                    " not setup":
-                    JSON.stringify(this.state.result.data[0].created_at)
-                }
-            </li>
-        );
+        if (this.state.id === null) {
+            return (
+                <li className="social-list__item">
+                    <a href="/auth/twitter/new">Twitter needs to be setup</a>
+                </li>
+            )
+        }
+        else {
+            return (<li className="social-list__item">Twitter is setup</li>);
+        }
     }
-    
 }
 
 export default Twitter;

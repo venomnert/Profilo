@@ -48,15 +48,17 @@ defmodule Profilo.MixProject do
       {:distillery, "~> 2.0", runtime: false},
       {:neuron, "~> 1.1.0"},
       {:httpoison, "~> 1.4"},
+      {:absinthe, "~> 1.4.13"},
+      {:absinthe_plug, "~> 1.4.0"},
+      {:absinthe_phoenix, "~> 1.4.0"},
+      {:absinthe_relay, "~> 1.4.0"},
 
       # User authentication
       {:comeonin, "~> 5.0"},
       {:bcrypt_elixir, "~> 2.0"},
-      {:pow, github: "danschultzer/pow", override: true},
-      {:pow_assent, "~> 0.2.4"},
+      {:pow_assent, "~> 0.3.0"},
       {:certifi, "~> 2.4"},
       {:ssl_verify_fun, "~> 1.1"},
-
       {:oauth, github: "tim/erlang-oauth"},
       {:extwitter, "~> 0.1"},
     ]

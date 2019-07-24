@@ -10,16 +10,20 @@ class GithubStream extends Component {
 
     }
     render() {
+        // console.log("THIS IS THE ERROR" , this.props.data);
         let item = this.props.data.following.edges.map(obj => {
             let name = obj.node.name;
             let url = obj.node.url+"";
-            let repo = obj.node.repositories.edges[0].node.name
-            let watching = obj.node.starredRepositories.edges[0].node.name
+            let repo = obj.node.repositories.edges[0].node.name;
+            let watch = "no watching";
+            if (obj.node.starredRepositories.edges.length > 0) {
+                watch = obj.node.starredRepositories.edges[0].node.name;
+            }
             return (<li>
                 <div>
                     <a href={url}>{name}</a>
                     <p>Repo Name: {repo}</p>
-                    <p>Watching: {watching}</p>
+                    <p>Watching: {watch}</p>
                 </div>
             </li>);
         });

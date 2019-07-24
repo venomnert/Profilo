@@ -7,6 +7,8 @@ defmodule Profilo.Github.Strategy do
 
   alias PowAssent.Strategy.OAuth2
 
+  require IEx;
+
   @spec default_config(Keyword.t()) :: Keyword.t()
   def default_config(_config) do
     [

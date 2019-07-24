@@ -15,6 +15,10 @@ defmodule ProfiloWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :graphql do
+    plug ProfiloWeb.Plug.AbsintheContext
+  end
+
   pipeline :protected do
     plug Pow.Plug.RequireAuthenticated,
       error_handler: Pow.Phoenix.PlugErrorHandler
@@ -25,6 +29,8 @@ defmodule ProfiloWeb.Router do
 
     pow_routes()
     pow_assent_routes()
+
+    get "/uikit", ProfiloWeb.PageController, :uikit
   end
 
 
@@ -37,7 +43,27 @@ defmodule ProfiloWeb.Router do
   scope "/api", ProfiloWeb do
     pipe_through [:api, :protected]
 
-    get "/twitter", PageController, :twitter
+    get "/:provider", PageController, :get_user
+    get "/auth/:provider", PageController, :is_auth
+    get "/followers/:provider", PageController, :followers
+  end
+
+
+  scope "/" do
+    pipe_through [:api, :protected, :graphql]
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: ProfiloWeb.Schema,
+      interface: :simple,
+      socket: ProfiloWeb.UserSocket
+
+  end
+
+  scope "/graphql" do
+    pipe_through [:api, :protected]
+
+    forward "/v1", Absinthe.Plug,
+    schema: ProfiloWeb.Schema
   end
 
 end
