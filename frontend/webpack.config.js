@@ -13,7 +13,7 @@ module.exports = (env, options) => ({
     ]
   },
   entry: {
-    app: './assets/js/app.js'
+    app: './frontend/js/app.js'
   },
   output: {
     filename: 'app.js',
@@ -60,7 +60,7 @@ module.exports = (env, options) => ({
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: './css/app.scss' }),
-    new CopyWebpackPlugin([{ from: 'assets/static/', to: '../' }])
+    new CopyWebpackPlugin([{ from: 'frontend/static/', to: '../' }])
   ],
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
