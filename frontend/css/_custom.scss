@@ -4,6 +4,9 @@
 $primary-color: #858585;
 $primary-light-color: #BABABA;
 
+.fill-white { fill: #fff !important; }
+.fill-primary { fill: $primary-color !important; }
+.fill-primary-light { fill: $primary-light-color !important; }
 .text-primary{ color: $primary-color !important; }
 .text-primary-light { color: $primary-light-color !important; }
 .alert-danger {
