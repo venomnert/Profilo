@@ -1,4 +1,3 @@
-console.log("we are in app.js")
 
 import '../css/app.scss'
 

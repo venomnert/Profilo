@@ -28,7 +28,8 @@ module.exports = (env, options) => ({
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: path.resolve(__dirname, 'node_modules/') + '/babel-loader'
+          // loader: path.resolve(__dirname, 'node_modules/') + '/babel-loader'
+          loader: 'babel-loader'
         }
       },
       {
@@ -64,7 +65,7 @@ module.exports = (env, options) => ({
 
   plugins: [
     new MiniCssExtractPlugin({ filename: '/css/app.scss' }),
-    new CopyWebpackPlugin([{ from: 'frontend/static/', to: '../' }])
+    new CopyWebpackPlugin([{ from: 'static', to: '../' }])
   ],
 
   mode: 'development',
