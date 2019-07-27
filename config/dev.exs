@@ -13,9 +13,12 @@ config :profilo, ProfiloWeb.Endpoint,
   check_origin: false,
   watchers: [
     {"node", [
-      "node_modules/webpack/bin/webpack.js",
+      "frontend/node_modules/webpack/bin/webpack.js",
+      "--config",
+      "frontend/webpack.config.js",
       "--watch-stdin",
-      "--colors"
+      "--colors",
+      "--display-error-details"
     ]}
   ]
 

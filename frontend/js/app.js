@@ -1,3 +1,5 @@
+console.log("we are in app.js")
+
 import '../css/app.scss'
 
 import 'phoenix_html'
@@ -37,10 +39,11 @@ get_token().then((data) => {
     })
     
     ReactDOM.render(
-    <ApolloProvider client={api_client}>
-        <Root />
-    </ApolloProvider>, 
+        <ApolloProvider client={api_client}>
+            <Root />
+        </ApolloProvider>, 
     document.getElementById('react-app'))
 });
 
 ReactDOM.render(<RootUI />, document.getElementById('react-app-uikit'))
+
