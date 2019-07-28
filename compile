@@ -1,3 +1,3 @@
-yarn deploy
+npm run deploy
 cd $phoenix_dir
 mix phx.digest
