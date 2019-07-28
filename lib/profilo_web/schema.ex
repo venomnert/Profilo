@@ -20,6 +20,8 @@ defmodule ProfiloWeb.Schema do
     field :followings, list_of(:following) do
       arg :profile_id, :integer
       arg :profile_name, :string
+      arg :user_id, :integer
+      arg :user_name, :string
       resolve &ResolverFollowing.list_followings/3
     end
 

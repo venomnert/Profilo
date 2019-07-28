@@ -15,7 +15,9 @@ config :profilo, ProfiloWeb.Endpoint,
     {"node", [
       "node_modules/webpack/bin/webpack.js",
       "--watch-stdin",
-      "--colors"
+      "--colors",
+      "--display-error-details",
+      cd: Path.expand("../frontend", __DIR__)
     ]}
   ]
 

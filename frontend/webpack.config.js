@@ -5,6 +5,9 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+console.log("HI THERE")
+console.log(__dirname)
+
 module.exports = (env, options) => ({
   optimization: {
     minimizer: [
@@ -13,11 +16,11 @@ module.exports = (env, options) => ({
     ]
   },
   entry: {
-    app: './assets/js/app.js'
+    app: path.resolve(__dirname) + '/js/app.js'
   },
   output: {
     filename: 'app.js',
-    path: path.resolve(__dirname, 'priv/static/js')
+    path: path.resolve(__dirname, '../priv/static/js')
   },
   module: {
     rules: [
@@ -25,6 +28,7 @@ module.exports = (env, options) => ({
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
+          // loader: path.resolve(__dirname, 'node_modules/') + '/babel-loader'
           loader: 'babel-loader'
         }
       },
@@ -58,10 +62,14 @@ module.exports = (env, options) => ({
       }
     ]
   },
+
   plugins: [
-    new MiniCssExtractPlugin({ filename: './css/app.scss' }),
-    new CopyWebpackPlugin([{ from: 'assets/static/', to: '../' }])
+    new MiniCssExtractPlugin({ filename: '/css/app.scss' }),
+    new CopyWebpackPlugin([{ from: 'static', to: '../' }])
   ],
+
+  mode: 'development',
+
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: ['.js', '.jsx', '.json', '.css']
