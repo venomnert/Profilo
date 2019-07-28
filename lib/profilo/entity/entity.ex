@@ -53,6 +53,7 @@ defmodule Profilo.Entity do
 
   def add_following_to_profile(%User{} = user, %Profile{} = profile, %Following{} = following) do
     loaded_profile = get_profile(user, profile.id)
+    |> update_profile_avatar(user, following)
     |> Repo.preload(:following)
 
     loaded_profile
@@ -65,6 +66,15 @@ defmodule Profilo.Entity do
   defp append_following(following, following_list) do
     [following | following_list]
     |> Enum.uniq_by(fn(%Following{} = following) -> following.id end)
+  end
+
+  defp update_profile_avatar(%Profile{} = profile, %User{} = user, %Following{} = following) do
+    case byte_size(following.avatar_url) do
+      value when value > 0 ->
+        {:ok, profile} = update_profile(user, profile, %{avatar_url: following.avatar_url})
+        profile
+      _value -> profile
+    end
   end
 
   def removing_following_from_profile(%User{} = user, %Profile{} = profile, %Following{} = following) do
