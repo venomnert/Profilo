@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import SocialLinkList from '../components/SocialLinkList';
+import ProfilesList from '../components/Profile/ProfilesList';
 
 export default class Root extends Component {
   constructor(props) {
@@ -10,6 +11,11 @@ export default class Root extends Component {
       profiles: {},
       socialLinks: {}
     }
+  }
+  createProfile = (profile) => {
+    const profiles = this.state.profiles;
+    profiles.push(profile.createProfile);
+    this.setState({profiles});
   }
   componentWillMount() {
     this.setState({
@@ -23,6 +29,7 @@ export default class Root extends Component {
       <Fragment>
         <h2>Welcome</h2>
         <SocialLinkList socialLinks={this.state.socialLinks} />
+        <ProfilesList profiles={this.state.profiles} createProfile={this.createProfile}/>
       </Fragment>
     )        
   }

@@ -31,10 +31,12 @@ const GET_STATE = gql `
       id
       profileId
       socialLinkId
+      avatarUrl
     }
     profiles{
       name
       id
+      avatarUrl
     }
   }
 `;
