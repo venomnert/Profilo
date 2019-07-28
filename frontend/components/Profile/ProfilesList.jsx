@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Profile from "./Profile";
 import ProfilePreviewItem from "./ProfilePreviewItem";
 import CreateProfileInput from "./CreateProfileInput";
+import ProfileEdit from "./ProfileEdit";
 
 class ProfilesList extends Component {
     render() {
@@ -36,6 +37,16 @@ class ProfilesList extends Component {
                 <CreateProfileInput createProfile={this.props.createProfile}/>
 
                 <h2>Profile Edit</h2>
+                {
+                    profiles.map(profile => {
+                        return (
+                            <li key={profile.id}>
+                                <ProfileEdit profile={profile} 
+                                            updateProfile={this.props.updateProfile} />
+                            </li>
+                        )
+                    })
+                }
             </div>
         );
     }

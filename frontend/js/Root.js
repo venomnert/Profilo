@@ -17,6 +17,15 @@ export default class Root extends Component {
     profiles.push(profile.createProfile);
     this.setState({profiles});
   }
+  updateProfile = (data) => {
+    let update_profile_state = this.state.profiles.map(profile => {
+      if(profile.id === data.updateProfile.id) {
+        return data.updateProfile;
+      }
+      return profile
+    });
+    this.setState({profiles: update_profile_state});
+  }
   componentWillMount() {
     this.setState({
       followings: this.props.data.followings,
@@ -29,7 +38,10 @@ export default class Root extends Component {
       <Fragment>
         <h2>Welcome</h2>
         <SocialLinkList socialLinks={this.state.socialLinks} />
-        <ProfilesList profiles={this.state.profiles} createProfile={this.createProfile}/>
+        <ProfilesList 
+          profiles={this.state.profiles} 
+          createProfile={this.createProfile}
+          updateProfile={this.updateProfile}/>
       </Fragment>
     )        
   }

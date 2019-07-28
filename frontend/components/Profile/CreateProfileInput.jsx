@@ -34,8 +34,8 @@ class CreateProfileInput extends Component {
         return (
             <Mutation mutation={CREATE_PROFILE} 
                       variables={this.state}
-                      onCompleted={this.props.createProfile}  >
-                {(create, {loading, error, data}) => {
+                      onCompleted={this.props.createProfile}>
+                {(create, {loading, error}) => {
                     if(loading) return <p>Loading</p>
                     if(error) return <p>Error</p>
                     return (
@@ -57,8 +57,6 @@ class CreateProfileInput extends Component {
                 }}
             </Mutation>
         )
-        
-        
     }
 }
 export default CreateProfileInput;
