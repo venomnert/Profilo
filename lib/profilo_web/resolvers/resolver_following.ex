@@ -26,6 +26,10 @@ defmodule ProfiloWeb.ResolverFollowing do
   def list_followings(_, _, %{context: %{current_user: current_user}}) do
     {:ok, Entity.list_user_followings(current_user)}
   end
+  def list_followings(_, _, arg3) do
+    # IO.inspect(arg3, label: "ERROR")
+    {:ok, %{message: "hello"}}
+  end
 
   def get_profile(%Following{} = following, _, %{context: %{current_user: current_user}}) do
     case Entity.get_profile(current_user, following.profile_id) do
