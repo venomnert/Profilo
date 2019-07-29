@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import SocialLinkList from '../components/SocialLinkList';
 import ProfilesList from '../components/Profile/ProfilesList';
 import FeedNodeList from "../components/FeedNodeList";
+import FollowingList from "../components/FollowingList";
 
 export default class Root extends Component {
   constructor(props) {
@@ -54,6 +55,7 @@ export default class Root extends Component {
           createProfile={this.createProfile}
           updateProfile={this.updateProfile}/>
         <FeedNodeList profile={this.state.profiles[0]} />
+        <FollowingList followings={this.state.followings}/>
       </Fragment>
     )        
   }
