@@ -44,12 +44,12 @@ const GET_STATE = gql `
 ReactDOM.render(
     <ApolloProvider client={client}>
         <Query query={GET_STATE}>
-              {({ data, loading, error}) => {
-                  if(loading) return <p>Fetching data</p>;
-                  if(error) return <p>error</p>;
-                  return <Root data={data}/>
-              }}
-          </Query>
+            {({ data, loading, error}) => {
+                if(loading) return <p>Fetching data</p>;
+                if(error) return <p>error</p>;
+                return <Root data={data}/>
+            }}
+        </Query>
     </ApolloProvider>, 
 document.getElementById('react-app'))
 
