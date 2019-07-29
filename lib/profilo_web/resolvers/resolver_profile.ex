@@ -58,6 +58,9 @@ defmodule ProfiloWeb.ResolverProfile do
 
     {:ok, unlinked_profile}
   end
+  def delete_profile(_, %{id: id}, %{context: %{current_user: current_user}}) do
+    {:ok, Entity.delete_profile(current_user, id)}
+  end
 
   defp get_error_message(error) do
     error.errors

@@ -83,6 +83,11 @@ defmodule ProfiloWeb.Schema do
       arg :followings, non_null(list_of(:integer))
       resolve &ResolverProfile.unlink_following_to_profile/3
     end
+
+    field :delete_profile, :profile do
+      arg :id, non_null(:integer)
+      resolve &ResolverProfile.delete_profile/3
+    end
   end
 
   # Return the first feed node that was created

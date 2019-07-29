@@ -631,7 +631,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*!***********************************************!*\
   !*** ./node_modules/apollo-link/lib/index.js ***!
   \***********************************************/
-/*! exports provided: empty, from, split, concat, ApolloLink, execute, createOperation, makePromise, toPromise, fromPromise, fromError, Observable */
+/*! exports provided: createOperation, makePromise, toPromise, fromPromise, fromError, Observable, empty, from, split, concat, ApolloLink, execute */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
