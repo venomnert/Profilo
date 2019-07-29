@@ -4,13 +4,21 @@ import gql from "graphql-tag";
 import {Mutation} from "react-apollo";
 
 const UPDATE_PROFILE = gql `
-    mutation UpdateProfile($id: Int!, $profile: ProfileInput!) {
-        updateProfile(id: $id, input: $profile) {
-        name
-        avatarUrl
-            id
-        }
+mutation UpdateProfile($id: Int!, $following_ids: [Int]!, $profile: ProfileInput!) {
+    updateProfile(id: $id, input: $profile) {
+    	name
+    	avatarUrl
+      id
     }
+    linkFollowingToProfile(id: $id, followings: $following_ids) {
+      name
+      avatarUrl
+      followings {
+        name
+        screenName
+      }
+    }
+}
 `
 class ProfileEdit extends Component {
     constructor(props) {
@@ -18,6 +26,7 @@ class ProfileEdit extends Component {
 
         this.state = {
             id: parseInt(this.props.profile.id),
+            following_ids: [1,2],
             profile: {
                 name: this.props.profile.name,
                 avatarUrl: this.props.profile.avatarUrl

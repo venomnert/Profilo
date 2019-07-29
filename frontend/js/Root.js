@@ -18,6 +18,7 @@ export default class Root extends Component {
     this.setState({profiles});
   }
   updateProfile = (data) => {
+    console.log(data);
     let update_profile_state = this.state.profiles.map(profile => {
       if(profile.id === data.updateProfile.id) {
         return data.updateProfile;
