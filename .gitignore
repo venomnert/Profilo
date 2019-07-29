@@ -11,3 +11,4 @@ tmp
 .elixir_ls/
 erl_crash.dump
 .DS_Store
+priv/static/js/app.js
