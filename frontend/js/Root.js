@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import SocialLinkList from '../components/SocialLinkList';
 import ProfilesList from '../components/Profile/ProfilesList';
+import FeedNodeList from "../components/FeedNodeList";
 
 export default class Root extends Component {
   constructor(props) {
@@ -32,6 +33,15 @@ export default class Root extends Component {
       followings: this.props.data.followings,
       profiles: this.props.data.profiles,
       socialLinks: this.props.data.socialLinks
+    });
+
+    fetch('/api/twitter', {
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      method: 'GET'
+    })
+    .then(res => res.json())
+    .then((data) => {
+        console.log("Starting SocialLink Twitter", data);
     })
   }
   render() {
@@ -43,6 +53,7 @@ export default class Root extends Component {
           profiles={this.state.profiles} 
           createProfile={this.createProfile}
           updateProfile={this.updateProfile}/>
+        <FeedNodeList profile={this.state.profiles[0]} />
       </Fragment>
     )        
   }

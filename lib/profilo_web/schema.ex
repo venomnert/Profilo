@@ -133,6 +133,9 @@ defmodule ProfiloWeb.Schema do
 
   object :feed_node do
     field :description, :string
+    field :id, :id
+    field :social_link_id, :id
+    field :profile_id, :id
     field :profile, non_null(:profile) do
       resolve &ResolverFeedNode.get_profile/3
     end
