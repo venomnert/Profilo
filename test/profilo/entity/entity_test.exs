@@ -221,7 +221,7 @@ defmodule Profilo.EntityTest do
       github_following = github_profile.following |> List.first()
 
       assert github_profile.name == @valid_profile_attrs.name
-      assert github_profile.avatar_url == @valid_profile_attrs.avatar_url
+      assert github_profile.avatar_url == following.avatar_url
 
       assert github_following.name == @valid_following_attrs.name
       assert github_following.avatar_url == @valid_following_attrs.avatar_url
