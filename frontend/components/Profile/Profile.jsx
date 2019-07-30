@@ -9,7 +9,6 @@ const Profile = ({profile}) => {
         <div className="profile">
             <img className="profile__avatar p-2" src={avatarUrl} alt={name} />
             <p className="profile__name">{name}</p>
-            <a href="#"><CloseIcon width="40px" height="40px"/></a>
         </div>
     );
 }
