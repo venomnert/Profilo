@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
 import SocialLinkList from '../components/SocialLinkList';
 import ProfilesList from '../components/Profile/ProfilesList';
+import Menu from  '../components/Menu/Menu'
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 export default class Root extends Component {
   constructor(props) {
@@ -38,6 +40,7 @@ export default class Root extends Component {
     return (
       <Fragment>
         <h2>Welcome</h2>
+        <Menu/>
         <SocialLinkList socialLinks={this.state.socialLinks} />
         <ProfilesList 
           profiles={this.state.profiles} 

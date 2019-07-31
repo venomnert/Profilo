@@ -9,6 +9,8 @@ import ProfileEdit from "./ui_elements/profiles/ProfileEdit";
 import Social_Links from "./ui_elements/social_links";
 import FollowersList from "./ui_elements/followers/FollowersList";
 
+import Menu from "./../components/Menu/Menu";
+
 export default class Root extends Component {
   constructor(props) {
     super(props);
@@ -65,31 +67,36 @@ export default class Root extends Component {
   }
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <h2>Profiles</h2>
-          <ProfilesList profiles={this.state.profiles}/>
-          
-          <h2>Edit Profile</h2>
-          <ProfileEdit 
-              update_profile={this.update_profile}
-              delete_profile={this.delete_profile}
-              id="someuniqueid_1" 
-              profile={this.state.profiles["someuniqueid_1"]}/>
-        </div>
+      
+      <Menu />
+      // <Fragment>
+      //   
+      //   <div className="container">
+      //     <div className="row">
+      //       <h2>Profiles</h2>
+      //       <ProfilesList profiles={this.state.profiles}/>
+            
+      //       <h2>Edit Profile</h2>
+      //       <ProfileEdit 
+      //           update_profile={this.update_profile}
+      //           delete_profile={this.delete_profile}
+      //           id="someuniqueid_1" 
+      //           profile={this.state.profiles["someuniqueid_1"]}/>
+      //     </div>
 
-        <div className="row">
-          <h2>Followers</h2>
-          <div className="col-12">
-            <FollowersList social_links={this.state.social_links}/>
-          </div>
-        </div>
-        
-        <div className="row">
-          <h2>Connect Social Links</h2>
-          <Social_Links />
-        </div>
-      </div>
+      //     <div className="row">
+      //       <h2>Followers</h2>
+      //       <div className="col-12">
+      //         <FollowersList social_links={this.state.social_links}/>
+      //       </div>
+      //     </div>
+          
+      //     <div className="row">
+      //       <h2>Connect Social Links</h2>
+      //       <Social_Links />
+      //     </div>
+      //   </div>
+      // </Fragment>
     )        
   }
 }
