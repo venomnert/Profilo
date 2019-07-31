@@ -41,17 +41,23 @@ const GET_STATE = gql `
   }
 `;
 
-ReactDOM.render(
-    <ApolloProvider client={client}>
-        <Query query={GET_STATE}>
-            {({ data, loading, error}) => {
-                if(loading) return <p>Fetching data</p>;
-                if(error) return <p>error</p>;
-                return <Root data={data}/>
-            }}
-        </Query>
-    </ApolloProvider>, 
-document.getElementById('react-app'))
+if (document.getElementById('react-app')){
+  ReactDOM.render(
+      <ApolloProvider client={client}>
+          <Query query={GET_STATE}>
+                {({ data, loading, error}) => {
+                    if(loading) return <p>Fetching data</p>;
+                    if(error) return <p>error</p>;
+                    return <Root data={data}/>
+                }}
+            </Query>
+      </ApolloProvider>, 
+  document.getElementById('react-app'))
+} else {
 
-ReactDOM.render(<RootUI />, document.getElementById('react-app-uikit'))
+  ReactDOM.render(<RootUI/>, document.getElementById('react-app-uikit'))
+
+}
+
+
 

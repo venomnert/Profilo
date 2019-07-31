@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
 import SocialLinkList from '../components/SocialLinkList';
 import ProfilesList from '../components/Profile/ProfilesList';
+import Menu from  '../components/Menu/Menu'
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import FeedNodeList from "../components/FeedNodeList";
 import FollowingList from "../components/FollowingList";
 import CloseIcon from '../static/icons/Close.svg';
@@ -40,7 +42,7 @@ export default class Root extends Component {
       socialLinks: this.props.data.socialLinks
     });
 
-    fetch('/api/twitter', {
+    fetch('/api/github', {
       headers: { "Content-Type": "application/json; charset=utf-8" },
       method: 'GET'
     })
@@ -53,7 +55,8 @@ export default class Root extends Component {
     return (
       <Fragment>
         <h2>Welcome</h2>
-        {/* <SocialLinkList socialLinks={this.state.socialLinks} />
+        <Menu/>
+        <SocialLinkList socialLinks={this.state.socialLinks} />
         <ProfilesList 
           profiles={this.state.profiles} 
           createProfile={this.createProfile}
