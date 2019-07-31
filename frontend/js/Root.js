@@ -55,24 +55,22 @@ export default class Root extends Component {
     })
     .then(res => res.json())
     .then((data) => {
-        console.log("Starting SocialLink Twitter", data);
+        console.log("Starting SocialLink", data);
     })
   }
   render() {
     return (
       <Fragment>
         <h2>Welcome</h2>
-        <Menu/>
-        <SocialLinkList socialLinks={this.state.socialLinks} />
-        <ProfilesList 
+        {/* <Menu/> */}
+        {/* <SocialLinkList socialLinks={this.state.socialLinks} /> */}
+        {/* <ProfilesList 
           profiles={this.state.profiles} 
           createProfile={this.createProfile}
-          updateProfile={this.updateProfile}/>
-        <FeedNodeList profile={this.state.profiles[0]} /> */}
-        <FollowingList followings={this.state.followings}/>
-        {/* <Menu followings={this.state.followings}
-              profiles = {this.state.profile}
-              socialLinks = {this.state.socialLinks}/> */}
+          updateProfile={this.updateProfile}/> */}
+          
+        <FeedNodeList profile={this.state.profiles[0]} /> 
+
         <CloseIcon width="40px" height="40px" className="fill-primary" />
         <ProfileIcon width="40px" height="40px" className="fill-primary" />
         <SettingsIcon width="40px" height="40px" className="fill-primary" />

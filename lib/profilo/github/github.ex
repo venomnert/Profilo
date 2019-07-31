@@ -9,7 +9,7 @@ defmodule Profilo.Github do
   @update_query """
     {
       viewer{
-        following(first: 2) {
+        following(first: 20) {
           totalCount
           nodes {
             login
@@ -84,7 +84,6 @@ defmodule Profilo.Github do
   def get_update(%User{} = user) do
     init_github(user)
     Neuron.query(@update_query)
-    |> IO.inspect(label: "RESULTS")
     |> case do
       {:ok, %Neuron.Response{} = result}   -> get_in(result.body, @retreive_next_page) |> handle_success_result(user, result)
       {:error, %Neuron.Response{} = error} -> error.body
@@ -92,11 +91,18 @@ defmodule Profilo.Github do
     end
   end
 
-  def handle_success_result(false, user, _data), do: user
+  def handle_success_result(false, user, result) do
+    Enum.any?(get_in(result.body, @retrieve_followings))
+    |> case do
+      true ->
+        handle_success_result(true, user, result)
+      false ->
+        IO.inspect(user, label: "DONE")
+        user
+    end
+  end
 
   def handle_success_result(true, user, result) do
-    IO.inspect(user, label: "SUCCESS")
-
     get_in(result.body, @retrieve_followings)
     |> add_followings_to_profilo(user)
     |> add_feed_node_to_profilo(user)
@@ -107,7 +113,6 @@ defmodule Profilo.Github do
   ########### Create following ###########
   def add_followings_to_profilo(data, %User{} = user) do
     data
-    |> IO.inspect(label: "add_followings_to_profilo")
     |> Enum.each(fn single_following ->
       case Entity.create_github_following(user, single_following) do
         {:ok, _} -> "Following created"
