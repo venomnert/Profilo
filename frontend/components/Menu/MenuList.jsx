@@ -6,8 +6,8 @@ class MenuList extends Component {
             <Fragment>
                 MenuList
                 <ul>
-                    <li><a >Profiles</a></li>
-                    <li><a>Settings</a></li>
+                    <li><a href="/profiles" >Profiles</a></li>
+                    <li><a href="/settings">Settings</a></li>
                 </ul>
             {/* 
                 <Expander/> */}

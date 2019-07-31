@@ -2,22 +2,23 @@ import React, { Component, Fragment } from "react";
 import SocialLinkList from '../components/SocialLinkList';
 import ProfilesList from '../components/Profile/ProfilesList';
 import Menu from  '../components/Menu/Menu'
-import { BrowserRouter, Route, Switch } from "react-router-dom";
 import FeedNodeList from "../components/FeedNodeList";
 import FollowingList from "../components/FollowingList";
 import CloseIcon from '../static/icons/Close.svg';
 import ProfileIcon from '../static/icons/Profile.svg';
 import SettingsIcon from '../static/icons/Settings.svg';
 import PlusIcon from '../static/icons/Plus.svg';
-
 export default class Root extends Component {
   constructor(props) {
+    console.log("Root");
+    console.log(props)
     super(props);
 
     this.state = {
       followings: {},
       profiles: {},
-      socialLinks: {}
+      socialLinks: {},
+      menu:{}
     }
   }
   createProfile = (profile) => {
@@ -25,6 +26,7 @@ export default class Root extends Component {
     profiles.push(profile.createProfile);
     this.setState({profiles});
   }
+
   updateProfile = (data) => {
     console.log(data);
     let update_profile_state = this.state.profiles.map(profile => {
@@ -35,6 +37,11 @@ export default class Root extends Component {
     });
     this.setState({profiles: update_profile_state});
   }
+
+  toggleMenu = () => {
+      
+  }
+
   componentWillMount() {
     this.setState({
       followings: this.props.data.followings,
