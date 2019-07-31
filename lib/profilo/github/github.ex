@@ -92,10 +92,13 @@ defmodule Profilo.Github do
   end
 
   def handle_success_result(false, user, result) do
-    Enum.any?(result.body["data"])
+    Enum.any?(get_in(result.body, @retrieve_followings))
     |> case do
-      true -> handle_success_result(true, user, result)
-      false -> user
+      true ->
+        handle_success_result(true, user, result)
+      false ->
+        IO.inspect(user, label: "DONE")
+        user
     end
   end
 
