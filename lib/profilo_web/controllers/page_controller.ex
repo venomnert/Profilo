@@ -18,7 +18,7 @@ defmodule ProfiloWeb.PageController do
     data = get_user_from_provider(String.to_atom(provider), conn.assigns.current_user)
 
     conn.assigns.current_user |> Github.get_update()
-    conn.assigns.current_user |> Twitter.get_update()
+    # conn.assigns.current_user |> Twitter.get_update()
 
     case data do
       {:error, message} ->

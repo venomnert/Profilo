@@ -42,7 +42,7 @@ export default class Root extends Component {
       socialLinks: this.props.data.socialLinks
     });
 
-    fetch('/api/twitter', {
+    fetch('/api/github', {
       headers: { "Content-Type": "application/json; charset=utf-8" },
       method: 'GET'
     })
