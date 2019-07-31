@@ -1,15 +1,14 @@
-import React, {Fragment} from "react";
+import React from "react";
 import SocialLink from "./SocialLink"
 
-const FeedNode = ({data}) => {
-    if(!data) return <p>no feed</p>;
-    let feed_nodes = data.feedNodes;
-    return feed_nodes.map(feed_node => (
-                <Fragment key={feed_node.id}>
-                    <p>{feed_node.description}</p>
-                    <SocialLink id={feed_node.socialLinkId}/>
-                </Fragment> 
-            ));
+const FeedNode = ({feed_node}) => {
+    if(!feed_node) return <p>no feed</p>;
+    return (
+        <div key={feed_node.id} className="feed-node">
+            <p>{feed_node.description}</p>
+            <SocialLink id={feed_node.socialLinkId}/>
+        </div> 
+    );
 }
 
 export default FeedNode 

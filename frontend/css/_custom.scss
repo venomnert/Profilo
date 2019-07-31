@@ -7,6 +7,7 @@ $primary-light-color: #BABABA;
 .fill-white { fill: #fff !important; }
 .fill-primary { fill: $primary-color !important; }
 .fill-primary-light { fill: $primary-light-color !important; }
+.text-white{ color: #fff !important; }
 .text-primary{ color: $primary-color !important; }
 .text-primary-light { color: $primary-light-color !important; }
 .alert-danger {
@@ -156,10 +157,35 @@ body {
 
  // PROFILE
  .profile__avatar {
-    width: 75px;
-    height: 75px; 
-    border: 1px solid;
+    width: 100px;
+    height: 100px; 
     border-radius: 50%;
   }  
+
+  // FEED VIEW
+  .feed-view {
+    .profile {
+      text-align: center;
+    }
+    .profile__name {
+      color: #fff;
+      font-size: 1.5em;
+    }
+    .social-link {
+      fill: $primary-color;
+    }
+    .social-link__filter {
+      .active {
+        .social-link {
+          fill: #fff;
+        }
+      }
+    }
+    .feed-node {
+      background-color: #fff;
+      margin-bottom: 1.5em;
+      padding: 1em 2em;
+    }
+  }
 
 }
