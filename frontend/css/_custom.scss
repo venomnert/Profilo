@@ -185,7 +185,8 @@ body {
       }
     }
     .feed-node {
-      background-color: #fff;
+      border: 2px $primary-light-color solid;
+      color: #fff;
       margin-bottom: 1.5em;
       padding: 1em 2em;
     }
