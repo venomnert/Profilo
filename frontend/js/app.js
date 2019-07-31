@@ -1,9 +1,14 @@
 
+import Router from '../components/Router';
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import {ApolloProvider} from 'react-apollo';
+import gql from "graphql-tag";
+import {Query} from "react-apollo";
+
 import '../css/app.scss'
 import 'phoenix_html'
 
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
 import Root from './Root'
 import RootUI from './RootUI'
 
@@ -15,9 +20,7 @@ window.jQuery = jQuery;
 import 'bootstrap';
 
 import client from "../components/client";
-import {ApolloProvider} from 'react-apollo';
-import gql from "graphql-tag";
-import {Query} from "react-apollo";
+
 
 const GET_STATE = gql `
   query GetState {
@@ -48,7 +51,7 @@ if (document.getElementById('react-app')){
                 {({ data, loading, error}) => {
                     if(loading) return <p>Fetching data</p>;
                     if(error) return <p>error</p>;
-                    return <Root data={data}/>
+                    return <Router data={data}/>
                 }}
             </Query>
       </ApolloProvider>, 

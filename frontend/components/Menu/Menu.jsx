@@ -6,7 +6,7 @@ class Menu extends Component {
     render(){
         return (
             <Fragment>
-                <a>Menu</a>
+                <a id="menu" href="/menu">Menu</a>
                 <MenuList/>
             </Fragment>
         )
