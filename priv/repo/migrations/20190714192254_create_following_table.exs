@@ -13,7 +13,7 @@ defmodule Profilo.Repo.Migrations.CreateFollowingTable do
       timestamps()
     end
 
-    create unique_index(:following, [:name, :user_id], name: :following_user_id_name)
+    create unique_index(:following, [:name, :social_link_id], name: :following_user_id_name)
   end
 
   def down do

@@ -40,3 +40,18 @@ After you have completed the above steps without any error, you can now run phoe
 > You must make sure that the postgresql server is running. The easiest way to this on Mac OS X is through brew.
 > Run the command `brew services start postgresql` 
 > [elixir - mix ecto.create connection refused - Stack Overflow](https://stackoverflow.com/questions/44358515/mix-ecto-create-connection-refused#44358542)
+
+# Production Guide:
+## How to reset production db **WARNING NO BACK IS TAKEN**:
+Run the following commands
+```
+gigalixir ps:remote_console
+
+Ecto.Migrator.run(Profilo.Repo, Application.app_dir(:profilo, "priv/repo/migrations"), :down, [all: true])
+
+Ecto.Migrator.run(Profilo.Repo, Application.app_dir(:profilo, "priv/repo/migrations"), :up, [all: true])
+
+seed_script = Path.join(["#{:code.priv_dir(:profilo)}", "repo", "seeds.exs"])
+
+Code.eval_file(seed_script)
+```
