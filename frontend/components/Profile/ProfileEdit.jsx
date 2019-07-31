@@ -8,7 +8,7 @@ mutation UpdateProfile($id: Int!, $following_ids: [Int]!, $profile: ProfileInput
     updateProfile(id: $id, input: $profile) {
     	name
     	avatarUrl
-      id
+        id
     }
     linkFollowingToProfile(id: $id, followings: $following_ids) {
       name

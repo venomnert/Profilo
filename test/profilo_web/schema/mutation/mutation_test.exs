@@ -6,15 +6,11 @@ defmodule ProfiloWeb.Schema.Mutation.MutationTest do
   alias Profilo.Test.UserTestHelper
   alias ProfiloWeb.Schema
 
-  @github_following [
-    %{
-      "node" => %{
-        "avatarUrl" => "https://avatars1.githubusercontent.com/u/150330?v=4",
-        "login" => "getify",
-        "name" => "Kyle Simpson"
-      }
-    }
-  ]
+  @github_following [%{
+    "avatarUrl" => "https://profilo.app",
+    "name" => "Kyle Simpson",
+    "login" => "getify"
+  }]
 
   @profile %{
     "name" => "Kyle Simpson",
@@ -80,6 +76,18 @@ defmodule ProfiloWeb.Schema.Mutation.MutationTest do
   @profiles_unlink_following_mutation """
   mutation UnlinkFollowingToProfile($id: Int!, $following_ids: [Int]!) {
     unlinkFollowingToProfile(id: $id, followings: $following_ids) {
+      name
+      avatarUrl
+      followings {
+        name
+      }
+    }
+  }
+  """
+
+  @profiles_delete_mutation """
+  mutation DeleteProfile($id: Int!) {
+    deleteProfile(id: $id) {
       name
       avatarUrl
       followings {
@@ -167,6 +175,15 @@ defmodule ProfiloWeb.Schema.Mutation.MutationTest do
                                 "followings" => []
                               }
 
+  end
+
+  test "delete profile", state do
+    {:ok, %{data: %{"createProfile" => returned_profile}}} = Absinthe.run(@profiles_create_id_mutation, Schema, variables: %{"profile" => @profile}, context: state[:context])
+    profile_id = returned_profile["id"] |> String.to_integer()
+    {:ok, %{data: %{"deleteProfile" => deleted_profile}}} = Absinthe.run(@profiles_delete_mutation, Schema, variables: %{"id" => profile_id}, context: state[:context])
+
+    assert returned_profile["name"] == deleted_profile["name"]
+    assert returned_profile["avatar_url"] == deleted_profile["avatar_url"]
   end
 
 end

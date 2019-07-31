@@ -3,6 +3,12 @@ import SocialLinkList from '../components/SocialLinkList';
 import ProfilesList from '../components/Profile/ProfilesList';
 import Menu from  '../components/Menu/Menu'
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import FeedNodeList from "../components/FeedNodeList";
+import FollowingList from "../components/FollowingList";
+import CloseIcon from '../static/icons/Close.svg';
+import ProfileIcon from '../static/icons/Profile.svg';
+import SettingsIcon from '../static/icons/Settings.svg';
+import PlusIcon from '../static/icons/Plus.svg';
 
 export default class Root extends Component {
   constructor(props) {
@@ -34,6 +40,15 @@ export default class Root extends Component {
       followings: this.props.data.followings,
       profiles: this.props.data.profiles,
       socialLinks: this.props.data.socialLinks
+    });
+
+    fetch('/api/twitter', {
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      method: 'GET'
+    })
+    .then(res => res.json())
+    .then((data) => {
+        console.log("Starting SocialLink Twitter", data);
     })
   }
   render() {
@@ -46,6 +61,16 @@ export default class Root extends Component {
           profiles={this.state.profiles} 
           createProfile={this.createProfile}
           updateProfile={this.updateProfile}/>
+        <FeedNodeList profile={this.state.profiles[0]} /> */}
+        <FollowingList followings={this.state.followings}/>
+        {/* <Menu followings={this.state.followings}
+              profiles = {this.state.profile}
+              socialLinks = {this.state.socialLinks}/> */}
+        <CloseIcon width="40px" height="40px" className="fill-primary" />
+        <ProfileIcon width="40px" height="40px" className="fill-primary" />
+        <SettingsIcon width="40px" height="40px" className="fill-primary" />
+        <PlusIcon width="40px" height="40px" className="fill-primary" />
+
       </Fragment>
     )        
   }
