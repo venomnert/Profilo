@@ -4,8 +4,7 @@ import ProfilesList from '../components/Profile/ProfilesList';
 import Menu from  '../components/Menu/Menu'
 import FeedNodeList from "../components/FeedNodeList";
 import FollowingList from "../components/FollowingList";
-
-// Pull in all the icons
+import { Link } from 'react-router-dom';
 import CloseIcon from '../static/icons/Close.svg';
 import ProfileIcon from '../static/icons/Profile.svg';
 import SettingsIcon from '../static/icons/Settings.svg';
@@ -73,8 +72,8 @@ export default class Root extends Component {
           createProfile={this.createProfile}
           updateProfile={this.updateProfile}/> */}
           
-        {/* <FeedNodeList profile={this.state.profiles[0]} />  */}
-        <Menu/>
+        <FeedNodeList profile={this.state.profiles[0]} /> 
+        <Link to="/app/menu">Menu</Link>
 
         <CloseIcon width="40px" height="40px" className="fill-primary" />
         <ProfileIcon width="40px" height="40px" className="fill-primary" />
