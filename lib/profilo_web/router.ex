@@ -37,7 +37,7 @@ defmodule ProfiloWeb.Router do
   scope "/", ProfiloWeb do
     pipe_through [:browser, :protected]
 
-    get "/", PageController, :index
+    get "/*app", PageController, :index
   end
 
   scope "/api", ProfiloWeb do
