@@ -11,11 +11,10 @@ const Router = (props) => {
         <div id="app">
           <div id="content">
             <Switch>
-              <Route path="/" exact render={() => <Root data={props.data} />} />
-              <Route path="/menu" exact component={Menu} />
-              <Route path="/menu/profiles" component={Root} />
-              <Route path="/menu/setting" component={Root} />
-              
+              <Route path="/app/" exact render={() => <Root data={props.data} />} />
+              <Route path="/app/menu" exact component={Menu} />
+              <Route path="/app/menu/profiles" component={Root} />
+              <Route path="/app/menu/setting" component={Root} />
             </Switch>
           </div>
         </div>
