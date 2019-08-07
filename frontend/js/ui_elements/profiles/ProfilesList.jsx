@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Profile from "./Profile";
 import ProfilePreviewItem from "./ProfilePreviewItem";
-import ProfileListItem from "./ProfileListItem";
+// import ProfileListItem from "./ProfileListItem";
 
 class ProfilesList extends Component {
     render() {
@@ -39,7 +39,7 @@ class ProfilesList extends Component {
                         Object.keys(profiles).map(id => {
                             return (
                                 <li key={id}>
-                                    <ProfileListItem id={id} profile={profiles[id]} />
+                                    {/* <ProfileListItem id={id} profile={profiles[id]} /> */}
                                 </li>
                             )
                         })

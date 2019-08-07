@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import gql from "graphql-tag";
 import {Mutation} from "react-apollo";
 
+//Miz take a look at the vid on Gdrive/Whatsapp
 const UPDATE_PROFILE = gql `
 mutation UpdateProfile($id: Int!, $following_ids: [Int]!, $profile: ProfileInput!) {
     updateProfile(id: $id, input: $profile) {

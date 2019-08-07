@@ -8,8 +8,8 @@ class Menu extends Component {
     render(){
         return (
             <Fragment>
-                <a id="menu" href="/menu">Menu</a>
-                <MenuList/>
+                <a id="menu" href="/v1/app/menu">Menu</a>
+                <MenuList data={this.props} />
                 <Link to="/app">Home</Link>
 
             </Fragment>

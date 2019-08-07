@@ -21,7 +21,6 @@ export default class Root extends Component {
       followings: {},
       profiles: {},
       socialLinks: {},
-      menu:{}
     }
   }
   createProfile = (profile) => {
@@ -67,13 +66,13 @@ export default class Root extends Component {
         <h2>Welcome</h2>
         {/* <Menu/> */}
         {/* <SocialLinkList socialLinks={this.state.socialLinks} /> */}
-        {/* <ProfilesList 
+         {/* <ProfilesList 
           profiles={this.state.profiles} 
           createProfile={this.createProfile}
           updateProfile={this.updateProfile}/> */}
           
         <FeedNodeList profile={this.state.profiles[0]} /> 
-        <Link to="/app/menu">Menu</Link>
+        <Link to="/app/:proile">Profile</Link>
 
         <CloseIcon width="40px" height="40px" className="fill-primary" />
         <ProfileIcon width="40px" height="40px" className="fill-primary" />

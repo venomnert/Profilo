@@ -6,6 +6,9 @@ import ProfileEdit from "./ProfileEdit";
 
 class ProfilesList extends Component {
     render() {
+        console.log("ProfilesList.jsx")
+        console.log(this.props)
+        
         let profiles = this.props.profiles;
         return (
             <div className="col-12 profilesList">

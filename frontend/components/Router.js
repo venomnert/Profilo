@@ -4,17 +4,14 @@ import Root from "../js/Root"
 import Menu from "../components/Menu/Menu"
 
 const Router = (props) => {
-    console.log("RouterJS");
-    console.log(props);
     return(
         <BrowserRouter>
         <div id="app">
           <div id="content">
             <Switch>
-              <Route path="/app" exact render={() => <Root data={props.data} />} />
-              <Route path="/app/menu" exact component={Menu} />
-              <Route path="/app/menu/profiles" component={Root} />
-              <Route path="/app/menu/setting" component={Root} />              
+              <Route path="/v1/app" exact render={() => <Root data={props.data} />} />
+              <Route path="/v1/app/menu" exact render={() => <Menu data={props.data} />} />
+              <Route path="/v1/app/menu/setting" component={Root} />              
             </Switch>
           </div>
         </div>
