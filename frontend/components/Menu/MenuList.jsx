@@ -45,21 +45,25 @@ class MenuList extends Component {
     render(){
         return (
             <Fragment>
-                <div id="menu" className="col-xs-4 col-sm-3">
-                    <ul className="menu-nav">
-                        <a className="remove-link-underline" href="#" onClick={(e) => {
-                            e.preventDefault(); 
-                            let new_menu = {
-                                showProfiles: true,
-                                showSettings: false
-                            }
-                            this.setState({menu: new_menu});
-                        }}>
-                            <ProfileIcon width="40px" height="40px" className="fill-primary" /> Profiles
-                        </a>
-                    </ul>
+                <div className="row">
+                    {/* Left hand column of the menu */}
+                    <div id="menu" className="col-xs-4 col-sm-3">
+                        <ul className="menu-nav">
+                            <a className="remove-link-underline" href="#" onClick={(e) => {
+                                e.preventDefault(); 
+                                let new_menu = {
+                                    showProfiles: true,
+                                    showSettings: false
+                                }
+                                this.setState({menu: new_menu});
+                            }}>
+                                <ProfileIcon width="40px" height="40px" className="fill-primary" /> Profiles
+                            </a>
+                        </ul>
+                    </div>
+                    {/* Right hand column of the menu : shows ProfilesList commponent */}
+                    {this.renderProfileList(this.state.menu.showProfiles, this.props.data.data)}
                 </div>
-                {this.renderProfileList(this.state.menu.showProfiles, this.props.data.data)}
             </Fragment>
         )
 

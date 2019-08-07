@@ -1,5 +1,8 @@
 import React from "react";
 
+/* 
+    Displays Name of Profilo Profiles
+ */
 const ProfilePreviewItem = ({profile}) => {
     if (!profile.id) return <p>No profiles has been created</p>;
     
@@ -10,4 +13,5 @@ const ProfilePreviewItem = ({profile}) => {
         </div>
     );  
 }
+
 export default ProfilePreviewItem;

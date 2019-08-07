@@ -12,7 +12,7 @@ class ProfilesList extends Component {
         let profiles = this.props.profiles;
         return (
             <div className="col-12 profilesList">
-                <h2>Profile Entity</h2>
+                <a href="/manage/profiles"> Manage Profiles </a>
                 <ul className="list-unstyled">
                     {
                         profiles.map(profile => {
