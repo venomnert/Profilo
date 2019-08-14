@@ -1,13 +1,18 @@
 import React from "react";
 import Following from "./Following"
 
-const FollowingList = ({followings}) => (
-    followings.map(following => {
-        return <Following 
-                    key={following.id}
-                    draggable={false}
-                    following={following}/>
+// Takes of list of Followings and renders out a list of Followings 
+
+const FollowingList = ({followings}) => {
+    return followings.map((following, index) => {
+        return(
+            <Following 
+                key={index}
+                following={following}
+                type="social"
+                />
+        )
     })
-);
+};
 
 export default FollowingList 

@@ -1,6 +1,6 @@
 import React,{ Component }from "react";
 import PropTypes from 'prop-types';
-import Draggable from 'react-draggable';
+//import Draggable from 'react-draggable';
 
 import TwitterIcon from "../../icons/Twitter.svg";
 import GithubIcon from "../../icons/Github.svg";
@@ -18,7 +18,7 @@ class FollowerListItem extends Component {
         )
     }
     render() {
-        let {social_link, user, draggable} = {...this.props};
+        let {social_link, user} = {...this.props};
         let social_icon, avatar_url, screen_name, avatar_style;
 
         if (user == null) { return <div>no followers</div>;}
@@ -37,15 +37,8 @@ class FollowerListItem extends Component {
             social_icon = <TwitterIcon width="40px" height="40px" />;
             avatar_url = user.profile_image_url_https;
             screen_name = user.screen_name;
-        }
-        if(draggable) {
-           return(
-                <Draggable >
-                    {this.renderFollowerListItem(social_icon, avatar_url, screen_name, avatar_style)}
-                </Draggable>
-           )
-        }
-        else { return this.renderFollowerListItem(social_icon, avatar_url, screen_name, avatar_style); }   
+        } 
+        return this.renderFollowerListItem(social_icon, avatar_url, screen_name, avatar_style);
     }
 }
 

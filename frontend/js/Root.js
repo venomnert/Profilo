@@ -40,10 +40,6 @@ export default class Root extends Component {
     this.setState({profiles: update_profile_state});
   }
 
-  toggleMenu = () => {
-      
-  }
-
   componentWillMount() {
     this.setState({
       followings: this.props.data.followings,
