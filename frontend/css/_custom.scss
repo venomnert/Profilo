@@ -193,3 +193,19 @@ body {
   }
 
 }
+
+.menu-nav{
+  li {
+    text-decoration: none;
+  }
+
+  list-style: none;
+}
+
+.remove-link-underline{
+  border:none;
+  &:hover{
+    border:none;
+  }
+}
+

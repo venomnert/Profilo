@@ -58,7 +58,7 @@ if (document.getElementById('react-app')){
   document.getElementById('react-app'))
 } else {
 
-  ReactDOM.render(<RootUI/>, document.getElementById('react-app-uikit'))
+  // ReactDOM.render(<RootUI/>, document.getElementById('react-app-uikit'))
 
 }
 
