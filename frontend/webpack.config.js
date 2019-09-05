@@ -16,7 +16,7 @@ module.exports = (env, options) => ({
     ]
   },
   entry: {
-    app: path.resolve(__dirname) + '/js/app.js'
+    app: path.resolve(__dirname) + '/components/app.js'
   },
   output: {
     filename: 'app.js',
