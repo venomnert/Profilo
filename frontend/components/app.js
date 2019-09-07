@@ -60,10 +60,9 @@ if (document.getElementById('react-app')){
           </ApolloHooksProvider>
       </ApolloProvider>, 
   document.getElementById('react-app'))
-} else {
-
+} 
+else {
   // ReactDOM.render(<RootUI/>, document.getElementById('react-app-uikit'))
-
 }
 
 

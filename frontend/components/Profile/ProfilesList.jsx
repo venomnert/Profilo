@@ -53,15 +53,16 @@ const ProfilesList = (props) => {
             
         const profileId = index;
         const followingId = [];
-            followingId.push(item.id);
+            followingId.push(parseInt(item.id));
 
         console.log(typeof(followingId[0]));
         console.log(`profileId ${profileId}`);
         console.log(`item ${JSON.stringify(item)}`);
         console.log(followingId);
+
         const returnValue = update({variables:{
-                id: 5, 
-                following_ids: [56]
+                id: profileId, 
+                following_ids: followingId
             }
         })
 

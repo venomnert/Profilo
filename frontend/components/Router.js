@@ -2,10 +2,11 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Root from "./Root"
 import Menu from "./Menu/Menu"
+
 //Components
-  import Icons from "./Catalog/Icons"
-  import ProfileEditRoot from "./Profile/ProfileEditRoot"
-  import ListProfiles from "./Profile/ListProfiles"
+import Icons from "./Catalog/Icons"
+import ProfileEditRoot from "./Profile/ProfileEditRoot"
+import ListProfiles from "./Profile/ListProfiles"
 
 const Router = (props) => {
     return(
@@ -22,7 +23,6 @@ const Router = (props) => {
               <Route path="/v1/app/components/icons" component={Icons} />
               <Route path="/v1/app/components/profile-edit" exact render={() => <ProfileEditRoot data={props.data} />} />                     
               <Route path="/v1/app/components/list-profiles" exact render={() => <ListProfiles data={props.data} />} />                     
-
             </Switch>
           </div>
         </div>
