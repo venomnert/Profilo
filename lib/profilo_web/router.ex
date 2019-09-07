@@ -24,6 +24,13 @@ defmodule ProfiloWeb.Router do
       error_handler: Pow.Phoenix.PlugErrorHandler
   end
 
+  scope "/", ProfiloWeb do
+    pipe_through [:browser, :protected]
+
+    get "/", PageController, :index
+    get "/v1/*app", PageController, :index
+  end
+
   scope "/" do
     pipe_through :browser
 
@@ -31,13 +38,6 @@ defmodule ProfiloWeb.Router do
     pow_assent_routes()
 
     get "/uikit", ProfiloWeb.PageController, :uikit
-  end
-
-
-  scope "/v1", ProfiloWeb do
-    pipe_through [:browser, :protected]
-
-    get "/*app", PageController, :index
   end
 
   scope "/api", ProfiloWeb do
