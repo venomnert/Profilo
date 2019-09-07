@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import {Mutation} from "react-apollo";
 
 //Miz take a look at the vid on Gdrive/Whatsapp
-const UPDATE_PROFILE = gql `
+const UPDATE_PROFILE = gql`
 mutation UpdateProfile($id: Int!, $following_ids: [Int]!, $profile: ProfileInput!) {
     updateProfile(id: $id, input: $profile) {
     	name
@@ -32,13 +32,20 @@ class ProfileEdit extends Component {
                 name: this.props.profile.name,
                 avatarUrl: this.props.profile.avatarUrl
             }
-        }
-    }    
-    handleChange = (e) => {
-        const profile = Object.assign(
-                        {...this.state.profile},
-                        {[e.currentTarget.name]: e.currentTarget.value})
+        };
 
+        // this.updateProfile = () => { console.log("Mutation completed callback") }
+    }
+
+    //update state due to form input
+    handleChange = (e) => {
+        //update profile's name
+            // update profile name
+                const profile = Object.assign(
+                    {...this.state.profile},
+                    {[e.currentTarget.name]: e.currentTarget.value})
+        
+        //set state
         this.setState({
             id: parseInt(this.props.profile.id),
             profile
@@ -54,8 +61,8 @@ class ProfileEdit extends Component {
                     if(error) return <p>error</p>;
                     return (
                         <form className="profileEdit col-12" onSubmit={e => {
-                        e.preventDefault();
-                        update();
+                            e.preventDefault();
+                            update();
                         }}>
                             <img className="profile__avatar p-2" src={this.state.profile.avatarUrl} alt={this.state.profile.name}/>
                             <input

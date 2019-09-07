@@ -5,9 +5,6 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-console.log("HI THERE")
-console.log(__dirname)
-
 module.exports = (env, options) => ({
   optimization: {
     minimizer: [
@@ -16,7 +13,7 @@ module.exports = (env, options) => ({
     ]
   },
   entry: {
-    app: path.resolve(__dirname) + '/js/app.js'
+    app: path.resolve(__dirname) + '/components/app.js'
   },
   output: {
     filename: 'app.js',

@@ -97,7 +97,6 @@ defmodule Profilo.Github do
       true ->
         handle_success_result(true, user, result)
       false ->
-        IO.inspect(user, label: "DONE")
         user
     end
   end

@@ -49,7 +49,6 @@ class MenuList extends Component {
         }
     } 
     
-    
     render(){
         return (
             <DndProvider backend={HTML5Backend}>

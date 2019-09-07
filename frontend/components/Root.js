@@ -1,14 +1,11 @@
 import React, { Component, Fragment } from "react";
-import SocialLinkList from '../components/SocialLinkList';
-import ProfilesList from '../components/Profile/ProfilesList';
-import Menu from  '../components/Menu/Menu'
-import FeedNodeList from "../components/FeedNodeList";
-import FollowingList from "../components/FollowingList";
+import SocialLinkList from './SocialLinkList';
+import ProfilesList from './Profile/ProfilesList';
+import Menu from  './Menu/Menu'
+import FeedNodeList from "./FeedNodeList";
+import FollowingList from "./FollowingList";
 import { Link } from 'react-router-dom';
-import CloseIcon from '../static/icons/Close.svg';
-import ProfileIcon from '../static/icons/Profile.svg';
-import SettingsIcon from '../static/icons/Settings.svg';
-import PlusIcon from '../static/icons/Plus.svg';
+
 
 
 export default class Root extends Component {
@@ -23,6 +20,7 @@ export default class Root extends Component {
       socialLinks: {},
     }
   }
+  
   createProfile = (profile) => {
     const profiles = this.state.profiles;
     profiles.push(profile.createProfile);
@@ -32,6 +30,7 @@ export default class Root extends Component {
   updateProfile = (data) => {
     console.log(data);
     let update_profile_state = this.state.profiles.map(profile => {
+      //update only the profile that matches the profile that needs to be updated
       if(profile.id === data.updateProfile.id) {
         return data.updateProfile;
       }
@@ -61,19 +60,14 @@ export default class Root extends Component {
       <Fragment>
         <h2>Welcome</h2>
         {/* <Menu/> */}
-        {/* <SocialLinkList socialLinks={this.state.socialLinks} /> */}
-         {/* <ProfilesList 
+        <SocialLinkList socialLinks={this.state.socialLinks} />
+         <ProfilesList 
           profiles={this.state.profiles} 
           createProfile={this.createProfile}
-          updateProfile={this.updateProfile}/> */}
+          updateProfile={this.updateProfile}/>
           
         <FeedNodeList profile={this.state.profiles[0]} /> 
         <Link to="/app/:proile">Profile</Link>
-
-        <CloseIcon width="40px" height="40px" className="fill-primary" />
-        <ProfileIcon width="40px" height="40px" className="fill-primary" />
-        <SettingsIcon width="40px" height="40px" className="fill-primary" />
-        <PlusIcon width="40px" height="40px" className="fill-primary" />
 
       </Fragment>
     )        

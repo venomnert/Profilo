@@ -1,9 +1,13 @@
-import React, { Fragment, Component, useCallback } from "react";
+import React, { Fragment, Component, useCallback, useState } from "react";
 import ReactDOM from 'react-dom';
+import gql from "graphql-tag";
+import {Mutation} from "react-apollo";
+import { useMutation } from "@apollo/react-hooks"; 
+
+
 import Profile from "./Profile";
 import ProfilePreviewItem from "./ProfilePreviewItem";
 import CreateProfileInput from "./CreateProfileInput";
-import ProfileEdit from "./ProfileEdit";
 import FollowingList from "../FollowingList";
 
 
@@ -14,21 +18,63 @@ import { useDrop } from 'react-dnd'
 
 
 const ProfilesList = (props) => {
+
+    //set state for profiles, followings (social links not need)
+        //init empty state
+        // const [profileId, setProfileId] = useState();
+        // const [followingIds, setFollowingId] = useState([]);
+
+
+    // handle a following dropped on a profile
+
+    // props.state = {
+    //     id: parseInt(this.props.profile.id),
+    //     following_ids: [],
+    //     profile: {
+    //         name: props.profile.name,
+    //         avatarUrl: props.profile.avatarUrl
+    //     }
+    // };
+
     console.log("ProfilesList.jsx")
 
     let profiles = props.profiles;
     let followings = props.followings;
+    const LINK_FOLLOWING_TO_PROFILE = gql`
+        mutation linkFollowing($id: Int!, $following_ids: [Int]!){
+            linkFollowingToProfile(id: $id, followings: $following_ids) {
+                id
+            }
+        } `
+    
+    const [update, { data }] = useMutation(LINK_FOLLOWING_TO_PROFILE);
 
     const handleDrop = useCallback((index, item) => {
-        console.log(index);
-        console.log(item);
+            
+        const profileId = index;
+        const followingId = [];
+            followingId.push(parseInt(item.id));
+
+        console.log(typeof(followingId[0]));
+        console.log(`profileId ${profileId}`);
+        console.log(`item ${JSON.stringify(item)}`);
+        console.log(followingId);
+
+        const returnValue = update({variables:{
+                id: profileId, 
+                following_ids: followingId
+            }
+        })
+
+        console.log(returnValue);
+
     })
     
-    console.log(followings)
-
+    
+    const profileUpdated = () => console.log("profile updated success")
+    
     return (
-        <Fragment>
-
+        <>
             <div className="profilesList row col-12 ">       
                 <div className="col-6">
 
@@ -55,7 +101,7 @@ const ProfilesList = (props) => {
                     </ul>
                 </div>
 
-                <div className="col-6">
+                <div className="col-6 list-overflow-scroll">
                     <ul className="list-unstyled">
                         <FollowingList followings={followings} />
                     </ul>
@@ -65,40 +111,8 @@ const ProfilesList = (props) => {
                         /* <FollowingList followingsList={getfilter()}/> */
                         }
                 </div>
-
-
-
-                {/* Show List of Profile
-                ------------------------------------------------------- */}
-                {/* Link each profile to their respective profile feed */}
-                
-                {/* <ul className="list-unstyled">
-                    {
-                        profiles.map(profile => {
-                            return (
-                                <li key={profile.id}>
-                                    <Profile profile={profile} />
-                                </li>
-                            )
-                        })
-                    }
-                </ul> */}
-                
-                {/* ------------------------------------------------------- */}
-                {/* <h2>Profile Edit</h2>
-                {
-                    profiles.map(profile => {
-                        return (
-                            <li key={profile.id}>
-                                <ProfileEdit profile={profile} 
-                                            updateProfile={props.updateProfile} />
-                            </li>
-                        )
-                    })
-                } */}
             </div>
- 
-        </Fragment>
+        </>
     )
 }
 

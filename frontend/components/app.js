@@ -1,25 +1,25 @@
-
-import Router from '../components/Router';
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import {ApolloProvider} from 'react-apollo';
-import gql from "graphql-tag";
+import Router from './Router';
+import {ApolloProvider, withApollo} from 'react-apollo';
+import {ApolloProvider as ApolloHooksProvider} from '@apollo/react-hooks';
 import {Query} from "react-apollo";
+import gql from "graphql-tag";
+import 'bootstrap';
 
 import '../css/app.scss'
 import 'phoenix_html'
 
 import Root from './Root'
-import RootUI from './RootUI'
+// import RootUI from '../js/RootUI'
 
 import {$,jQuery} from 'jquery';
 // export for others scripts to use
 window.$ = $;
 window.jQuery = jQuery;
 
-import 'bootstrap';
 
-import client from "../components/client";
+import client from "./client";
 
 
 const GET_STATE = gql `
@@ -44,22 +44,25 @@ const GET_STATE = gql `
   }
 `;
 
+const RouterWithApollo = withApollo(Router);
+
 if (document.getElementById('react-app')){
   ReactDOM.render(
       <ApolloProvider client={client}>
+        <ApolloHooksProvider client={client}>
           <Query query={GET_STATE}>
                 {({ data, loading, error}) => {
                     if(loading) return <p>Fetching data</p>;
                     if(error) return <p>error</p>;
-                    return <Router data={data}/>
+                    return <RouterWithApollo data={data}/>
                 }}
             </Query>
+          </ApolloHooksProvider>
       </ApolloProvider>, 
   document.getElementById('react-app'))
-} else {
-
+} 
+else {
   // ReactDOM.render(<RootUI/>, document.getElementById('react-app-uikit'))
-
 }
 
 
