@@ -49,11 +49,19 @@ const ProfilesList = (props) => {
     
     const [update, { data }] = useMutation(LINK_FOLLOWING_TO_PROFILE);
 
-    const handleDrop = useCallback((index, item) => {
-            
-        const profileId = index;
+    const handleDrop = useCallback((index, item, profile) => {
+        
+        const profileId = parseInt(profile.id);
         const followingId = [];
             followingId.push(parseInt(item.id));
+
+        console.log("PROFILE ID ////////////////")
+        console.log(profileId)
+        console.log("////////////////")
+
+        console.log("INDEX ID ////////////////")
+        console.log(index)
+        console.log("////////////////")
 
         console.log(typeof(followingId[0]));
         console.log(`profileId ${profileId}`);
@@ -93,7 +101,7 @@ const ProfilesList = (props) => {
                             profiles.map((profile, index) => {
                                 return (
                                     <li key={profile.id}>
-                                        <ProfilePreviewItem profile={profile} onDrop={item => handleDrop(index, item)} />
+                                        <ProfilePreviewItem profile={profile} onDrop={item => handleDrop(index, item, profile)} />
                                     </li>
                                 )
                             })
