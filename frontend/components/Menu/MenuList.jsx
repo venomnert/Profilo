@@ -11,42 +11,22 @@ import { DndProvider, DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 
-
-
-// function displayProfiles(){
-//     return(
-//         <ProfilesList 
-//         profiles={this.state.profiles} 
-//         createProfile={this.createProfile}
-//         updateProfile={this.updateProfile}/>
-//     )
-// }
-
 class MenuList extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            menu: {
-                showProfileList: true,
-                showManageProfiles: true,
-                showSettings: false
-            }
-        }
-      }
+    }
 
-    renderProfileList = (showProfileList, props) => {
-        if(showProfileList){            
-            return(
-                <div id="lists" className="col-9">
-                        <ProfilesList 
-                            followings={props.followings}
-                            profiles={props.profiles}
-                            createProfile={props.createProfile}
-                            updateProfile={props.updateProfile}/>
-                </div>
-            )
+    renderProfileList = (props) => {
+        return(
+            <div id="lists" className="col-9">
+                <ProfilesList 
+                    followings={props.followings}
+                    profiles={props.profiles}
+                    createProfile={props.createProfile}
+                    updateProfile={props.updateProfile}/>
+            </div>
+        )
 
-        }
     } 
     
     render(){
@@ -70,7 +50,7 @@ class MenuList extends Component {
                             </ul>
                         </div>
                         {/* Right hand column of the menu : shows ProfilesList commponent */}
-                        {this.renderProfileList(this.state.menu.showProfileList, this.props.data.data)}
+                        {this.renderProfileList(this.props.data.data)}
 
                         {/* Right hand column of the menu : shows ProfileManage commponent */}
                         {/* {this.renderProfileManage(this.state.menu.showProfileList, this.props.data.data)} */}

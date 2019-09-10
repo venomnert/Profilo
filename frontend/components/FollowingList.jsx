@@ -1,7 +1,7 @@
 import React from "react";
 import Following from "./Following"
 
-// Takes of list of Followings and renders out a list of Followings 
+// Produces a list of followings
 
 const FollowingList = ({followings}) => {
     return followings.map((following, index) => {
