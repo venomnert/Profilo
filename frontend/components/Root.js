@@ -3,7 +3,7 @@ import SocialLinkList from './SocialLinkList';
 import ProfilesList from './Profile/ProfilesList';
 import Menu from  './Menu/Menu'
 import FeedNodeList from "./FeedNodeList";
-import FollowingList from "./FollowingList";
+//import FollowingList from "./FollowingList";
 import { Link } from 'react-router-dom';
 
 
@@ -61,12 +61,12 @@ export default class Root extends Component {
         <h2>Welcome</h2>
         {/* <Menu/> */}
         <SocialLinkList socialLinks={this.state.socialLinks} />
-         <ProfilesList 
+         {/* <ProfilesList 
           profiles={this.state.profiles} 
           createProfile={this.createProfile}
-          updateProfile={this.updateProfile}/>
+          updateProfile={this.updateProfile}/> */}
           
-        <FeedNodeList profile={this.state.profiles[0]} /> 
+        <FeedNodeList profile={this.state.profiles[4]} /> 
         <Link to="/app/:proile">Profile</Link>
 
       </Fragment>
