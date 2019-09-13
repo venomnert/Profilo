@@ -98,13 +98,13 @@ const ProfilesList = (props) => {
                     ------------------------------------------------------- */}
                     <ul className="list-unstyled">
                         {
-                            profiles.map((profile, index) => {
-                                return (
-                                    <li key={profile.id}>
-                                        <ProfilePreviewItem profile={profile} onDrop={item => handleDrop(index, item, profile)} />
-                                    </li>
-                                )
-                            })
+                            // profiles.map((profile, index) => {
+                            //     return (
+                            //         <li key={profile.id}>
+                            //             <ProfilePreviewItem profile={profile} onDrop={item => handleDrop(index, item, profile)} />
+                            //         </li>
+                            //     )
+                            // })
                         }
                     </ul>
                 </div>

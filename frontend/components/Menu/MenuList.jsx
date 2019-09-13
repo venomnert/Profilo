@@ -26,7 +26,6 @@ class MenuList extends Component {
                     updateProfile={props.updateProfile}/>
             </div>
         )
-
     } 
     
     render(){
@@ -34,26 +33,21 @@ class MenuList extends Component {
             <DndProvider backend={HTML5Backend}>
                 <Fragment>
                     <div className="row">
-                        {/* Left hand column of the menu */}
+                        {/* Menu Navigation 
+                        ====================================================================*/}
                         <div id="menu" className="col-3">
                             <ul className="menu-nav">
                                 <a className="remove-link-underline" href="#" onClick={(e) => {
                                     e.preventDefault(); 
-                                    let new_menu = {
-                                        showProfileList: true,
-                                        showSettings: false
-                                    }
-                                    this.setState({menu: new_menu});
                                 }}>
                                     <ProfileIcon width="40px" height="40px" className="fill-primary" /> Profiles
                                 </a>
                             </ul>
                         </div>
-                        {/* Right hand column of the menu : shows ProfilesList commponent */}
-                        {this.renderProfileList(this.props.data.data)}
+                        {/* Left hand column of the menu : shows ProfilesList commponent 
+                        ====================================================================*/}
+                        {this.renderProfileList(this.props.data.data)}                        
 
-                        {/* Right hand column of the menu : shows ProfileManage commponent */}
-                        {/* {this.renderProfileManage(this.state.menu.showProfileList, this.props.data.data)} */}
                     </div>
                 </Fragment>
             </DndProvider>
