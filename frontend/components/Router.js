@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Root from "./Root";
 import Menu from "./Menu";
 import ManageProfiles from "./ManageProfiles";
+import FeedNode from "./FeedNode";
 import Profiles from "./Profiles";
 
 //Components
@@ -12,6 +13,7 @@ import ListProfiles from "./Profile/ListProfiles"
 import NotFound from "./NotFound"
 
 const Router = (props) => {
+  console.log("DATA", props.data.feedNodes);
 
     return(
       <BrowserRouter basename="/v1/app">
@@ -24,6 +26,7 @@ const Router = (props) => {
               <Route path="/menu/profiles" exact render={() => <Profiles data={props} />} />
               <Route path="/menu/profiles/manage" exact render={() => <ManageProfiles data={props} />} />
               <Route path="/menu/settings" exact render={() => <Menu data={props} />} />
+              <Route path="/profile/feed-node" exact render={() => <FeedNode data={props.data.feedNodes} />} />
               <Route component={NotFound} />
               
               {/* Composition */}

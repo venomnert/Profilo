@@ -10,8 +10,7 @@ import Profile from './Profile/Profile'
 
 const ListProfiles = (props) => {
 
-    const profiles = props.data
-    
+    const profiles = props.data;
     return(
         <> 
             {/* Show List of Profile

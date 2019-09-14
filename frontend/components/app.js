@@ -41,6 +41,12 @@ const GET_STATE = gql `
       id
       avatarUrl
     }
+    feedNodes(profileId: 1){
+        description
+        id
+        socialLinkId
+        profileId
+    }
   }
 `;
 
