@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import ProfilesList from "./Profile/ProfilesList";
+import ProfilesList from "./Profile/ManageProfilesList";
 import { DndProvider, DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -10,7 +10,8 @@ const ManageProfiles = (props) => {
             <div>ManageProfiles.jsx</div>
             <DndProvider backend={HTML5Backend}>
                 <div id="lists" className="col-9">
-                    <ProfilesList 
+                    <ProfilesList
+                        data = {props}
                         followings={props.followings}
                         profiles={props.profiles}
                         createProfile={props.createProfile}

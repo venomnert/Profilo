@@ -1,3 +1,5 @@
+/* * TODO: rename /component/ListProfiles to ManageListProfiles
+=========================================================================*/
 
 import React from 'react';
 

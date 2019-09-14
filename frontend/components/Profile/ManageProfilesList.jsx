@@ -21,9 +21,11 @@ const ProfilesList = (props) => {
 
     //set state for profiles, followings (social links not need)
         //init empty state
-        // const [profileId, setProfileId] = useState();
-        // const [followingIds, setFollowingId] = useState([]);
+        const [profiles, setProfiles] = useState(props.data.data.data.profiles);
+        const [followings, setFollowings] = useState(props.data.data.data.followings);
+        const [socialLinks, setSocialLinks] = useState(props.data.data.data.socialLinks);
 
+    
 
     // handle a following dropped on a profile
 
@@ -38,8 +40,8 @@ const ProfilesList = (props) => {
 
     console.log("ProfilesList.jsx")
 
-    let profiles = props.profiles;
-    let followings = props.followings;
+    // let profiles = props.profiles;
+    // let followings = props.followings;
     const LINK_FOLLOWING_TO_PROFILE = gql`
         mutation linkFollowing($id: Int!, $following_ids: [Int]!){
             linkFollowingToProfile(id: $id, followings: $following_ids) {
@@ -85,9 +87,6 @@ const ProfilesList = (props) => {
         <>
             <div className="profilesList row col-12 ">       
                 <div className="col-6">
-
-                    {/* Available only in Profile List view */}
-                    <a href="/manage/profiles"> Manage Profiles </a>
                     
                     {/* Available only in Profile Manager view */}
                     {/* Create New Profile
@@ -98,13 +97,13 @@ const ProfilesList = (props) => {
                     ------------------------------------------------------- */}
                     <ul className="list-unstyled">
                         {
-                            // profiles.map((profile, index) => {
-                            //     return (
-                            //         <li key={profile.id}>
-                            //             <ProfilePreviewItem profile={profile} onDrop={item => handleDrop(index, item, profile)} />
-                            //         </li>
-                            //     )
-                            // })
+                            profiles.map((profile, index) => {
+                                return (
+                                    <li key={profile.id}>
+                                        <ProfilePreviewItem profile={profile} onDrop={item => handleDrop(index, item, profile)} />
+                                    </li>
+                                )
+                            })
                         }
                     </ul>
                 </div>

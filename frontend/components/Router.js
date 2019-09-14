@@ -5,6 +5,7 @@ import Menu from "./Menu";
 import ManageProfiles from "./ManageProfiles";
 import FeedNode from "./FeedNode";
 import Profiles from "./Profiles";
+import ProfilesList from "./Profile/ManageProfilesList";
 
 //Components
 import Icons from "./Catalog/Icons"
