@@ -1,3 +1,6 @@
+# Profilo:
+Take control of your social feed!
+
 ## Installation Guide:
 1. Install Elixir:
   a. Mac use homebrew: https://elixir-lang.org/install.html
@@ -42,7 +45,7 @@ After you have completed the above steps without any error, you can now run phoe
 > [elixir - mix ecto.create connection refused - Stack Overflow](https://stackoverflow.com/questions/44358515/mix-ecto-create-connection-refused#44358542)
 
 # Production Guide:
-## How to reset production db **WARNING NO BACK IS TAKEN**:
+## How to reset production db **WARNING NO BACKUP IS TAKEN**:
 Run the following commands
 ```
 gigalixir ps:remote_console
